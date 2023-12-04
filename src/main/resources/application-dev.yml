@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: hanghae-pus-dev
+  datasource:
+    driver-class-name: # mysql
+    url: # dev db 엔드 포인트
+    username: # dev db username
+    password: # dev db password

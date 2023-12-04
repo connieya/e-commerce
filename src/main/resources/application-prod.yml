@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+
+spring:
+  application:
+    name: hanghae-pus-prod
+  datasource:
+    driver-class-name: # mysql
+    url: # prod db 엔드 포인트
+    username: # prod db username
+    password: # prod db password

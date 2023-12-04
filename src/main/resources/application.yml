@@ -6,3 +6,6 @@ management:
   endpoint:
     health:
       show-details: always
+spring:
+  profiles:
+    active: dev
