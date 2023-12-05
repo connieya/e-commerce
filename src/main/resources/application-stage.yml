@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: hanghae-pus-stage
+    name: hanghae-plus-stage
   datasource:
     driver-class-name: # mysql
     url: # stage db 엔드 포인트

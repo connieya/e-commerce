@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: hanghae-pus-prod
+    name: hanghae-plus-prod
   datasource:
     driver-class-name: # mysql
     url: # prod db 엔드 포인트
