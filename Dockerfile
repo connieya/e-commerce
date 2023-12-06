@@ -2,7 +2,9 @@ FROM openjdk:17
 
 RUN mkdir /app
 
-COPY build/libs/hanghae-plus-0.0.1-SNAPSHOT.jar  /app/app.jar
+ARG JAR_FILE=build/libs/*.jar
+
+COPY ${JAR_FILE} /app/app.jar
 
 WORKDIR /app
 
