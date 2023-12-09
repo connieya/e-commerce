@@ -7,6 +7,10 @@ management:
   endpoint:
     health:
       show-details: always
+
 spring:
-  profiles:
-    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hanghae-plus?serverTimezone=Asia/Seoul
+    username: cos
+    password: cos1234

@@ -2,9 +2,6 @@ FROM openjdk:17
 
 WORKDIR /app
 
-COPY build.gradle /app
-
-RUN ./gradlew build
 
 ARG JAR_FILE=build/libs/*.jar
 
