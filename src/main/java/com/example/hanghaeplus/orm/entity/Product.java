@@ -1,12 +1,10 @@
 package com.example.hanghaeplus.orm.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.example.hanghaeplus.orm.entity.common.BaseEntity;
+import jakarta.persistence.*;
 
 @Entity
-public class Product {
+public class Product extends BaseEntity {
     @Id
     @Column(name = "product_id")
     private Long id;
@@ -14,5 +12,6 @@ public class Product {
 
     private Long price;
     @OneToOne
+    @JoinColumn(name = "stock_id")
     private Stock stock;
 }
