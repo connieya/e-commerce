@@ -15,6 +15,7 @@ public enum ErrorCode {
 
     // User
     USER_NOT_FOUND(400, "U001", "존재 하지 않는 유저입니다."),
+    USER_ALREADY_EXIST(400, "U002", "이미 존재하는 유저 입니다."),
 
     // Order
     ORDER_FAIL(400,"O001" , "주문에 실패 했습니다.");

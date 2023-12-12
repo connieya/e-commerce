@@ -2,13 +2,14 @@ package com.example.hanghaeplus.orm.entity;
 
 import com.example.hanghaeplus.orm.entity.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-@Setter
+@Setter @Getter
 public class User extends BaseEntity {
 
 
@@ -23,7 +24,8 @@ public class User extends BaseEntity {
         this.name = name;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "point_id")
     private Point point;
 
 }

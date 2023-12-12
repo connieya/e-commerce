@@ -2,10 +2,12 @@ package com.example.hanghaeplus.error.exception;
 
 import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.ErrorResponse;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class BusinessException extends RuntimeException {
 
     private ErrorCode errorCode;
