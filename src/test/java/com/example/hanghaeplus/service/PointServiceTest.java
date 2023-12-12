@@ -4,6 +4,7 @@ import com.example.hanghaeplus.orm.entity.Point;
 import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.PointRepository;
 import com.example.hanghaeplus.orm.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +19,14 @@ class PointServiceTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PointService pointService;
 
+
+    @BeforeEach
+    public void beforeEach(){
+
+    }
 
 
     @Test
@@ -26,7 +34,7 @@ class PointServiceTest {
         User user = new User("박건희");
         Point point = new Point(10000L);
         user.setPoint(point);
-        userRepository.save(user);
+        User save = userRepository.save(user);
     }
 
     @Test

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-@Setter @Getter
+@Getter
 public class User extends BaseEntity {
 
 
@@ -27,5 +27,10 @@ public class User extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "point_id")
     private Point point;
+
+    public void addPoint() {
+        this.point = new Point();
+        point.setUser(this);
+    }
 
 }

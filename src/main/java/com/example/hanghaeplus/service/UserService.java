@@ -18,7 +18,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PointRepository pointRepository;
 
 
     public void registerUser(UserRegisterRequest request) {
@@ -26,9 +25,7 @@ public class UserService {
             throw new EntityAlreadyExistException(ErrorCode.USER_ALREADY_EXIST);
         };
         User user = new User(request.getName());
-        Point point = new Point(1000L);
-        user.setPoint(point);
-        point.setUser(user);
+        user.addPoint();
         userRepository.save(user);
     }
 }
