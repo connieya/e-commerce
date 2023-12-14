@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Setter @Getter
 @NoArgsConstructor
@@ -20,6 +22,9 @@ public class Product extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_id")
     private Stock stock;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderProduct> product;
 
     public Product(String name, Long price) {
         this.name = name;

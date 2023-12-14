@@ -20,9 +20,9 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderProduct> product;
 
     private OrderStatus status;
 }
