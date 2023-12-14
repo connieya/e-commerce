@@ -17,6 +17,7 @@ public class Stock extends BaseEntity {
     private Long id;
 
     @OneToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private Long quantity;

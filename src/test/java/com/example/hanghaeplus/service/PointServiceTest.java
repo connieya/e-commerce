@@ -29,18 +29,7 @@ class PointServiceTest {
     }
 
 
-    @Test
-    void 잔액충전() {
-        User user = new User("박건희");
-        Point point = new Point(10000L);
-        user.setPoint(point);
-        User save = userRepository.save(user);
-    }
 
-    @Test
-    void 잔액조회() {
-
-    }
 
 
 }
