@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,11 +43,16 @@ class ProductRepositoryTest {
                 .price(500000L)
                 .quantity(130L)
                 .build();
+
+        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice());
+        Stock stock = Stock.create(productRequest.getQuantity());
+        product.addStock(stock);
+        savedProduct = productRepository.save(product);
     }
 
     @DisplayName("상품 이름과 가격, 재고 정보를 통해 상품과 재고를 등록 한다.")
     @Test
-    void registerProduct(){
+    void registerProduct() {
         // given
         ProductPostRequest productRequest = ProductPostRequest
                 .builder()
@@ -54,9 +61,8 @@ class ProductRepositoryTest {
                 .quantity(30L)
                 .build();
 
-
-        Product product = new Product(productRequest.getProductName(), productRequest.getPrice());
-        Stock stock = new Stock(productRequest.getQuantity());
+        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice());
+        Stock stock = Stock.create(productRequest.getQuantity());
         product.addStock(stock);
 
         // when
@@ -71,14 +77,19 @@ class ProductRepositoryTest {
 
     @DisplayName("상품 Id 를 통해 상품 정보를 조회한다.")
     @Test
-    void findProductById(){
+    void findProductById() {
         // given
-
+        Optional<Product> product = productRepository.findById(savedProduct.getId());
+        Product findProduct = product.get();
 
         // when
+        Stock findStock = findProduct.getStock();
 
 
         //then
+        assertThat(findProduct.getPrice()).isEqualTo(500000L);
+        assertThat(findProduct.getName()).isEqualTo("아이 패드");
+        assertThat(findStock.getQuantity()).isEqualTo(130L);
 
     }
 
