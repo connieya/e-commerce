@@ -20,8 +20,10 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private int totalPrice;
 
-    @OneToMany(mappedBy = "order")
+
+    @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL)
     private List<OrderProduct> product;
 
     private OrderStatus status;

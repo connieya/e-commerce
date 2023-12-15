@@ -24,7 +24,8 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(400, "P001", "존재 하지 않는 상품입니다."),
 
     // Order
-    ORDER_FAIL(400,"O001" , "주문에 실패 했습니다.");
+    INSUFFICIENT_STOCK(400,"O001" , "상품 수량이 부족합니다."),
+    ORDER_FAIL(400,"O002" , "주문에 실패 했습니다.");
 
     private final int status;
     private final String code;
