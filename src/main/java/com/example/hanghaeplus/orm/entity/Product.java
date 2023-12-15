@@ -35,4 +35,8 @@ public class Product extends BaseEntity {
         this.stock = stock;
         stock.setProduct(this);
     }
+
+    public static Product create(String name, Long price){
+        return new Product(name,price);
+    }
 }

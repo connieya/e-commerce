@@ -26,8 +26,8 @@ public class ProductService {
 
 
     public void registerProduct(ProductPostRequest request) {
-        Product product = new Product(request.getProductName(), request.getPrice());
-        Stock stock = new Stock(request.getQuantity());
+        Product product = Product.create(request.getProductName(),request.getPrice());
+        Stock stock = Stock.create(request.getQuantity());
         product.addStock(stock);
         productRepository.save(product);
     }

@@ -5,6 +5,7 @@ import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.Stock;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,19 @@ class ProductRepositoryTest {
 //        productRepository.deleteAllInBatch();
 //    }
 
+
+    Product savedProduct;
+
+    @BeforeEach
+    void before() {
+        ProductPostRequest productRequest = ProductPostRequest
+                .builder()
+                .productName("아이 패드")
+                .price(500000L)
+                .quantity(130L)
+                .build();
+    }
+
     @DisplayName("상품 이름과 가격, 재고 정보를 통해 상품과 재고를 등록 한다.")
     @Test
     void registerProduct(){
@@ -52,6 +66,20 @@ class ProductRepositoryTest {
         assertThat(productRequest.getProductName()).isEqualTo(savedProduct.getName());
         assertThat(productRequest.getPrice()).isEqualTo(savedProduct.getPrice());
         assertThat(productRequest.getQuantity()).isEqualTo(savedProduct.getStock().getQuantity());
+    }
+
+
+    @DisplayName("상품 Id 를 통해 상품 정보를 조회한다.")
+    @Test
+    void findProductById(){
+        // given
+
+
+        // when
+
+
+        //then
+
     }
 
 }

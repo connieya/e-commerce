@@ -25,4 +25,8 @@ public class Stock extends BaseEntity {
     public Stock(Long quantity) {
         this.quantity = quantity;
     }
+
+    public static Stock create(Long quantity){
+        return new Stock(quantity);
+    }
 }
