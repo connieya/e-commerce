@@ -45,7 +45,6 @@ class PointRepositoryTest {
     @Test
     void rechargePoint() {
         // given
-        // 사용자 등록
         Optional<User> user = userRepository.findByName("건희");
 
         // 사용자와 충전할 금액
@@ -64,6 +63,41 @@ class PointRepositoryTest {
 
         //then
         assertThat(rechargedPoint.getPoint()).isEqualTo(request.getPoint());
+    }
+
+
+    @DisplayName("사용자 식별자를 통해 해당 사용자의 잔액을 조회한다. 충전 X ")
+    @Test
+    void findPointByUserName() {
+        // given
+        Optional<User> user = userRepository.findByName("건희");
+
+        // when
+        Point point = pointRepository.findByUserId(user.get().getId());
+
+        //then
+        assertThat(point.getPoint()).isEqualTo(0);
+    }
+
+
+    @DisplayName("사용자 식별자를 통해 해당 사용자의 잔액을 조회한다. 충전 O ")
+    @Test
+    void findPointByUserName2() {
+        // given
+        Optional<User> user = userRepository.findByName("건희");
+
+        // when
+        Point point = pointRepository.findByUserId(user.get().getId());
+        point.recharge(60000L);
+        pointRepository.save(point);
+
+
+        Point rechargedPoint = pointRepository.findByUserId(user.get().getId());
+
+
+
+        //then
+        assertThat(rechargedPoint.getPoint()).isEqualTo(60000L);
     }
 
 }
