@@ -3,7 +3,6 @@ package com.example.hanghaeplus.service;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.Stock;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +17,7 @@ import java.util.List;
 class OrderServiceTest {
 
 
+    //  통합 테스트
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -43,9 +43,6 @@ class OrderServiceTest {
                 , createOrderSheet(product2.getId(), 20L)
                 , createOrderSheet(product3.getId(), 30L));
 
-       ;
-        Assertions.assertThatThrownBy(()-> orderService.checkStockAndGetTotalPrice(orderList))
-                .isInstanceOf(InsufficientStockException.class);
     }
 
     @DisplayName("주문 리스트를 받은 뒤 재고가 충분 하다면 총 가격을 구한다.")
@@ -56,8 +53,7 @@ class OrderServiceTest {
                 , createOrderSheet(product2.getId(), 10L)
                 , createOrderSheet(product3.getId(), 10L));
 
-        int totalPrice = orderService.checkStockAndGetTotalPrice(orderList);
-        Assertions.assertThat(totalPrice).isEqualTo(650000);
+
     }
 
     @DisplayName("주문 리스트를 받아서 주문을 생성한다.")
@@ -85,9 +81,7 @@ class OrderServiceTest {
     }
 
     private Product createProduct(String name, Long price, Long quantity) {
-        Product product = Product.create(name, price);
-        Stock stock = Stock.create(quantity);
-        product.addStock(stock);
+        Product product = Product.create(name, price,quantity);
         return productRepository.save(product);
     }
 

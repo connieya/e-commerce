@@ -2,27 +2,20 @@ package com.example.hanghaeplus.orm.repository;
 
 import com.example.hanghaeplus.dto.product.ProductPostRequest;
 import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.Stock;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 //@DataJpaTest
 @SpringBootTest
 class ProductRepositoryTest {
 
-    @Autowired
-    private StockRepository stockRepository;
     @Autowired
     private ProductRepository productRepository;
 
@@ -44,9 +37,7 @@ class ProductRepositoryTest {
                 .quantity(130L)
                 .build();
 
-        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice());
-        Stock stock = Stock.create(productRequest.getQuantity());
-        product.addStock(stock);
+        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice(),productRequest.getQuantity());
         savedProduct = productRepository.save(product);
     }
 
@@ -61,9 +52,7 @@ class ProductRepositoryTest {
                 .quantity(30L)
                 .build();
 
-        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice());
-        Stock stock = Stock.create(productRequest.getQuantity());
-        product.addStock(stock);
+        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice(),productRequest.getQuantity());
 
         // when
         Product savedProduct = productRepository.save(product);
@@ -71,7 +60,7 @@ class ProductRepositoryTest {
         //then
         assertThat(productRequest.getProductName()).isEqualTo(savedProduct.getName());
         assertThat(productRequest.getPrice()).isEqualTo(savedProduct.getPrice());
-        assertThat(productRequest.getQuantity()).isEqualTo(savedProduct.getStock().getQuantity());
+        assertThat(productRequest.getQuantity()).isEqualTo(savedProduct.getQuantity());
     }
 
 
@@ -79,17 +68,15 @@ class ProductRepositoryTest {
     @Test
     void findProductById() {
         // given
-        Optional<Product> product = productRepository.findById(savedProduct.getId());
-        Product findProduct = product.get();
+        Product product = productRepository.findById(savedProduct.getId()).get();
 
         // when
-        Stock findStock = findProduct.getStock();
 
 
         //then
-        assertThat(findProduct.getPrice()).isEqualTo(500000L);
-        assertThat(findProduct.getName()).isEqualTo("아이 패드");
-        assertThat(findStock.getQuantity()).isEqualTo(130L);
+        assertThat(product.getPrice()).isEqualTo(500000L);
+        assertThat(product.getName()).isEqualTo("아이 패드");
+        assertThat(product.getQuantity()).isEqualTo(130L);
 
     }
 
