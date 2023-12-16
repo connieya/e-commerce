@@ -14,3 +14,11 @@ spring:
     url: jdbc:mysql://localhost:3306/hanghae-plus?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
