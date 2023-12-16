@@ -32,6 +32,10 @@ public class Product extends BaseEntity {
         this.price = price;
     }
 
+    public boolean isLessThanQuantity(Long quantity) {
+        return this.quantity < quantity;
+    }
+
     @Builder
     private Product(String name, Long price, Long quantity) {
         this.name = name;
@@ -45,5 +49,9 @@ public class Product extends BaseEntity {
                 .name(name)
                 .price(price)
                 .quantity(quantity).build();
+    }
+
+    public void deductQuantity(Long quantity) {
+        this.quantity -= quantity;
     }
 }
