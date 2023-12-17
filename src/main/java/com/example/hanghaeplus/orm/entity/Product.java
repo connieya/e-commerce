@@ -1,5 +1,7 @@
 package com.example.hanghaeplus.orm.entity;
 
+import com.example.hanghaeplus.error.ErrorCode;
+import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.orm.entity.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+
+import static com.example.hanghaeplus.error.ErrorCode.*;
 
 @Entity
 @Setter @Getter
@@ -53,6 +57,7 @@ public class Product extends BaseEntity {
 
     public void deductQuantity(Long quantity) {
         if (this.quantity < quantity){
+            throw new InsufficientStockException(DEDUCT_FAIL);
 
         }
         this.quantity -= quantity;

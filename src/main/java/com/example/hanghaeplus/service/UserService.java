@@ -24,8 +24,7 @@ public class UserService {
         if(userRepository.findByName(request.getName()).isPresent()){
             throw new EntityAlreadyExistException(ErrorCode.USER_ALREADY_EXIST);
         };
-        User user = new User(request.getName());
-        user.addPoint();
+        User user = User.create(request.getName(), request.getPoint());
         userRepository.save(user);
     }
 }

@@ -7,4 +7,5 @@ import lombok.Setter;
 public class UserRegisterRequest {
 
     private String name;
+    private Long point;
 }

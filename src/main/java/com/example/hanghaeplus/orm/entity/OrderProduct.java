@@ -21,4 +21,10 @@ public class OrderProduct {
 
     private Long price;
 
+    public OrderProduct(Order order, Product product, Long count, Long price) {
+        this.order = order;
+        this.product = product;
+        this.count = count;
+        this.price = price;
+    }
 }
