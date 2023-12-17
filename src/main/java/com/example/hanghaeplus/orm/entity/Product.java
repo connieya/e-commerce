@@ -52,6 +52,9 @@ public class Product extends BaseEntity {
     }
 
     public void deductQuantity(Long quantity) {
+        if (this.quantity < quantity){
+
+        }
         this.quantity -= quantity;
     }
 }

@@ -35,23 +35,10 @@ class OrderServiceTest {
         productRepository.saveAll(List.of(product1, product2, product3));
     }
 
-    @DisplayName("주문 리스트를 받은 뒤 재고가 부족하면 예외를 발생시킨다.")
-    @Test
-    void checkStock() {
-        List<OrderPostRequest> orderList = List.of(createOrderSheet(
-                        product1.getId(), 10L)
-                , createOrderSheet(product2.getId(), 20L)
-                , createOrderSheet(product3.getId(), 30L));
-
-    }
 
     @DisplayName("주문 리스트를 받은 뒤 재고가 충분 하다면 총 가격을 구한다.")
     @Test
     void getTotalPrice() {
-        List<OrderPostRequest> orderList = List.of(createOrderSheet(
-                        product1.getId(), 10L)
-                , createOrderSheet(product2.getId(), 10L)
-                , createOrderSheet(product3.getId(), 10L));
 
 
     }
@@ -60,25 +47,15 @@ class OrderServiceTest {
     @Test
     void createOrder() {
         // given
-        List<OrderPostRequest> orderList = List.of(createOrderSheet(
-                        product1.getId(), 10L)
-                , createOrderSheet(product2.getId(), 20L)
-                , createOrderSheet(product3.getId(), 30L));
 
 
         // when
-        orderService.createOrder(orderList);
 
 
         //then
     }
 
-    private OrderPostRequest createOrderSheet(Long productId, Long quantity) {
-        return OrderPostRequest.builder()
-                .productId(productId)
-                .quantity(quantity)
-                .build();
-    }
+
 
     private Product createProduct(String name, Long price, Long quantity) {
         Product product = Product.create(name, price,quantity);

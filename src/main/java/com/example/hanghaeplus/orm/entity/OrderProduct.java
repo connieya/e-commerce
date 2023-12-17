@@ -17,4 +17,8 @@ public class OrderProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    private Long count;
+
+    private Long price;
+
 }
