@@ -26,6 +26,7 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final PointService pointService;
 
     // 주문 전에 재고 차감
     public void createOrder(OrderPostRequest request) {
@@ -45,9 +46,13 @@ public class OrderService {
             product.deductQuantity(quantity);
         }
 
-        // 결제
+        // 주문
         Order order = Order.create(user, products);
-        orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+
+        // 결제
+        pointService.processPayment(savedOrder);
+
     }
 
 

@@ -5,6 +5,7 @@ import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.PointRepository;
 import com.example.hanghaeplus.orm.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,8 +29,16 @@ class PointServiceTest {
 
     }
 
+    @DisplayName("주문서를 토대로 결제를 한다")
+    @Test
+    void processPayment(){
+        // given
+
+        // when
 
 
+        //then
+    }
 
 
 }

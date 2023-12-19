@@ -43,6 +43,19 @@ class OrderServiceTest {
 
     }
 
+
+    @DisplayName("주문을 하기 전 물건의 재고를 확인하고 차감한다.")
+    @Test
+    void deductQuantity(){
+        // given
+
+
+        // when
+
+
+        //then
+    }
+
     @DisplayName("주문 리스트를 받아서 주문을 생성한다.")
     @Test
     void createOrder() {

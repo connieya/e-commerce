@@ -18,7 +18,7 @@ public enum ErrorCode {
     // User
     USER_NOT_FOUND(400, "U001", "존재 하지 않는 유저입니다."),
     USER_ALREADY_EXIST(400, "U002", "이미 존재하는 유저 입니다."),
-
+    INSUFFICIENT_POINT(400,"U003","잔액이 부족 합니다"),
 
     // Product
     PRODUCT_NOT_FOUND(400, "P001", "존재 하지 않는 상품입니다."),

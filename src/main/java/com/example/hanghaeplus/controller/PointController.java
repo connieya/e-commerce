@@ -23,14 +23,16 @@ public class PointController {
     @ApiOperation("잔액 조회 API")
     @GetMapping("/{name}")
     public ResponseEntity<ResultResponse> getPoint(@PathVariable("name") String name){
-        PointGetResponse point = pointService.getPoint(name);
-        return ResponseEntity.ok(ResultResponse.of(PAYMENT_GET_SUCCESS ,point));
+        return null;
+//        return ResponseEntity.ok(ResultResponse.of(PAYMENT_GET_SUCCESS ,point));
     }
 
     @ApiOperation("잔액 충전 API")
     @PostMapping
     public ResponseEntity<ResultResponse> recharge(@RequestBody PointPostRequest request){
-        pointService.recharge(request);
-        return ResponseEntity.ok(ResultResponse.of(PAYMENT_POST_SUCCESS));
+//        pointService.recharge(request);
+//        return ResponseEntity.ok(ResultResponse.of(PAYMENT_POST_SUCCESS));
+        return null;
     }
+
 }
