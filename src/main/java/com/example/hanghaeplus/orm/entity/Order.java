@@ -40,10 +40,14 @@ public class Order extends BaseEntity {
     @Builder
     private Order(User user, List<Product> products) {
         this.user = user;
-        this.product = products.stream()
-                .map(product -> new OrderProduct(this,product, product.getQuantity(), product.getPrice()))
-                .collect(Collectors.toList());
+        this.product = getOrderProducts(products);
         this.totalPrice = calculateTotalPrice(products);
+    }
+
+    private List<OrderProduct> getOrderProducts(List<Product> products) {
+        return products.stream()
+                .map(product -> new OrderProduct(this, product, product.getQuantity(), product.getPrice()))
+                .collect(Collectors.toList());
     }
 
     private static long calculateTotalPrice(List<Product> products) {
