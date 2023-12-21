@@ -46,7 +46,7 @@ public class Order extends BaseEntity {
 
     private List<OrderProduct> getOrderProducts(List<Product> products) {
         return products.stream()
-                .map(product -> new OrderProduct(this, product, product.getQuantity(), product.getPrice()))
+               .map(product -> new OrderProduct(this, product, product.getQuantity(), product.getPrice()))
                 .collect(Collectors.toList());
     }
 

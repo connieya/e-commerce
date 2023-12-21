@@ -1,24 +1,3 @@
-management:
-  endpoints:
-   web:
-    exposure:
-      include: "*"
-      exclude: "cache"
-  endpoint:
-    health:
-      show-details: always
-
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hanghae-plus?serverTimezone=Asia/Seoul
-    username: cos
-    password: cos1234
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
+  profiles:
+    active: local

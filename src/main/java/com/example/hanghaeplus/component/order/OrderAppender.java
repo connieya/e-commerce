@@ -11,11 +11,11 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class OrderManager {
+public class OrderAppender {
 
     private final OrderRepository orderRepository;
 
-    public Order create(User user, List<Product> products) {
+    public Order append(User user, List<Product> products) {
         Order order = Order.create(user, products);
         return orderRepository.save(order);
 
