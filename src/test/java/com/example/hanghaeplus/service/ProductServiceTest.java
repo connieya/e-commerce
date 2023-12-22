@@ -1,13 +1,81 @@
 package com.example.hanghaeplus.service;
 
+import com.example.hanghaeplus.dto.product.ProductGetResponse;
+import com.example.hanghaeplus.error.ErrorCode;
+import com.example.hanghaeplus.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.orm.entity.Product;
+import com.example.hanghaeplus.orm.repository.ProductRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
+
+    @Mock
+    private ProductRepository productRepository;
+
+    private AutoCloseable autoCloseable;
+    private ProductService productService;
+
+
+    @BeforeEach
+    void setUp() {
+        autoCloseable = MockitoAnnotations.openMocks(this);
+        productService = new ProductService(productRepository);
+        productRepository.save(Product.create("아이패드",10000L,10L));
+
+    }
+    @AfterEach
+    void tearDown() throws Exception {
+        autoCloseable.close();
+    }
+
+
+
+    @DisplayName("존재 하지 않는 상품 id로 조회 했을 때 예외가 발생한다.")
+    @Test
+    void findByProductIdException(){
+        Long nonExistingProductId = 999L;
+
+        // given
+        given(productRepository.findById(nonExistingProductId)).willReturn(Optional.empty());
+
+        // when and then
+        assertThrows(EntityNotFoundException.class, () -> productService.getProduct(nonExistingProductId));
+    }
+
+    @DisplayName("상품 id 를 통해 해당 상품을 조회 한다.")
+    @Test
+    void findByProductId(){
+        Long productId = 1L;
+        Product mockProduct = Product.create("아이패드", 10000L, 10L);
+
+        // Define the behavior of the mocked repository
+        given(productRepository.findById(productId)).willReturn(Optional.of(mockProduct));
+
+        // when
+        ProductGetResponse result = productService.getProduct(productId);
+
+        // then
+        verify(productRepository).findById(productId);
+        assertNotNull(result);
+        assertEquals(productId, result.getProductId());
+        assertEquals("아이패드", result.getProductName());
+        assertEquals(10000L, result.getProductPrice());
+        assertEquals(10L, result.getQuantity());
+    }
+
 
     @DisplayName("상위 상품 5개를 조회 합니다.")
     @Test

@@ -30,7 +30,7 @@ public class OrderService {
     private final PointManager pointManager;
     private final StockManager stockManager;
 
-    // 주문 전에 재고 차감
+
     @Transactional
     public void createOrder(OrderPostRequest request) {
         User user = userReader.read(request.getUserId());

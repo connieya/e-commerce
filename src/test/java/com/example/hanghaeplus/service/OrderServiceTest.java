@@ -34,5 +34,16 @@ class OrderServiceTest {
         //then
     }
 
+    @DisplayName("동시에 두 건의 주문이 이루어져도 정상적으로 잔액 차감이 이뤄져야 한다.")
+    @Test
+    void concurrency_2orders(){
+        // OrderRequestDto request = new OrderRequest();
+
+        // CompletableFuture.allOf(
+        //  CompletableFuture.runAsync(() -> orderService.placeOrder(request)),
+        //  CompletableFuture.runAsync(() -> orderService.placeOrder(request)),
+        //).join()
+}
+
 
 }
