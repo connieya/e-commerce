@@ -40,11 +40,31 @@ public class Product extends BaseEntity {
         return this.quantity < quantity;
     }
 
+
+    @Builder
+    private Product(Long id, String name, Long price, Long quantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     @Builder
     private Product(String name, Long price, Long quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    // id 는 DB auto increment 전략임
+    // 단위 테스트 를 위해 생성 됨
+    public static Product create(Long id, String name, Long price , Long quantity){
+        return Product
+                .builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .quantity(quantity).build();
     }
 
     public static Product create(String name, Long price , Long quantity){
