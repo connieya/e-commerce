@@ -23,6 +23,8 @@ public class PointManager {
         if (user.getCurrentPoint() < totalPrice){
             throw new InsufficientPointsException(INSUFFICIENT_POINT);
         }
+        user.deductPoints(totalPrice);
+
         Point point = Point.create(user, totalPrice);
         pointRepository.save(point);
 

@@ -52,7 +52,7 @@ public class Order extends BaseEntity {
 
     private static long calculateTotalPrice(List<Product> products) {
         return products.stream()
-                .mapToLong(Product::getPrice)
+                .mapToLong(product -> product.getPrice() * product.getQuantity())
                 .sum();
     }
 

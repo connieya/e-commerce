@@ -38,6 +38,10 @@ public class User extends BaseEntity {
     private Point point;
 
 
+    public void deductPoints(Long point) {
+        this.currentPoint -= point;
+    }
+
     public static User create(String name , Long currentPoint){
         return User.builder()
                 .name(name)
