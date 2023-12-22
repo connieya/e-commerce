@@ -49,7 +49,7 @@ class OrderServiceTest {
     }
 
 
-    @DisplayName("주문한 상품들의 총 가격을 구한 다.")
+    @DisplayName("주문한 상품 들의 총 가격을 구한 다.")
     @Test
     void getTotalPoint() {
         // given

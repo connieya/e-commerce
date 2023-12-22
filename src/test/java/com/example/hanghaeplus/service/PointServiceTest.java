@@ -29,7 +29,7 @@ class PointServiceTest {
 
     }
 
-    @DisplayName("주문서를 토대로 결제를 한다")
+    @DisplayName("주문 한 상품들의 총 가격 만큼 잔액을 차감한다.")
     @Test
     void processPayment(){
         // given
