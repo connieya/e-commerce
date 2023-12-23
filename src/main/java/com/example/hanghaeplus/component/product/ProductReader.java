@@ -20,7 +20,8 @@ public class ProductReader {
         return productRepository.findAllById(productRequest.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
     }
 
-    public Map<Long, Long> getStockMap(List<ProductRequestForOrder> products) {
+    // 비즈니스 로직
+    public Map<Long, Long> getOrderCount(List<ProductRequestForOrder> products) {
         return products.stream()
                 .collect(Collectors.toMap(ProductRequestForOrder::getProductId, ProductRequestForOrder::getQuantity));
     }

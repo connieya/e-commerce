@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.service;
 
+import com.example.hanghaeplus.component.order.OrderAppender;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.orm.entity.Order;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,6 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
+
 
 
 
@@ -49,7 +52,7 @@ class OrderServiceTest {
     }
 
 
-    @DisplayName("주문한 상품 들의 총 가격을 구한 다.")
+    @DisplayName("주문한 상품 들의 총 가격을 구한다.")
     @Test
     void getTotalPoint() {
         // given

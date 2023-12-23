@@ -6,19 +6,15 @@ import com.example.hanghaeplus.component.product.ProductReader;
 import com.example.hanghaeplus.component.stock.StockManager;
 import com.example.hanghaeplus.component.user.UserReader;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
-import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-
-import static com.example.hanghaeplus.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +33,7 @@ public class OrderService {
         // 상품 목록 가져 오기
         List<Product> products = productReader.read(request.getProducts());
         // key : 상품 id , value : 재고 수량
-        Map<Long, Long> stockMap = productReader.getStockMap(request.getProducts());
+        Map<Long, Long> stockMap = productReader.getOrderCount(request.getProducts());
         // 재고 차감
         stockManager.deduct(products,stockMap);
         // 주문

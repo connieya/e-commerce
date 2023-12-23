@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserManagerTest {
+
+    // @Mock 를 사용하면 에러가 발생한다.
     @InjectMocks
     private UserManager userManager;
 

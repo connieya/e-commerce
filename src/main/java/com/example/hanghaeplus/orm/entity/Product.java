@@ -58,14 +58,15 @@ public class Product extends BaseEntity {
 
     // id 는 DB auto increment 전략임
     // 단위 테스트 를 위해 생성 됨
-    public static Product create(Long id, String name, Long price , Long quantity){
-        return Product
-                .builder()
-                .id(id)
-                .name(name)
-                .price(price)
-                .quantity(quantity).build();
-    }
+    // 생성 되면 안되!!!
+//    public static Product create(Long id, String name, Long price , Long quantity){
+//        return Product
+//                .builder()
+//                .id(id)
+//                .name(name)
+//                .price(price)
+//                .quantity(quantity).build();
+//    }
 
     public static Product create(String name, Long price , Long quantity){
         return Product
@@ -76,6 +77,7 @@ public class Product extends BaseEntity {
     }
 
     public void deductQuantity(Long quantity) {
+        System.out.println("deduct quantity = " + quantity);
         if (this.quantity < quantity){
             throw new InsufficientStockException(DEDUCT_FAIL);
 

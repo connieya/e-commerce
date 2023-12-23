@@ -25,7 +25,7 @@ class PointServiceTest {
 
 
     @BeforeEach
-    public void beforeEach(){
+    public void setup(){
 
     }
 

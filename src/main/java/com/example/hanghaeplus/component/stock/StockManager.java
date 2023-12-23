@@ -20,12 +20,8 @@ public class StockManager {
 
 
     public void deduct(List<Product> products ,  Map<Long, Long> stockMap) {
-        System.out.println("products = " + products);
         for (Product product : products) {
-            System.out.println("stockMap = " + stockMap);;
-            System.out.println("product.getId() = " + product.getId());
             Long quantity = stockMap.get(product.getId());
-            System.out.println("quantity = " + quantity);
             if (product.isLessThanQuantity(quantity)){
                 throw new InsufficientStockException(INSUFFICIENT_STOCK);
             }

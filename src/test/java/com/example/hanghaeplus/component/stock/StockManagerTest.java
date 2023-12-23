@@ -2,6 +2,7 @@ package com.example.hanghaeplus.component.stock;
 
 import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
+import com.example.hanghaeplus.orm.entity.FakeProduct;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
@@ -31,14 +32,19 @@ class StockManagerTest {
     @InjectMocks
     private StockManager stockManager;
 
+
+    // productId 는 auto increment 이기 때문에
+    // Product 생성자에  productId 는 파라미터에 없었다.
+    // 테스트를 위해 productId 파라미터 추가
     @DisplayName("주문한 수량 만큼 상품의 재고를 차감한다.")
     @Test
     void deductQuantity(){
         Long productId1 = 1L;
         Long productId2 = 2L;
         // given
-        Product product1 = Product.create(productId1,"아이패드",1000L,10L);
-        Product product2 = Product.create(productId2,"아이패드2",2000L,20L);
+        Product product1 = FakeProduct.create(productId1,"아이패드",1000L,10L);
+        Product product2 = FakeProduct.create(productId2,"아이패드2",2000L,20L);
+
 
 //        given(productRepository.findAllById(List.of(productId1,productId2))).willReturn(List.of(product1,product2));
 
@@ -64,8 +70,8 @@ class StockManagerTest {
         Long productId1 = 1L;
         Long productId2 = 2L;
         // given
-        Product product1 = Product.create(productId1,"아이패드",1000L,4L);
-        Product product2 = Product.create(productId2,"아이패드2",2000L,20L);
+        Product product1 = FakeProduct.create(productId1,"아이패드",1000L,4L);
+        Product product2 = FakeProduct.create(productId2,"아이패드2",2000L,20L);
 
 
         // when

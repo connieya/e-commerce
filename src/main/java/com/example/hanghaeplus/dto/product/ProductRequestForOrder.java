@@ -8,4 +8,14 @@ public class ProductRequestForOrder {
 
     private Long productId;
     private Long quantity;
+
+
+    private ProductRequestForOrder(Long productId, Long quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
+    }
+
+    public static ProductRequestForOrder of(Long productId, Long quantity){
+        return new ProductRequestForOrder(productId,quantity);
+    }
 }
