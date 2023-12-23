@@ -9,18 +9,4 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class PointManagerTest {
-
-
-
-    @DisplayName("주문 한 상품 총 금액을 현재 잔액에서 차감한다.")
-    @Test
-    void deductPoints(){
-        // given
-
-        // when
-
-
-        //then
-    }
-
 }

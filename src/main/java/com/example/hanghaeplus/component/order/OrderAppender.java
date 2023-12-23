@@ -4,6 +4,7 @@ import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.OrderRepository;
+import com.example.hanghaeplus.orm.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
