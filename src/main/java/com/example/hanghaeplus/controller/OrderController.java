@@ -25,7 +25,7 @@ public class OrderController {
 
     @ApiOperation("주문 API")
     @PostMapping
-    public ResponseEntity<ResultResponse> createOrder(@RequestBody List<OrderPostRequest> request){
+    public ResponseEntity<ResultResponse> createOrder(@RequestBody OrderPostRequest request){
         orderService.createOrder(request);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_POST_SUCCESS));
     }

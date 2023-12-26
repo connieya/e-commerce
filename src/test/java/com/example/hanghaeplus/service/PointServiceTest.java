@@ -5,6 +5,7 @@ import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.PointRepository;
 import com.example.hanghaeplus.orm.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,12 +25,20 @@ class PointServiceTest {
 
 
     @BeforeEach
-    public void beforeEach(){
+    public void setup(){
 
     }
 
+    @DisplayName("주문 한 상품들의 총 가격 만큼 잔액을 차감한다.")
+    @Test
+    void processPayment(){
+        // given
+
+        // when
 
 
+        //then
+    }
 
 
 }

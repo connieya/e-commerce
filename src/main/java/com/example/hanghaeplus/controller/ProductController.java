@@ -37,6 +37,7 @@ public class ProductController {
     @ApiOperation("상위 상품 조회 API")
     @GetMapping("/rank")
     public ResponseEntity<ResultResponse> getTopProduct(){
+        productService.getRankProduct();
         return null;
     }
 }

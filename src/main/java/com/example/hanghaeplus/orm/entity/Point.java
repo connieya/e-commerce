@@ -1,12 +1,19 @@
 package com.example.hanghaeplus.orm.entity;
 
 import com.example.hanghaeplus.orm.entity.common.BaseEntity;
+import com.example.hanghaeplus.orm.vo.PointTransactionStatus;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import static com.example.hanghaeplus.orm.vo.PointTransactionStatus.*;
 
 @Entity
 @Table(name = "points")
 @Getter
+@NoArgsConstructor
 public class Point extends BaseEntity {
 
     @Id
@@ -19,8 +26,18 @@ public class Point extends BaseEntity {
     private User user;
     private Long point;
 
-    public Point() {
-        this.point = 0L;
+    private PointTransactionStatus status;
+
+
+    @Builder
+    private Point(User user, Long point, PointTransactionStatus status) {
+        this.user = user;
+        this.point = point;
+        this.status = status;
+    }
+
+    public static Point create(User user, Long point){
+        return new Point(user,point, RECHARGE);
     }
 
     public Point(Long point) {

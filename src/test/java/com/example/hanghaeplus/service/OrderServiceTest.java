@@ -1,88 +1,80 @@
 package com.example.hanghaeplus.service;
 
+import com.example.hanghaeplus.component.order.OrderAppender;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
+import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
+import com.example.hanghaeplus.orm.entity.User;
+import com.example.hanghaeplus.orm.repository.OrderRepository;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
-@SpringBootTest
+import static org.assertj.core.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
 
-    //  통합 테스트
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
+
+
+    @Mock
+    private OrderRepository orderRepository;
+
+    private AutoCloseable autoCloseable;
+
     private OrderService orderService;
 
-    Product product1;
-    Product product2;
-    Product product3;
 
     @BeforeEach
-    void before() {
-        product1 = createProduct("아이패드1", 20000L, 50L);
-        product2 = createProduct("아이패드2", 22000L, 30L);
-        product3 = createProduct("아이패드3", 23000L, 20L);
-        productRepository.saveAll(List.of(product1, product2, product3));
+    void setUp() {
+        autoCloseable =  MockitoAnnotations.openMocks(this);
     }
 
-    @DisplayName("주문 리스트를 받은 뒤 재고가 부족하면 예외를 발생시킨다.")
-    @Test
-    void checkStock() {
-        List<OrderPostRequest> orderList = List.of(createOrderSheet(
-                        product1.getId(), 10L)
-                , createOrderSheet(product2.getId(), 20L)
-                , createOrderSheet(product3.getId(), 30L));
 
+    @AfterEach
+    void tearDown() throws Exception {
+        autoCloseable.close();
     }
 
-    @DisplayName("주문 리스트를 받은 뒤 재고가 충분 하다면 총 가격을 구한다.")
+
+
+
+    @DisplayName("사용자 식별자와 상품 ID, 수량 목록을 받아 주문을 수행한다.")
     @Test
-    void getTotalPrice() {
-        List<OrderPostRequest> orderList = List.of(createOrderSheet(
-                        product1.getId(), 10L)
-                , createOrderSheet(product2.getId(), 10L)
-                , createOrderSheet(product3.getId(), 10L));
-
-
-    }
-
-    @DisplayName("주문 리스트를 받아서 주문을 생성한다.")
-    @Test
-    void createOrder() {
+    void createOrder(){
         // given
-        List<OrderPostRequest> orderList = List.of(createOrderSheet(
-                        product1.getId(), 10L)
-                , createOrderSheet(product2.getId(), 20L)
-                , createOrderSheet(product3.getId(), 30L));
-
 
         // when
-        orderService.createOrder(orderList);
 
 
         //then
     }
 
-    private OrderPostRequest createOrderSheet(Long productId, Long quantity) {
-        return OrderPostRequest.builder()
-                .productId(productId)
-                .quantity(quantity)
-                .build();
-    }
+    @DisplayName("동시에 두 건의 주문이 이루어져도 정상적으로 잔액 차감이 이뤄져야 한다.")
+    @Test
+    void concurrency_2orders(){
+        // OrderRequestDto request = new OrderRequest();
 
-    private Product createProduct(String name, Long price, Long quantity) {
-        Product product = Product.create(name, price,quantity);
-        return productRepository.save(product);
-    }
+        // CompletableFuture.allOf(
+        //  CompletableFuture.runAsync(() -> orderService.placeOrder(request)),
+        //  CompletableFuture.runAsync(() -> orderService.placeOrder(request)),
+        //).join()
+}
+
 
 }

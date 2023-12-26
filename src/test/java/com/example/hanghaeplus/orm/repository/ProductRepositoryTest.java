@@ -6,14 +6,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-//@DataJpaTest
-@SpringBootTest
+
+@DataJpaTest
 class ProductRepositoryTest {
 
     @Autowired
@@ -69,9 +70,7 @@ class ProductRepositoryTest {
     void findProductById() {
         // given
         Product product = productRepository.findById(savedProduct.getId()).get();
-
         // when
-
 
         //then
         assertThat(product.getPrice()).isEqualTo(500000L);

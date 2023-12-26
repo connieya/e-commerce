@@ -4,6 +4,8 @@ import com.example.hanghaeplus.dto.point.PointGetResponse;
 import com.example.hanghaeplus.dto.point.PointPostRequest;
 import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
+import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Point;
 import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.PointRepository;
@@ -21,21 +23,13 @@ public class PointService {
     private final UserRepository userRepository;
 
 
-
-    public PointGetResponse getPoint(String name) {
-        User user = userRepository.findByName(name)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-
-        Point point = pointRepository.findByUserId(user.getId());
-        return PointGetResponse.builder()
-                .userId(user.getId())
-                .point(point.getPoint()).build();
-    }
-
-    public void recharge(PointPostRequest request) {
-        User user = userRepository.findByName(request.getUsername()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-        Point point = pointRepository.findByUserId(user.getId());
-        point.recharge(request.getPoint());
+    public void processPayment(Order order) {
+        Long totalPrice = order.getTotalPrice();
+        User user = userRepository.findById(order.getUser().getId()).get();
+        if (user.getCurrentPoint() < totalPrice){
+            throw new InsufficientPointsException(INSUFFICIENT_POINT);
+        }
+        Point point = Point.create(user, totalPrice);
         pointRepository.save(point);
     }
 }

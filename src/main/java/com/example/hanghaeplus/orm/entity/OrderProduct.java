@@ -17,4 +17,14 @@ public class OrderProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    private Long count;
+
+    private Long price;
+
+    public OrderProduct(Order order, Product product, Long count, Long price) {
+        this.order = order;
+        this.product = product;
+        this.count = count;
+        this.price = price;
+    }
 }

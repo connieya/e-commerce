@@ -8,19 +8,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 //@DataJpaTest
 @SpringBootTest
+@Transactional
 class UserRepositoryTest {
-
 
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private PointRepository pointRepository;
 
 //    @AfterEach
 //    void tearDown() {
@@ -29,19 +29,12 @@ class UserRepositoryTest {
 //    }
 
 
-    @DisplayName("사용자의 이름을 통해 사용자를 등록한다.")
+    @DisplayName("잔액 조회")
     @Test
-    void registerUser(){
-        // given
-        User user = new User("박건희");
-        user.addPoint();
-
-        // when
+    void getCurrentPoint() {
+        User user = User.create("건희", 5000L);
         User savedUser = userRepository.save(user);
-
-
-        //then
-        Assertions.assertThat(user.getName()).isEqualTo(savedUser.getName());
+        assertThat(savedUser.getCurrentPoint()).isEqualTo(5000L);
     }
 
 }

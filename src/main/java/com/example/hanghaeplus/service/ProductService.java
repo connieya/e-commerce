@@ -32,4 +32,9 @@ public class ProductService {
                 .productId(productId)
                 .quantity(product.getQuantity()).build();
     }
+
+    public void getRankProduct() {
+
+
+    }
 }

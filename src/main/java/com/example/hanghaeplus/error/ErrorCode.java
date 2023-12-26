@@ -18,13 +18,15 @@ public enum ErrorCode {
     // User
     USER_NOT_FOUND(400, "U001", "존재 하지 않는 유저입니다."),
     USER_ALREADY_EXIST(400, "U002", "이미 존재하는 유저 입니다."),
-
+    INSUFFICIENT_POINT(400,"U003","잔액이 부족 합니다"),
 
     // Product
     PRODUCT_NOT_FOUND(400, "P001", "존재 하지 않는 상품입니다."),
 
     // Order
-    INSUFFICIENT_STOCK(400,"O001" , "상품 수량이 부족합니다."),
+    INSUFFICIENT_STOCK(400,"O001" , "재고가 부족한 상품이 있습니다."),
+    DEDUCT_FAIL(400,"O002","차감할 재고 수량이 없습니다."),
+
     ORDER_FAIL(400,"O002" , "주문에 실패 했습니다.");
 
     private final int status;

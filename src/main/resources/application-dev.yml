@@ -4,8 +4,17 @@ server:
 spring:
   application:
     name: hanghae-plus-dev
+
   datasource:
-    driver-class-name: # mysql
-    url: # dev db 엔드 포인트
-    username: # dev db username
-    password: # dev db password
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/hanghae-plus?serverTimezone=Asia/Seoul
+    username: # 유저 네임
+    password: # 비밀 번호
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

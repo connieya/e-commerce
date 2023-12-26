@@ -31,14 +31,7 @@ class PointRepositoryTest {
 //        userRepository.deleteAll();
 //    }
 
-    @BeforeEach
-    void before(){
-        User user = new User("건희");
-        // 포인트 0원으로 초기화
-        user.addPoint();
-        userRepository.save(user);
 
-    }
 
 
     @DisplayName("사용자 식별자 및 충전할 금액을 받아 잔액을 충전 한다.")
