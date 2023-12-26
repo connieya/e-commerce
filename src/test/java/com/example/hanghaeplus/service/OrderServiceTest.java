@@ -1,30 +1,15 @@
 package com.example.hanghaeplus.service;
 
-import com.example.hanghaeplus.component.order.OrderAppender;
-import com.example.hanghaeplus.dto.order.OrderPostRequest;
-import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
-import com.example.hanghaeplus.orm.entity.Order;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.OrderRepository;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
-import org.assertj.core.api.Assertions;
+import com.example.hanghaeplus.service.order.OrderService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {

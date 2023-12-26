@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.component.order;
 
+import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
@@ -16,7 +17,7 @@ public class OrderAppender {
 
     private final OrderRepository orderRepository;
 
-    public Order append(User user, List<Product> products) {
+    public Order append(User user, List<ProductRequestForOrder> products) {
         Order order = Order.create(user, products);
         return orderRepository.save(order);
 

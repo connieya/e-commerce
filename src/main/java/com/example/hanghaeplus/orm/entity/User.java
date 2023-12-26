@@ -28,14 +28,17 @@ public class User extends BaseEntity {
     }
 
     @Builder
-    private User(String name, Long currentPoint) {
+    private User(Long id, String name, Long currentPoint) {
+        this.id = id;
         this.name = name;
         this.currentPoint = currentPoint;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "point_id")
-    private Point point;
+    @Builder
+    private User(String name, Long currentPoint) {
+        this.name = name;
+        this.currentPoint = currentPoint;
+    }
 
 
     public void deductPoints(Long point) {

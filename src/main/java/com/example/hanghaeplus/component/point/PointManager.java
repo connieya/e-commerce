@@ -21,7 +21,6 @@ public class PointManager {
 
 
     public void process(User user, Order order) {
-        userManager.deductPoint(user,order);
         Point point = Point.create(user, order.getTotalPrice());
         pointRepository.save(point);
 

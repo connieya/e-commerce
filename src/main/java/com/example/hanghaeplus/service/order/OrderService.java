@@ -1,11 +1,13 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.component.order.OrderAppender;
 import com.example.hanghaeplus.component.point.PointManager;
 import com.example.hanghaeplus.component.product.ProductReader;
 import com.example.hanghaeplus.component.stock.StockManager;
+import com.example.hanghaeplus.component.user.UserManager;
 import com.example.hanghaeplus.component.user.UserReader;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
+import com.example.hanghaeplus.dto.order.OrderPostResponse;
 import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
@@ -25,25 +27,25 @@ public class OrderService {
     private final OrderAppender orderAppender;
     private final PointManager pointManager;
     private final StockManager stockManager;
+    private final UserManager userManager;
 
 
 
     @Transactional
-    public void createOrder(OrderPostRequest request) {
+    public OrderPostResponse createOrder(OrderPostRequest request) {
         User user = userReader.read(request.getUserId());
-        // 상품 목록 가져 오기
-        List<Product> products = productReader.read(request.getProducts());
-        // key : 상품 id , value : 주문 수량
-        Map<Long, Long> productIdQuntitiyMap = productReader.convertToProductIdQuantityMap(request.getProducts());
         // 재고 차감
         stockManager.deduct(request);
-        stockManager.deduct(products,productIdQuntitiyMap);
         // 주문
-        Order savedOrder = orderAppender.append(user, products);
+        Order savedOrder = orderAppender.append(user, request.getProducts());
 
+        // 잔액 차감
+        userManager.deductPoint(user,savedOrder);
 
         // 결제
         pointManager.process(user,savedOrder);
+
+        return OrderPostResponse.of(savedOrder);
     }
 
 }

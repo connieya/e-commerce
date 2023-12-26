@@ -32,7 +32,7 @@ public class StockManager {
 
     public void deduct(OrderPostRequest request) {
         List<ProductRequestForOrder> requestForOrders = request.getProducts();
-        Map<Long, Long> productIdQuntitiyMap = getOrderCount(requestForOrders);
+        Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);
         List<Product> products = productRepository.findAllById(requestForOrders.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
         for (Product product : products) {
             Long quantity = productIdQuntitiyMap.get(product.getId());
@@ -44,7 +44,7 @@ public class StockManager {
         productRepository.saveAll(products);
     }
 
-    public Map<Long, Long> getOrderCount(List<ProductRequestForOrder> products) {
+    private Map<Long, Long> convertToProductIdQuantityMap(List<ProductRequestForOrder> products) {
         return products.stream()
                 .collect(Collectors.toMap(ProductRequestForOrder::getProductId, ProductRequestForOrder::getQuantity));
     }

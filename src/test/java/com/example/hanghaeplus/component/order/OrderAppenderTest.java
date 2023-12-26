@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.component.order;
 
+import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
@@ -26,7 +27,7 @@ public class OrderAppenderTest {
     @Autowired
     private UserRepository userRepository;
 
-    @DisplayName("상품 목록과 사용자 식별 ID 를 통해 주문을 생성한다.")
+    @DisplayName("주문한 총 가격을 구한다.")
     @Test
     void add() {
         // given
@@ -36,11 +37,14 @@ public class OrderAppenderTest {
         List<Product> products = List.of(product1, product2);
         productRepository.saveAll(products);
         userRepository.save(user);
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 2L);
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 1L);
+
 
         // when
-        Order order = orderAppender.append(user, products);
+        Order order = orderAppender.append(user, List.of(request1,request2));
 
         //then
-        assertThat(order.getTotalPrice()).isEqualTo(35000L);
+        assertThat(order.getTotalPrice()).isEqualTo(7000L);
     }
 }

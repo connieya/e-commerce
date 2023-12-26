@@ -1,10 +1,10 @@
 package com.example.hanghaeplus.service;
 
 import com.example.hanghaeplus.dto.product.ProductGetResponse;
-import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
+import com.example.hanghaeplus.service.product.ProductService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

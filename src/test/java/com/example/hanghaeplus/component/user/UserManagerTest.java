@@ -1,6 +1,8 @@
 package com.example.hanghaeplus.component.user;
 
+import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
+import com.example.hanghaeplus.orm.entity.FakeProduct;
 import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
@@ -30,9 +32,14 @@ class UserManagerTest {
     void deductPoint(){
         // given
         User user = User.create("건희", 20000L);
-        Product product1 = Product.create("양파", 1000L, 3L);
-        Product product2 = Product.create("당근", 2000L, 4L);
-        Order order = Order.create(user, List.of(product1, product2));
+        Product product1 = FakeProduct.create(1L,"양파", 1000L, 3L);
+        Product product2 = FakeProduct.create(2L,"당근", 2000L, 4L);
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L);
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 2L);
+
+        Order order = Order.create(user, List.of(request1, request2));
 
         // when
         userManager.deductPoint(user,order);
@@ -48,9 +55,12 @@ class UserManagerTest {
     void deductInSufficientPoint(){
         // given
         User user = User.create("건희", 10000L);
-        Product product1 = Product.create("양파", 1000L, 3L);
-        Product product2 = Product.create("당근", 2000L, 4L);
-        Order order = Order.create(user, List.of(product1, product2));
+        Product product1 = FakeProduct.create(1L,"양파", 1000L, 3L);
+        Product product2 = FakeProduct.create(2L,"당근", 2000L, 4L);
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L);
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 2L);
+        Order order = Order.create(user, List.of(request1, request2));
 
         // when  //then
         Assertions.assertThatThrownBy(()-> userManager.deductPoint(user,order))

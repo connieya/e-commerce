@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.orm.entity;
 
 
+import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,14 +19,14 @@ public class OrderTest {
     @Test
     void getTotalPoint() {
         // given
-        Product mockProduct1 = Product.create("양파", 3000L, 2L);
-        Product mockProduct2 = Product.create("당근", 2000L, 3L);
+        Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
+        Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
 
         User user = User.create("건희", 10000L);
 
-        List<Product> products = List.of(mockProduct1, mockProduct2);
-        Order order = Order.create(user, products);
-        Long totalPrice = mockProduct1.getPrice()*mockProduct1.getQuantity() + mockProduct2.getPrice()*mockProduct2.getQuantity();
-        assertThat(order.getTotalPrice()).isEqualTo(totalPrice);
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
+        Order order = Order.create(user, List.of(request1,request2));
+        assertThat(order.getTotalPrice()).isEqualTo(7000L);
     }
 }

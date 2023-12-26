@@ -1,9 +1,8 @@
 package com.example.hanghaeplus.controller;
 
 import com.example.hanghaeplus.dto.user.UserRegisterRequest;
-import com.example.hanghaeplus.result.ResultCode;
 import com.example.hanghaeplus.result.ResultResponse;
-import com.example.hanghaeplus.service.UserService;
+import com.example.hanghaeplus.service.user.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

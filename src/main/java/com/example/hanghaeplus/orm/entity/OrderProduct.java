@@ -1,8 +1,10 @@
 package com.example.hanghaeplus.orm.entity;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 public class OrderProduct {
 
     @Id
@@ -13,17 +15,15 @@ public class OrderProduct {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 
     private Long count;
 
     private Long price;
 
-    public OrderProduct(Order order, Product product, Long count, Long price) {
+    public OrderProduct(Order order, Long productId, Long count, Long price) {
         this.order = order;
-        this.product = product;
+        this.productId = productId;
         this.count = count;
         this.price = price;
     }
