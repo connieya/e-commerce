@@ -33,7 +33,7 @@ public class Order extends BaseEntity {
     private Long totalPrice;
 
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order")
     private List<OrderProduct> product;
 
 

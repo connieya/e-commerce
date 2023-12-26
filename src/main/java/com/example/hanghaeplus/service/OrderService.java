@@ -27,17 +27,20 @@ public class OrderService {
     private final StockManager stockManager;
 
 
+
     @Transactional
     public void createOrder(OrderPostRequest request) {
         User user = userReader.read(request.getUserId());
         // 상품 목록 가져 오기
         List<Product> products = productReader.read(request.getProducts());
-        // key : 상품 id , value : 재고 수량
-        Map<Long, Long> stockMap = productReader.getOrderCount(request.getProducts());
+        // key : 상품 id , value : 주문 수량
+        Map<Long, Long> productIdQuntitiyMap = productReader.convertToProductIdQuantityMap(request.getProducts());
         // 재고 차감
-        stockManager.deduct(products,stockMap);
+        stockManager.deduct(request);
+        stockManager.deduct(products,productIdQuntitiyMap);
         // 주문
         Order savedOrder = orderAppender.append(user, products);
+
 
         // 결제
         pointManager.process(user,savedOrder);

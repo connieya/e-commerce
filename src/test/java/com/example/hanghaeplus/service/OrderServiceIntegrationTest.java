@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.service;
 
+import com.example.hanghaeplus.component.order.OrderAppender;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.orm.entity.Order;
@@ -21,7 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@Rollback(false)
+//@Rollback(false)
 public class OrderServiceIntegrationTest {
 
     @Autowired
@@ -36,9 +37,13 @@ public class OrderServiceIntegrationTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private OrderAppender orderAppender;
+
     @DisplayName("주문 한 상품 수량 만큼 재고를 차감한다.")
     @Test
     void deductQuantity() {
+        // given
         User user = User.create("건희", 1000000L);
         User savedUser = userRepository.save(user);
 
@@ -59,7 +64,6 @@ public class OrderServiceIntegrationTest {
         List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
 
 
-        // given
         OrderPostRequest orderPostRequest = OrderPostRequest.builder()
                 .userId(savedUser.getId())
                 .products(requests)
@@ -95,8 +99,6 @@ public class OrderServiceIntegrationTest {
 
         List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
 
-
-
         // given
         OrderPostRequest orderPostRequest = OrderPostRequest.builder()
                 .userId(savedUser.getId())
@@ -106,10 +108,26 @@ public class OrderServiceIntegrationTest {
         // when
         orderService.createOrder(orderPostRequest);
 
-
         //then
         assertThat(savedUser.getCurrentPoint()).isEqualTo(28000L);
+    }
 
+    @DisplayName("")
+    @Test
+    void test(){
+        // given
+        User user = User.create("건희", 10000L);
+        Product product1 = Product.create("양파", 3000L, 10L);
+        Product product2 = Product.create("감자", 1000L, 5L);
+        List<Product> products = List.of(product1, product2);
+        productRepository.saveAll(products);
+        userRepository.save(user);
+
+        // when
+        Order order = orderAppender.append(user, products);
+
+        //then
+        assertThat(order.getTotalPrice()).isEqualTo(35000L);
     }
 
 }

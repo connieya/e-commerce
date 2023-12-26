@@ -21,7 +21,7 @@ public class ProductReader {
     }
 
     // 비즈니스 로직
-    public Map<Long, Long> getOrderCount(List<ProductRequestForOrder> products) {
+    public Map<Long, Long> convertToProductIdQuantityMap(List<ProductRequestForOrder> products) {
         return products.stream()
                 .collect(Collectors.toMap(ProductRequestForOrder::getProductId, ProductRequestForOrder::getQuantity));
     }

@@ -82,10 +82,8 @@ class StockManagerTest {
         stockMap.put(2L,5L);
 
 
-
         //then
         assertThatThrownBy(()->stockManager.deduct(products,stockMap))
                 .isInstanceOf(InsufficientStockException.class);
-
     }
 }
