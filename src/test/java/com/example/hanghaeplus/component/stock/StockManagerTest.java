@@ -88,31 +88,4 @@ class StockManagerTest {
                 .isInstanceOf(InsufficientStockException.class);
     }
 
-
-    @DisplayName("주문한 수량 만큼 상품의 재고를 차감한다.")
-    @Test
-    void deductQuantity2() {
-        Long productId1 = 1L;
-        Long productId2 = 2L;
-        // given
-        Product product1 = FakeProduct.create(productId1, "감자", 1000L, 10L);
-        Product product2 = FakeProduct.create(productId2, "당근", 2000L, 20L);
-
-        ProductRequestForOrder request1 = ProductRequestForOrder
-                .of(productId1, 5L);
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productId2, 5L);
-
-        List<ProductRequestForOrder> forOrders = List.of(request1, request2);
-        User user = FakeUser.create(1L, "건희", 10000L);
-        // when
-        OrderPostRequest orderPostRequest = OrderPostRequest.builder()
-                .userId(user.getId())
-                .products(forOrders)
-                .build();
-        stockManager.deduct(orderPostRequest);
-
-        //then
-        assertEquals(product1.getQuantity(), 5L);
-        assertEquals(product2.getQuantity(), 15L);
-    }
 }

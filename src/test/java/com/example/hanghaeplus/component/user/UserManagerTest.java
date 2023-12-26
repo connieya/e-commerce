@@ -36,8 +36,8 @@ class UserManagerTest {
         Product product2 = FakeProduct.create(2L,"당근", 2000L, 4L);
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L);
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 2L);
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L, product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 2L,product2.getPrice());
 
         Order order = Order.create(user, List.of(request1, request2));
 
@@ -55,11 +55,11 @@ class UserManagerTest {
     void deductInSufficientPoint(){
         // given
         User user = User.create("건희", 10000L);
-        Product product1 = FakeProduct.create(1L,"양파", 1000L, 3L);
-        Product product2 = FakeProduct.create(2L,"당근", 2000L, 4L);
+        Product product1 = FakeProduct.create(1L,"양파", 5000L, 3L);
+        Product product2 = FakeProduct.create(2L,"당근", 8000L, 4L);
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L);
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 2L);
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L,product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 2L,product2.getPrice());
         Order order = Order.create(user, List.of(request1, request2));
 
         // when  //then

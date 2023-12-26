@@ -47,7 +47,7 @@ public class StockServiceTest {
 
     @DisplayName("주문한 수량에 맞게 재고를 차감한다.")
     @Test
-    void test(){
+    void deductQuantity(){
         // given
         ProductRequestForOrder request1 = ProductRequestForOrder
                 .of(requestProduct1.getId(), 5L);

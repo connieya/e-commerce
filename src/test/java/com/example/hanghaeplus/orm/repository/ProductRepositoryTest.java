@@ -2,6 +2,7 @@ package com.example.hanghaeplus.orm.repository;
 
 import com.example.hanghaeplus.dto.product.ProductPostRequest;
 import com.example.hanghaeplus.orm.entity.Product;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,11 +21,10 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
-//    @AfterEach
-//    void tearDown() {
-//        stockRepository.deleteAllInBatch();
-//        productRepository.deleteAllInBatch();
-//    }
+    @AfterEach
+    void tearDown() {
+        productRepository.deleteAllInBatch();
+    }
 
 
     Product savedProduct;

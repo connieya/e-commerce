@@ -37,8 +37,8 @@ public class OrderAppenderTest {
         List<Product> products = List.of(product1, product2);
         productRepository.saveAll(products);
         userRepository.save(user);
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 2L);
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 1L);
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 2L,product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 1L,product2.getPrice());
 
 
         // when
