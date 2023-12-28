@@ -1,15 +1,13 @@
 package com.example.hanghaeplus.orm.repository;
 
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
+import com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse;
 import com.example.hanghaeplus.dto.orderproduct.OrderProductResponse;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.orm.entity.*;
 import com.example.hanghaeplus.service.order.OrderService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class OrderProductRepositoryTest {
 
     @Autowired
@@ -45,7 +44,7 @@ class OrderProductRepositoryTest {
     OrderPostRequest orderPostRequest3;
     OrderPostRequest orderPostRequest4;
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
         User user1 = User.create("건희", 100000000L);
         User savedUser1 = userRepository.save(user1);
@@ -100,10 +99,7 @@ class OrderProductRepositoryTest {
         orderService.createOrder(orderPostRequest4);
     }
 
-    @AfterEach
-    void tearDown() {
-        orderProductRepository.deleteAll();
-    }
+
 
     @DisplayName("주문 내역에 있는 모든 데이터를 가져온다.")
     @Test
@@ -157,6 +153,18 @@ class OrderProductRepositoryTest {
         assertThat(top3ProductIds.get(0)).isEqualTo(productCarrot.getId());
         assertThat(top3ProductIds.get(1)).isEqualTo(productOnion.getId());
         assertThat(top3ProductIds.get(2)).isEqualTo(productPotato.getId());
+
+    }
+
+    @DisplayName("최근에 가장 많이 주문한 인기 상품 3개를 조회한다.")
+    @Test
+    void findTop3RankProductsByCount() {
+        // given , when
+        // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
+        List<OrderProductRankResponse> top3RankProductsByCount = orderProductRepository.findTop3RankProductsByCount();
+
+        //then
+        assertThat(top3RankProductsByCount.get(0).getName()).isEqualTo("당근");
 
     }
 
