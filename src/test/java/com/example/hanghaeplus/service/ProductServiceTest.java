@@ -2,7 +2,9 @@ package com.example.hanghaeplus.service;
 
 import com.example.hanghaeplus.dto.product.ProductGetResponse;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.orm.entity.FakeProduct;
 import com.example.hanghaeplus.orm.entity.Product;
+import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
 import com.example.hanghaeplus.service.product.ProductService;
 import org.junit.jupiter.api.AfterEach;
@@ -77,15 +79,6 @@ class ProductServiceTest {
     }
 
 
-    @DisplayName("상위 상품 5개를 조회 합니다.")
-    @Test
-    void getPopularProduct(){
-        // given
 
-        // when
-
-
-        //then
-    }
 
 }

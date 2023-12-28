@@ -13,7 +13,6 @@ import static com.example.hanghaeplus.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
-@RequestMapping("/product")
 public class ProductService {
 
     private final ProductRepository productRepository;

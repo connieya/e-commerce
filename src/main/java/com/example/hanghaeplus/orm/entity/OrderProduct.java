@@ -1,10 +1,12 @@
 package com.example.hanghaeplus.orm.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class OrderProduct {
 
     @Id
