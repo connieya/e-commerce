@@ -23,7 +23,7 @@ public class Point extends BaseEntity {
     @Column(name = "point_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     private Long point;
