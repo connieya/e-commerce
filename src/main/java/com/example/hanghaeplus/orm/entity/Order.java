@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,18 @@ public class Order extends BaseEntity {
         this.user = user;
         this.product = getOrderProducts(products);
         this.totalPrice = calculateTotalPrice(products);
+    }
+
+    public Order(User user, List<ProductRequestForOrder> products, LocalDateTime dateTime) {
+        this.user = user;
+        this.product = getOrderProducts(products ,dateTime);
+        this.totalPrice = calculateTotalPrice(products);
+    }
+
+    private List<OrderProduct> getOrderProducts(List<ProductRequestForOrder> products, LocalDateTime dateTime) {
+        return products.stream()
+                .map(product -> new OrderProduct(this, product.getProductId(), product.getQuantity(), product.getPrice() ,dateTime,dateTime))
+                .collect(Collectors.toList());
     }
 
     private List<OrderProduct> getOrderProducts(List<ProductRequestForOrder> products) {

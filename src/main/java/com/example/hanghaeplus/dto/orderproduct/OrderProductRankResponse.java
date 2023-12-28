@@ -1,8 +1,9 @@
 package com.example.hanghaeplus.dto.orderproduct;
 
 import lombok.Getter;
+import lombok.ToString;
 
-@Getter
+@Getter @ToString
 public class OrderProductRankResponse {
 
     private Long productId;
