@@ -3,16 +3,16 @@ package com.example.hanghaeplus.orm.repository;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.dto.orderproduct.OrderProductResponse;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.Order;
-import com.example.hanghaeplus.orm.entity.OrderProduct;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
+import com.example.hanghaeplus.orm.entity.*;
 import com.example.hanghaeplus.service.order.OrderService;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,144 +33,130 @@ class OrderProductRepositoryTest {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private OrderRepository orderRepository;
 
-    @DisplayName("상품을 주문 하고 나면 주문 내역이 함께 저장된다")
-    @Test
-    void findById(){
-        // given
+    Product productOnion;
+    Product productPotato;
+    Product productCarrot;
+    Product productMushroom;
+    Product productSweetPotato;
+
+    OrderPostRequest orderPostRequest1;
+    OrderPostRequest orderPostRequest2;
+    OrderPostRequest orderPostRequest3;
+    OrderPostRequest orderPostRequest4;
+
+    @BeforeEach
+    void setUp() {
         User user1 = User.create("건희", 100000000L);
         User savedUser1 = userRepository.save(user1);
 
-        Product product1 = Product.create("양파", 1000L, 30L);
-        Product product2 = Product.create("감자", 2000L, 30L);
-        Product product3 = Product.create("당근", 3000L, 30L);
+        productOnion = Product.create("양파", 1000L, 300L);
+        productPotato = Product.create("감자", 2000L, 300L);
+        productCarrot = Product.create("당근", 3000L, 300L);
+        productMushroom = Product.create("버섯", 5000L, 300L);
+        productSweetPotato = Product.create("고구마", 2000L, 300L);
+
+        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
+
+        // 주문 1
+        ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
+        ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 10L, productPotato.getPrice());
+        ProductRequestForOrder request1_3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+
+        List<ProductRequestForOrder> requests1 = List.of(request1_1, request1_2, request1_3);
 
 
-        productRepository.saveAll(List.of(product1, product2, product3));
+        // 주문 2
+        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productPotato.getId(), 5L, productPotato.getPrice());
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 10L, product2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+        List<ProductRequestForOrder> requests2 = List.of(request2_1, request2_2);
+
+
+        // 주문 3
+        ProductRequestForOrder request3_1 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        ProductRequestForOrder request3_2 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
+
+        List<ProductRequestForOrder> requests3 = List.of(request3_1, request3_2);
+
+        // 주문 4
+        ProductRequestForOrder request4_1 = ProductRequestForOrder.of(productMushroom.getId(), 5L, productMushroom.getPrice());
+        ProductRequestForOrder request4_2 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
+        ProductRequestForOrder request4_3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+
+
+        List<ProductRequestForOrder> requests4 = List.of(request4_1, request4_2, request4_3);
 
 
         // when
-        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
-
-
-        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
-                .userId(savedUser1.getId())
-                .products(requests1)
-                .build();
+        orderPostRequest1 = OrderPostRequest.of(savedUser1.getId(), requests1);
+        orderPostRequest2 = OrderPostRequest.of(savedUser1.getId(), requests2);
+        orderPostRequest3 = OrderPostRequest.of(savedUser1.getId(), requests3);
+        orderPostRequest4 = OrderPostRequest.of(savedUser1.getId(), requests4);
 
         orderService.createOrder(orderPostRequest1);
+        orderService.createOrder(orderPostRequest2);
+        orderService.createOrder(orderPostRequest3);
+        orderService.createOrder(orderPostRequest4);
+    }
 
-        OrderProduct findProduct = orderProductRepository.findByProductId(product1.getId());
+    @AfterEach
+    void tearDown() {
+        orderProductRepository.deleteAll();
+    }
+
+    @DisplayName("주문 내역에 있는 모든 데이터를 가져온다.")
+    @Test
+    void findByAll() {
+        // given ,when
         List<OrderProduct> orderProducts = orderProductRepository.findAll();
-
         //then
-        assertThat(findProduct.getPrice()).isEqualTo(1000L);
-        assertThat(orderProducts).hasSize(3)
-                .extracting("productId","count","price")
+        // 주문 1 (상품 3개) , 주문 2 (상품 2개) , 주문 3 (상품 2개) , 주문 4 (상품 3개)
+        // 양파: 1000원 감자 2000원 당근 3000원 버섯 5000원 고구마 2000원
+        assertThat(orderProducts).hasSize(10)
+                .extracting("productId", "count", "price")
                 .containsExactlyInAnyOrder(
-                        tuple(1L,5L,1000L),
-                        tuple(2L,10L,2000L),
-                        tuple(3L,5L,3000L)
+                        tuple(1L, 5L, 1000L), // 양파
+                        tuple(2L, 10L, 2000L), //감자
+                        tuple(3L, 5L, 3000L),//  당근   주문 1 (양파 ,감자 ,당근)
+                        tuple(3L, 5L, 3000L), // 당근
+                        tuple(2L, 5L, 2000L), // 감자  주문 2 (당근 ,감자)
+                        tuple(3L, 5L, 3000L), // 당근
+                        tuple(1L, 5L, 1000L), // 양파  주문 3 (당근 ,양파)
+                        tuple(4L, 5L, 5000L), // 버섯
+                        tuple(1L, 5L, 1000L), // 양파
+                        tuple(3L, 5L, 3000L) //  당근 주문 4 (버섯 ,양파 ,당근)
                 );
 
     }
 
 
-    @DisplayName("상품을 주문 하고 나면 주문 내역이 함께 저장 된다")
+    @DisplayName("주문 번호를 이용하여 주문 내역에서 해당 데이터를 조회한다.")
     @Test
-    void findByOrderId(){
-        // given
-        User user1 = User.create("건희", 100000000L);
-        User savedUser1 = userRepository.save(user1);
-
-        Product product1 = Product.create("양파", 1000L, 30L);
-        Product product2 = Product.create("감자", 2000L, 30L);
-        Product product3 = Product.create("당근", 3000L, 30L);
-
-
-        productRepository.saveAll(List.of(product1, product2, product3));
-
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 10L, product2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
-
-        ProductRequestForOrder request4 = ProductRequestForOrder.of(product1.getId(), 2L, product1.getPrice());
-
-
-        // when
-        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
-        List<ProductRequestForOrder> requests2 = List.of(request4);
-
-
-        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
-                .userId(savedUser1.getId())
-                .products(requests1)
-                .build();
-
-        OrderPostRequest orderPostRequest2 = OrderPostRequest.builder()
-                .userId(savedUser1.getId())
-                .products(requests2)
-                .build();
-
-        orderService.createOrder(orderPostRequest1);
-        orderService.createOrder(orderPostRequest2);
-
+    void findByOrderId() {
+        // given when
         List<OrderProductResponse> orderProductResponses1 = orderProductRepository.findByOrderId(1L);
         List<OrderProductResponse> orderProductResponses2 = orderProductRepository.findByOrderId(2L);
 
         //then
+        assertThat(orderProductResponses1).hasSize(3);
+        assertThat(orderProductResponses2).hasSize(2);
 
 
     }
 
 
-    @DisplayName("상품을 주문 하고 나면 주문 내역이 함께 저장된다")
+    @DisplayName("최근에 가장 많이 주문한 인기 상품 id 3개를 조회한다.")
     @Test
-    void findTop3ProductsByCount(){
-        // given
-        User user1 = User.create("건희", 100000000L);
-        User savedUser1 = userRepository.save(user1);
-
-        Product product1 = Product.create("양파", 1000L, 300L);
-        Product product2 = Product.create("감자", 2000L, 300L);
-        Product product3 = Product.create("당근", 3000L, 300L);
-        Product product4 = Product.create("버섯", 5000L, 300L);
-        Product product5 = Product.create("고구마", 2000L, 300L);
-
-
-        productRepository.saveAll(List.of(product1, product2, product3,product4,product5));
-
-        // 주문 1
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 10L, product2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
-
-        // 주문 2
-        ProductRequestForOrder request4 = ProductRequestForOrder.of(product3.getId(), 5L, product1.getPrice());
-
-
-
-        // when
-        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
-
-
-        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
-                .userId(savedUser1.getId())
-                .products(requests1)
-                .build();
-
-        orderService.createOrder(orderPostRequest1);
-
-        OrderProduct findProduct = orderProductRepository.findByProductId(product1.getId());
+    void findTop3ProductsByCount() {
+        // given , when
+        // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
+        List<Long> top3ProductIds = orderProductRepository.findTop3ProductIdsByCount();
 
         //then
-        assertThat(findProduct.getPrice()).isEqualTo(1000L);
+        assertThat(top3ProductIds.get(0)).isEqualTo(productCarrot.getId());
+        assertThat(top3ProductIds.get(1)).isEqualTo(productOnion.getId());
+        assertThat(top3ProductIds.get(2)).isEqualTo(productPotato.getId());
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.orm.entity;
 
+import com.example.hanghaeplus.orm.entity.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Getter
-public class OrderProduct {
+public class OrderProduct extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

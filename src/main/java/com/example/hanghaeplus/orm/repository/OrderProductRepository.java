@@ -19,5 +19,5 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct,Long>
     @Query("select o.productId from OrderProduct o " +
             "group by o.productId " +
             "order by count(o.productId) desc limit 3")
-    List<Long> findTop3ProductsByCount();
+    List<Long> findTop3ProductIdsByCount();
 }
