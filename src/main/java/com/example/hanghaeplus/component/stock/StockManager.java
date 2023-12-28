@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.component.stock;
 
+import com.example.hanghaeplus.component.product.ProductReader;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
@@ -18,6 +19,7 @@ import static com.example.hanghaeplus.error.ErrorCode.INSUFFICIENT_STOCK;
 @RequiredArgsConstructor
 public class StockManager {
     private final ProductRepository productRepository;
+    private final ProductReader productReader;
 
     public void deduct(List<Product> products ,  Map<Long, Long> stockMap) {
         for (Product product : products) {
@@ -33,7 +35,7 @@ public class StockManager {
     public void deduct(OrderPostRequest request) {
         List<ProductRequestForOrder> requestForOrders = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);
-        List<Product> products = productRepository.findAllById(requestForOrders.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
+        List<Product> products =   productReader.read(request.getProducts());
         for (Product product : products) {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             if (product.isLessThanQuantity(quantity)){

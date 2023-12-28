@@ -17,12 +17,9 @@ import static com.example.hanghaeplus.error.ErrorCode.*;
 public class PointManager {
 
     private final PointRepository pointRepository;
-    private final UserManager userManager;
 
-
-    public void process(User user, Order order) {
+    public Point process(User user, Order order) {
         Point point = Point.create(user, order.getTotalPrice());
-        pointRepository.save(point);
-
+        return pointRepository.save(point);
     }
 }
