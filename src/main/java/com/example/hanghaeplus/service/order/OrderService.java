@@ -38,10 +38,8 @@ public class OrderService {
         stockManager.deduct(request);
         // 주문
         Order savedOrder = orderAppender.append(user, request.getProducts());
-
         // 잔액 차감
         userManager.deductPoint(user,savedOrder);
-
         // 결제
         pointManager.process(user,savedOrder);
 

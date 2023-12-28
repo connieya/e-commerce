@@ -152,12 +152,14 @@ public class OrderServiceTest {
     @Test
     void deductQuantityWithConcurrency() {
         // given
-        User user = User.create("건희", 100000000L);
-        User savedUser = userRepository.save(user);
+        User user1 = User.create("건희", 100000000L);
+        User user2 = User.create("거니", 100000000L);
+        User savedUser1 = userRepository.save(user1);
+        User savedUser2 = userRepository.save(user2);
 
         Product product1 = Product.create("양파", 1000L, 30L);
         Product product2 = Product.create("감자", 2000L, 30L);
-        Product product3 = Product.create("당금", 3000L, 30L);
+        Product product3 = Product.create("당근", 3000L, 30L);
 
 
         productRepository.saveAll(List.of(product1, product2, product3));
@@ -178,12 +180,12 @@ public class OrderServiceTest {
 
 
         OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
-                .userId(savedUser.getId())
+                .userId(savedUser1.getId())
                 .products(requests1)
                 .build();
 
         OrderPostRequest orderPostRequest2 = OrderPostRequest.builder()
-                .userId(savedUser.getId())
+                .userId(savedUser2.getId())
                 .products(requests2)
                 .build();
 
@@ -203,5 +205,4 @@ public class OrderServiceTest {
         assertThat(findProduct2.getQuantity()).isEqualTo(30L-10L-5L);
         assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
     }
-
 }

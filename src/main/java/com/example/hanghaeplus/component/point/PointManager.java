@@ -9,6 +9,8 @@ import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.hanghaeplus.error.ErrorCode.*;
 
