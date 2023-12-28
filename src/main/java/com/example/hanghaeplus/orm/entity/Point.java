@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 import static com.example.hanghaeplus.orm.vo.PointTransactionStatus.*;
 
 @Entity
@@ -40,15 +42,23 @@ public class Point extends BaseEntity {
         return new Point(user,point, RECHARGE);
     }
 
-    public Point(Long point) {
-        this.point = point;
-    }
-
-    public void recharge(Long point){
-        this.point += point;
-    }
-
     public void setUser(User user) {
+
         this.user = user;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point1 = (Point) o;
+        return Objects.equals(id, point1.id) && Objects.equals(user, point1.user) && Objects.equals(point, point1.point) && status == point1.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, point, status);
+    }
 }
+

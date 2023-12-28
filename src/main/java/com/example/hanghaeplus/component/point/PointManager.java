@@ -20,8 +20,8 @@ public class PointManager {
 
     private final PointRepository pointRepository;
 
-    public Point process(User user, Order order) {
+    public void process(User user, Order order) {
         Point point = Point.create(user, order.getTotalPrice());
-        return pointRepository.save(point);
+        pointRepository.save(point);
     }
 }
