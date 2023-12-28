@@ -156,7 +156,7 @@ class OrderProductRepositoryTest {
 
     }
 
-    @DisplayName("최근에 가장 많이 주문한 인기 상품 3개를 조회한다.")
+    @DisplayName("최근에 가장 많이 주문한 상위 상품 3개를 조회 한다.")
     @Test
     void findTop3RankProductsByCount() {
         // given , when
@@ -165,6 +165,9 @@ class OrderProductRepositoryTest {
 
         //then
         assertThat(top3RankProductsByCount.get(0).getName()).isEqualTo("당근");
+        assertThat(top3RankProductsByCount.get(0).getOrderCount()).isEqualTo(4);
+        assertThat(top3RankProductsByCount.get(1).getName()).isEqualTo("양파");
+        assertThat(top3RankProductsByCount.get(1).getOrderCount()).isEqualTo(3);
 
     }
 

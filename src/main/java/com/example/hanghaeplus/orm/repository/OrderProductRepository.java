@@ -22,11 +22,11 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct,Long>
             "order by count(o.productId) desc limit 3")
     List<Long> findTop3ProductIdsByCount();
 
-    @Query("select new com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse(o.productId,p.name,count(o.productId),o.count,o.price) " +
+    @Query("select new com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse(o.productId,p.name,count(o.productId)) " +
             "from OrderProduct o inner join Product p " +
             "on o.productId = p.id " +
-            "group by o.productId " +
-            "order by count(o.productId) desc  limit 3"
+            "group by o.productId  " +
+            "order by count(o.productId) desc limit 3"
     )
     List<OrderProductRankResponse> findTop3RankProductsByCount();
 }
