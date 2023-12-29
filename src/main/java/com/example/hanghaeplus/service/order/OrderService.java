@@ -9,11 +9,15 @@ import com.example.hanghaeplus.component.user.UserReader;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.dto.order.OrderPostResponse;
 import com.example.hanghaeplus.orm.entity.Order;
+import com.example.hanghaeplus.orm.entity.Payment;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
+import com.example.hanghaeplus.orm.repository.PaymentRepository;
+import com.example.hanghaeplus.service.payment.PaymentEvent;
 import com.example.hanghaeplus.service.payment.PaymentService;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +34,8 @@ public class OrderService {
     private final PointManager pointManager;
     private final StockManager stockManager;
     private final UserManager userManager;
-    private final PaymentService paymentService;
+    private final PaymentRepository paymentRepository;
+    private final ApplicationEventPublisher publisher;
 
 
     @Transactional
@@ -45,8 +50,11 @@ public class OrderService {
         userManager.deductPoint(user, savedOrder);
         // 포인트 내역 저장
         pointManager.process(user, savedOrder);
+
         // 결제
-        paymentService.executePayment();
+        Payment payment = new Payment(savedOrder, user);
+        Payment savedPayment = paymentRepository.save(payment);
+        publisher.publishEvent(new PaymentEvent(this,savedPayment));
 
 
         return OrderPostResponse.of(savedOrder);
