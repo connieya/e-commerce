@@ -36,7 +36,6 @@ public class StockManager {
     }
 
     @Transactional
-    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
     public void deduct(OrderPostRequest request) {
         List<ProductRequestForOrder> requestForOrders = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);

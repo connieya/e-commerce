@@ -39,7 +39,7 @@ public class Point extends BaseEntity {
     }
 
     public static Point create(User user, Long point){
-        return new Point(user,point, RECHARGE);
+        return new Point(user,point, DEDUCT);
     }
 
     public void setUser(User user) {

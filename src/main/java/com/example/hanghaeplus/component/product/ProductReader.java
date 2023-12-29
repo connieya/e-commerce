@@ -21,9 +21,9 @@ public class ProductReader {
     private final ProductRepository productRepository;
 
     @Transactional
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public List<Product> read(List<ProductRequestForOrder> productRequest) {
-        return productRepository.findAllById(productRequest.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
+//        return productRepository.findAllById(productRequest.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
+        return productRepository.findAllByPessimisticLock(productRequest.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
     }
 
 

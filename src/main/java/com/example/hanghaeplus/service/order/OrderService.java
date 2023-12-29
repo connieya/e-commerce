@@ -39,7 +39,6 @@ public class OrderService {
 
 
     @Transactional
-    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
     public OrderPostResponse createOrder(OrderPostRequest request) {
         User user = userReader.read(request.getUserId());
         // 재고 차감
