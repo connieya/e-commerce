@@ -6,8 +6,11 @@ import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +35,8 @@ public class StockManager {
         productRepository.saveAll(products);
     }
 
+    @Transactional
+    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
     public void deduct(OrderPostRequest request) {
         List<ProductRequestForOrder> requestForOrders = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);

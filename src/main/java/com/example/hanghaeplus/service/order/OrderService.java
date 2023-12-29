@@ -11,7 +11,10 @@ import com.example.hanghaeplus.dto.order.OrderPostResponse;
 import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
+import com.example.hanghaeplus.service.payment.PaymentService;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +26,15 @@ import java.util.Map;
 public class OrderService {
 
     private final UserReader userReader;
-    private final ProductReader productReader;
     private final OrderAppender orderAppender;
     private final PointManager pointManager;
     private final StockManager stockManager;
     private final UserManager userManager;
-
+    private final PaymentService paymentService;
 
 
     @Transactional
+    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
     public OrderPostResponse createOrder(OrderPostRequest request) {
         User user = userReader.read(request.getUserId());
         // 재고 차감
@@ -39,9 +42,12 @@ public class OrderService {
         // 주문
         Order savedOrder = orderAppender.append(user, request.getProducts());
         // 잔액 차감
-        userManager.deductPoint(user,savedOrder);
+        userManager.deductPoint(user, savedOrder);
+        // 포인트 내역 저장
+        pointManager.process(user, savedOrder);
         // 결제
-        pointManager.process(user,savedOrder);
+        paymentService.executePayment();
+
 
         return OrderPostResponse.of(savedOrder);
     }

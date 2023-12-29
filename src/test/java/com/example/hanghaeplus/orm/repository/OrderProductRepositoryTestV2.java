@@ -4,11 +4,9 @@ import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.orm.entity.*;
+import com.example.hanghaeplus.orm.entity.Order;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,7 +18,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class OrderProductRepositoryTestV2 {
 
 
@@ -42,7 +39,7 @@ class OrderProductRepositoryTestV2 {
     Product productSweetPotato;
 
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
         User user = User.create("건희", 10000000L);
 
