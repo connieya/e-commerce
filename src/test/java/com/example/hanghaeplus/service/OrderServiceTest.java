@@ -208,4 +208,55 @@ public class OrderServiceTest {
 
     // 한 사용자가 다른 상품들을 주문 했을 때 테스트
     // 전체 분산 락 or 잔액 차감
+    @DisplayName("동시에 상품을 주문 하여도 주문한 상품 횟수 만큼 잔액을 차감한다.")
+    @Test
+    void deductPointWithConcurrency() {
+        // given
+        User user = User.create("건희", 50000L);
+        User savedUser = userRepository.save(user);
+
+        Product productOnion = Product.create("양파", 1000L, 30L);
+        Product productPotato = Product.create("감자", 2000L, 30L);
+        Product productCarrot = Product.create("당근", 3000L, 30L);
+        Product productMushroom = Product.create("버섯", 5000L, 30L);
+
+
+        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot ,productMushroom));
+
+
+        ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 2L, productOnion.getPrice());
+        ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 2L, productPotato.getPrice());
+
+
+        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
+        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productMushroom.getId(), 2L, productMushroom.getPrice());
+
+
+        List<ProductRequestForOrder> requests1 = List.of(request1_1, request1_2);
+        List<ProductRequestForOrder> requests2 = List.of(request2_1, request2_2);
+
+
+        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests1)
+                .build();
+
+        OrderPostRequest orderPostRequest2 = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests2)
+                .build();
+
+        // when
+        CompletableFuture.allOf(
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+        ).join();
+
+        User findUser = userRepository.findById(savedUser.getId()).get();
+
+
+        //then                현재 잔액 5000L  - (양파 2개 , 감자 2개)  / ( 당근 2개 , 버섯 2개)
+        assertThat(findUser.getCurrentPoint()).isEqualTo(50000L-6000L-16000L);
+
+    }
 }
