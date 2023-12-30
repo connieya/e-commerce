@@ -19,7 +19,6 @@ public class UserReader {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
     public User read(Long userid) {
         return userRepository.findById(userid).orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
     }

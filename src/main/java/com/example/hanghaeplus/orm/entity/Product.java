@@ -64,9 +64,8 @@ public class Product extends BaseEntity {
     }
 
     public void deductQuantity(Long quantity) {
-        if (this.quantity < quantity){
-            throw new InsufficientStockException(DEDUCT_FAIL);
-
+        if (isLessThanQuantity(quantity)){
+            throw new InsufficientStockException(INSUFFICIENT_STOCK);
         }
         this.quantity -= quantity;
     }

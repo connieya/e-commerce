@@ -24,6 +24,18 @@ public class StockManager {
     private final ProductRepository productRepository;
     private final ProductReader productReader;
 
+    @Transactional
+    public void deduct(OrderPostRequest request) {
+        List<ProductRequestForOrder> requestForOrders = request.getProducts();
+        Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);
+        List<Product> products =   productReader.read(request.getProducts());
+        for (Product product : products) {
+            Long quantity = productIdQuntitiyMap.get(product.getId());
+            product.deductQuantity(quantity);
+        }
+        productRepository.saveAll(products);
+    }
+
     public void deduct(List<Product> products ,  Map<Long, Long> stockMap) {
         for (Product product : products) {
             Long quantity = stockMap.get(product.getId());
@@ -35,20 +47,7 @@ public class StockManager {
         productRepository.saveAll(products);
     }
 
-    @Transactional
-    public void deduct(OrderPostRequest request) {
-        List<ProductRequestForOrder> requestForOrders = request.getProducts();
-        Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);
-        List<Product> products =   productReader.read(request.getProducts());
-        for (Product product : products) {
-            Long quantity = productIdQuntitiyMap.get(product.getId());
-            if (product.isLessThanQuantity(quantity)){
-                throw new InsufficientStockException(INSUFFICIENT_STOCK);
-            }
-            product.deductQuantity(quantity);
-        }
-        productRepository.saveAll(products);
-    }
+
 
     private Map<Long, Long> convertToProductIdQuantityMap(List<ProductRequestForOrder> products) {
         return products.stream()

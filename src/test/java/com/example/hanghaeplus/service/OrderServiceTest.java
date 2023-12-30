@@ -205,4 +205,7 @@ public class OrderServiceTest {
         assertThat(findProduct2.getQuantity()).isEqualTo(30L-10L-5L);
         assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
     }
+
+    // 한 사용자가 다른 상품들을 주문 했을 때 테스트
+    // 전체 분산 락 or 잔액 차감
 }
