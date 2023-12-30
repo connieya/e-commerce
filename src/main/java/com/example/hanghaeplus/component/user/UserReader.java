@@ -20,6 +20,7 @@ public class UserReader {
 
     @Transactional(readOnly = true)
     public User read(Long userid) {
-        return userRepository.findById(userid).orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
+//        return userRepository.findById(userid).orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
+        return userRepository.findByIdPessimisticLock(userid).orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
     }
 }
