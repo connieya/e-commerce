@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByName(String  name);
 
-    @Lock(value = LockModeType.PESSIMISTIC_READ)
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     @Query("select u from User u where u.id = :userId")
     Optional<User> findByIdPessimisticLock(@Param("userId") Long userId);
 }

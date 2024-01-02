@@ -9,12 +9,19 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT p FROM Product p WHERE p.id IN :productIds")
+    @Query("SELECT p FROM Product p WHERE p.id IN :productIds ")
     List<Product> findAllByPessimisticLock(@Param("productIds") List<Long> productIds);
 
+    @Query(value = "SELECT p FROM Product p WHERE p.id IN :productIds FOR UPDATE ", nativeQuery = true)
+    List<Product> findAllByPessimisticLock2(@Param("productIds") List<Long> productIds);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT p FROM Product p WHERE p.id = :productId ")
+    Optional<Product> findByIdPessimisticLock(@Param("productId") Long productId);
 }

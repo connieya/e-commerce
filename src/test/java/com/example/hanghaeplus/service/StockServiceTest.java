@@ -36,10 +36,10 @@ public class StockServiceTest {
 
     @BeforeEach
     void setUp(){
-        Product product1 = Product.create("감자", 1000L, 10L);
-        Product product2 = Product.create( "당근", 2000L, 20L);
+        Product productPotato = Product.create("감자", 1000L, 10L);
+        Product productCarrot = Product.create( "당근", 2000L, 20L);
 
-        List<Product> products = List.of(product1, product2);
+        List<Product> products = List.of(productPotato, productCarrot);
         List<Product> products1 = productRepository.saveAll(products);
         requestProduct1=  products1.get(0);
         requestProduct2 = products1.get(1);
@@ -69,4 +69,6 @@ public class StockServiceTest {
         assertEquals(findProduct1.getQuantity(), 5L);
         assertEquals(findProduct2.getQuantity(), 15L);
     }
+
+
 }

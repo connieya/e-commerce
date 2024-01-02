@@ -206,6 +206,69 @@ public class OrderServiceTest {
         assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
     }
 
+
+    @DisplayName("동시에 상품을 주문 하여도 주문한 수량 만큼 재고를 차감한다.")
+    @Test
+    void deductQuantityWithConcurrency2() {
+        // given
+        User user1 = User.create("건희", 100000000L);
+        User user2 = User.create("거니", 100000000L);
+        User savedUser1 = userRepository.save(user1);
+        User savedUser2 = userRepository.save(user2);
+
+        Product product1 = Product.create("양파", 1000L, 30L);
+        Product product2 = Product.create("감자", 2000L, 30L);
+        Product product3 = Product.create("당근", 3000L, 30L);
+
+
+
+
+
+        productRepository.saveAll(List.of(product1, product2, product3));
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 10L, product2.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+
+
+        ProductRequestForOrder request4 = ProductRequestForOrder.of(product1.getId(), 3L, product3.getPrice());
+        ProductRequestForOrder request5 = ProductRequestForOrder.of(product2.getId(), 5L, product3.getPrice());
+        ProductRequestForOrder request6 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+
+
+        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
+        List<ProductRequestForOrder> requests2 = List.of(request4, request5, request6);
+
+
+        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
+                .userId(savedUser1.getId())
+                .products(requests1)
+                .build();
+
+        OrderPostRequest orderPostRequest2 = OrderPostRequest.builder()
+                .userId(savedUser2.getId())
+                .products(requests2)
+                .build();
+
+
+        // when
+        CompletableFuture.allOf(
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+        ).join();
+
+        List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
+        Product findProduct1 = products.get(0);
+        Product findProduct2 = products.get(1);
+        Product findProduct3 = products.get(2);
+        //then
+        assertThat(findProduct1.getQuantity()).isEqualTo(30L-5L-3L);
+        assertThat(findProduct2.getQuantity()).isEqualTo(30L-10L-5L);
+        assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
+    }
+
+
     // 한 사용자가 다른 상품들을 주문 했을 때 테스트
     // 전체 분산 락 or 잔액 차감
     @DisplayName("동시에 상품을 주문 하여도 주문한 상품 횟수 만큼 잔액을 차감한다.")

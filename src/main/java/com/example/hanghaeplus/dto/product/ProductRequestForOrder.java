@@ -2,8 +2,9 @@ package com.example.hanghaeplus.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class ProductRequestForOrder {
 
     private Long productId;
