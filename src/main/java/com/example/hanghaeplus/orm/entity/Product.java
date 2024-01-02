@@ -28,8 +28,6 @@ public class Product extends BaseEntity {
     //  간단하게 구현 하자 => 지금은 TDD 가 중점  , 코드의 심플함
     private Long quantity;
 
-    @OneToMany(mappedBy = "product")
-    private List<OrderProduct> product;
 
     public Product(String name, Long price) {
         this.name = name;
@@ -66,10 +64,8 @@ public class Product extends BaseEntity {
     }
 
     public void deductQuantity(Long quantity) {
-        System.out.println("deduct quantity = " + quantity);
-        if (this.quantity < quantity){
-            throw new InsufficientStockException(DEDUCT_FAIL);
-
+        if (isLessThanQuantity(quantity)){
+            throw new InsufficientStockException(INSUFFICIENT_STOCK);
         }
         this.quantity -= quantity;
     }

@@ -9,6 +9,8 @@ import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.hanghaeplus.error.ErrorCode.*;
 
@@ -17,13 +19,9 @@ import static com.example.hanghaeplus.error.ErrorCode.*;
 public class PointManager {
 
     private final PointRepository pointRepository;
-    private final UserManager userManager;
-
 
     public void process(User user, Order order) {
-        userManager.deductPoint(user,order);
         Point point = Point.create(user, order.getTotalPrice());
         pointRepository.save(point);
-
     }
 }

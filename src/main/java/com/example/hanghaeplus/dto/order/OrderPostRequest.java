@@ -14,5 +14,17 @@ public class OrderPostRequest {
     List<ProductRequestForOrder> products;
     private Long userId;
 
+    @Builder
+    private OrderPostRequest(List<ProductRequestForOrder> products, Long userId) {
+        this.products = products;
+        this.userId = userId;
+    }
 
+    public static OrderPostRequest of(Long userId , List<ProductRequestForOrder> requests){
+        return OrderPostRequest
+                .builder()
+                .userId(userId)
+                .products(requests)
+                .build();
+    }
 }

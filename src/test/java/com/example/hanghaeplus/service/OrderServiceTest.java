@@ -2,79 +2,324 @@ package com.example.hanghaeplus.service;
 
 import com.example.hanghaeplus.component.order.OrderAppender;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
-import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
-import com.example.hanghaeplus.orm.entity.Order;
+import com.example.hanghaeplus.dto.order.OrderPostResponse;
+import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.orm.entity.Product;
 import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.OrderRepository;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.hanghaeplus.orm.repository.UserRepository;
+import com.example.hanghaeplus.service.order.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-class OrderServiceTest {
+@SpringBootTest
+public class OrderServiceTest {
 
-
-
-
-    @Mock
-    private OrderRepository orderRepository;
-
-    private AutoCloseable autoCloseable;
-
+    @Autowired
     private OrderService orderService;
 
 
-    @BeforeEach
-    void setUp() {
-        autoCloseable =  MockitoAnnotations.openMocks(this);
-    }
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
 
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
-    }
-
-
-
-
-    @DisplayName("사용자 식별자와 상품 ID, 수량 목록을 받아 주문을 수행한다.")
+    @DisplayName("주문 한 상품 수량 만큼 재고를 차감한다.")
     @Test
-    void createOrder(){
+    void deductQuantity() {
         // given
+        User user = User.create("건희", 1000000L);
+        User savedUser = userRepository.save(user);
+
+        Product product1 = Product.create("양파", 1000L, 5L);
+        Product product2 = Product.create("감자", 2000L, 15L);
+        Product product3 = Product.create("당금", 3000L, 20L);
+
+
+        productRepository.saveAll(List.of(product1, product2, product3));
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 8L, product2.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 15L, product3.getPrice());
+
+
+        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+
+
+        OrderPostRequest orderPostRequest = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests)
+                .build();
 
         // when
+        orderService.createOrder(orderPostRequest);
+
+        List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
+        Product findProduct1 = products.get(0);
+        Product findProduct2 = products.get(1);
+        Product findProduct3 = products.get(2);
+        //then
+        assertThat(findProduct1.getQuantity()).isZero();
+        assertThat(findProduct2.getQuantity()).isEqualTo(7L);
+        assertThat(findProduct3.getQuantity()).isEqualTo(5L);
+    }
+
+    @DisplayName("주문 한 상품의 총 가격을 구한다.")
+    @Test
+    void createOrder() {
+        User user = User.create("건희", 50000L);
+        User savedUser = userRepository.save(user);
+
+        Product product1 = Product.create("양파", 1000L, 5L);
+        Product product2 = Product.create("감자", 2000L, 1L);
+        Product product3 = Product.create("당금", 3000L, 5L);
+
+        List<Product> products = List.of(product1, product2, product3);
+
+        productRepository.saveAll(products);
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L, product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 1L, product2.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 2L, product3.getPrice());
+
+        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+
+        // given
+        OrderPostRequest orderPostRequest = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests)
+                .build();
+
+        // when
+        OrderPostResponse order = orderService.createOrder(orderPostRequest);
 
 
         //then
+        assertThat(order.getTotalPrice()).isEqualTo(9000L);
     }
 
-    @DisplayName("동시에 두 건의 주문이 이루어져도 정상적으로 잔액 차감이 이뤄져야 한다.")
+
+    @DisplayName("주문 한 상품 가격 만큼 잔액을 차감 한다.")
     @Test
-    void concurrency_2orders(){
-        // OrderRequestDto request = new OrderRequest();
+    void deductPoint() {
+        User user = User.create("건희", 50000L);
+        User savedUser = userRepository.save(user);
 
-        // CompletableFuture.allOf(
-        //  CompletableFuture.runAsync(() -> orderService.placeOrder(request)),
-        //  CompletableFuture.runAsync(() -> orderService.placeOrder(request)),
-        //).join()
-}
+        Product product1 = Product.create("양파", 1000L, 5L);
+        Product product2 = Product.create("감자", 2000L, 1L);
+        Product product3 = Product.create("당금", 3000L, 5L);
+
+        List<Product> products = List.of(product1, product2, product3);
+
+        productRepository.saveAll(products);
 
 
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L, product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 1L, product2.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 2L, product3.getPrice());
+
+        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+
+        // given
+        OrderPostRequest orderPostRequest = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests)
+                .build();
+
+        // when
+        orderService.createOrder(orderPostRequest);
+
+        User findUser = userRepository.findById(savedUser.getId()).get();
+        Long totalPrice = product1.getPrice() * request1.getQuantity() + product2.getPrice() * request2.getQuantity() + product3.getPrice() * request3.getQuantity();
+
+        //then
+        assertThat(findUser.getCurrentPoint()).isEqualTo(50000L - totalPrice);
+    }
+
+    @DisplayName("동시에 상품을 주문 하여도 주문한 수량 만큼 재고를 차감한다.")
+    @Test
+    void deductQuantityWithConcurrency() {
+        // given
+        User user1 = User.create("건희", 100000000L);
+        User user2 = User.create("거니", 100000000L);
+        User savedUser1 = userRepository.save(user1);
+        User savedUser2 = userRepository.save(user2);
+
+        Product product1 = Product.create("양파", 1000L, 30L);
+        Product product2 = Product.create("감자", 2000L, 30L);
+        Product product3 = Product.create("당근", 3000L, 30L);
+
+
+        productRepository.saveAll(List.of(product1, product2, product3));
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 10L, product2.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+
+
+        ProductRequestForOrder request4 = ProductRequestForOrder.of(product1.getId(), 3L, product3.getPrice());
+        ProductRequestForOrder request5 = ProductRequestForOrder.of(product2.getId(), 5L, product3.getPrice());
+        ProductRequestForOrder request6 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+
+
+        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
+        List<ProductRequestForOrder> requests2 = List.of(request4, request5, request6);
+
+
+        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
+                .userId(savedUser1.getId())
+                .products(requests1)
+                .build();
+
+        OrderPostRequest orderPostRequest2 = OrderPostRequest.builder()
+                .userId(savedUser2.getId())
+                .products(requests2)
+                .build();
+
+
+        // when
+        CompletableFuture.allOf(
+             CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
+             CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+        ).join();
+
+        List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
+        Product findProduct1 = products.get(0);
+        Product findProduct2 = products.get(1);
+        Product findProduct3 = products.get(2);
+        //then
+        assertThat(findProduct1.getQuantity()).isEqualTo(30L-5L-3L);
+        assertThat(findProduct2.getQuantity()).isEqualTo(30L-10L-5L);
+        assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
+    }
+
+
+    @DisplayName("동시에 상품을 주문 하여도 주문한 수량 만큼 재고를 차감한다.")
+    @Test
+    void deductQuantityWithConcurrency2() {
+        // given
+        User user1 = User.create("건희", 100000000L);
+        User user2 = User.create("거니", 100000000L);
+        User savedUser1 = userRepository.save(user1);
+        User savedUser2 = userRepository.save(user2);
+
+        Product product1 = Product.create("양파", 1000L, 30L);
+        Product product2 = Product.create("감자", 2000L, 30L);
+        Product product3 = Product.create("당근", 3000L, 30L);
+
+
+
+
+
+        productRepository.saveAll(List.of(product1, product2, product3));
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 10L, product2.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+
+
+        ProductRequestForOrder request4 = ProductRequestForOrder.of(product1.getId(), 3L, product3.getPrice());
+        ProductRequestForOrder request5 = ProductRequestForOrder.of(product2.getId(), 5L, product3.getPrice());
+        ProductRequestForOrder request6 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+
+
+        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
+        List<ProductRequestForOrder> requests2 = List.of(request4, request5, request6);
+
+
+        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
+                .userId(savedUser1.getId())
+                .products(requests1)
+                .build();
+
+        OrderPostRequest orderPostRequest2 = OrderPostRequest.builder()
+                .userId(savedUser2.getId())
+                .products(requests2)
+                .build();
+
+
+        // when
+        CompletableFuture.allOf(
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+        ).join();
+
+        List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
+        Product findProduct1 = products.get(0);
+        Product findProduct2 = products.get(1);
+        Product findProduct3 = products.get(2);
+        //then
+        assertThat(findProduct1.getQuantity()).isEqualTo(30L-5L-3L);
+        assertThat(findProduct2.getQuantity()).isEqualTo(30L-10L-5L);
+        assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
+    }
+
+
+    // 한 사용자가 다른 상품들을 주문 했을 때 테스트
+    // 전체 분산 락 or 잔액 차감
+    @DisplayName("동시에 상품을 주문 하여도 주문한 상품 횟수 만큼 잔액을 차감한다.")
+    @Test
+    void deductPointWithConcurrency() {
+        // given
+        User user = User.create("건희", 50000L);
+        User savedUser = userRepository.save(user);
+
+        Product productOnion = Product.create("양파", 1000L, 30L);
+        Product productPotato = Product.create("감자", 2000L, 30L);
+        Product productCarrot = Product.create("당근", 3000L, 30L);
+        Product productMushroom = Product.create("버섯", 5000L, 30L);
+
+
+        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot ,productMushroom));
+
+
+        ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 2L, productOnion.getPrice());
+        ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 2L, productPotato.getPrice());
+
+
+        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
+        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productMushroom.getId(), 2L, productMushroom.getPrice());
+
+
+        List<ProductRequestForOrder> requests1 = List.of(request1_1, request1_2);
+        List<ProductRequestForOrder> requests2 = List.of(request2_1, request2_2);
+
+
+        OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests1)
+                .build();
+
+        OrderPostRequest orderPostRequest2 = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests2)
+                .build();
+
+        // when
+        CompletableFuture.allOf(
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
+                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+        ).join();
+
+        User findUser = userRepository.findById(savedUser.getId()).get();
+
+
+        //then                현재 잔액 5000L  - (양파 2개 , 감자 2개)  / ( 당근 2개 , 버섯 2개)
+        assertThat(findUser.getCurrentPoint()).isEqualTo(50000L-6000L-16000L);
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.service.point;
 
 import com.example.hanghaeplus.dto.point.PointGetResponse;
 import com.example.hanghaeplus.dto.point.PointPostRequest;

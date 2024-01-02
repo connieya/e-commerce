@@ -22,11 +22,10 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-//    @AfterEach
-//    void tearDown() {
-//        pointRepository.deleteAll();
-//        userRepository.deleteAll();
-//    }
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAll();
+    }
 
 
     @DisplayName("잔액 조회")

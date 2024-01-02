@@ -23,4 +23,18 @@ class ProductTest {
         assertThat(result).isTrue();
     }
 
+    @DisplayName("상품 재고의 수량을 차감한다.")
+    @Test
+    void deductQuantity(){
+        // given
+        Product product = FakeProduct.create(1L,"아메리카노", 2000L, 10L);
+        Long orderQuantity = 5L;
+
+        // when
+        product.deductQuantity(orderQuantity);
+
+        //then
+        assertThat(product.getQuantity()).isEqualTo(5L);
+    }
+
 }

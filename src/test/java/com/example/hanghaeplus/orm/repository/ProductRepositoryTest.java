@@ -2,6 +2,7 @@ package com.example.hanghaeplus.orm.repository;
 
 import com.example.hanghaeplus.dto.product.ProductPostRequest;
 import com.example.hanghaeplus.orm.entity.Product;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -20,11 +22,10 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
-//    @AfterEach
-//    void tearDown() {
-//        stockRepository.deleteAllInBatch();
-//        productRepository.deleteAllInBatch();
-//    }
+    @AfterEach
+    void tearDown() {
+        productRepository.deleteAllInBatch();
+    }
 
 
     Product savedProduct;
@@ -76,6 +77,18 @@ class ProductRepositoryTest {
         assertThat(product.getPrice()).isEqualTo(500000L);
         assertThat(product.getName()).isEqualTo("아이 패드");
         assertThat(product.getQuantity()).isEqualTo(130L);
+
+    }
+
+    @DisplayName("상품 Id 를 통해 상품 정보를 조회한다.")
+    @Test
+    void findAllByPessimisticLock(){
+
+        //given
+        List<Product> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
+        assertThat(products.get(0).getPrice()).isEqualTo(500000L);
+        assertThat(products.get(0).getName()).isEqualTo("아이 패드");
+        assertThat(products.get(0).getQuantity()).isEqualTo(130L);
 
     }
 

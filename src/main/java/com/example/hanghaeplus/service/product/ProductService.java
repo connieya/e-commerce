@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.service.product;
 
 import com.example.hanghaeplus.dto.product.ProductGetResponse;
 import com.example.hanghaeplus.dto.product.ProductPostRequest;
@@ -13,7 +13,6 @@ import static com.example.hanghaeplus.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
-@RequestMapping("/product")
 public class ProductService {
 
     private final ProductRepository productRepository;

@@ -2,9 +2,8 @@ package com.example.hanghaeplus.controller;
 
 import com.example.hanghaeplus.dto.product.ProductGetResponse;
 import com.example.hanghaeplus.dto.product.ProductPostRequest;
-import com.example.hanghaeplus.result.ResultCode;
 import com.example.hanghaeplus.result.ResultResponse;
-import com.example.hanghaeplus.service.ProductService;
+import com.example.hanghaeplus.service.product.ProductService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

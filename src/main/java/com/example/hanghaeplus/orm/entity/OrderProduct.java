@@ -1,9 +1,18 @@
 package com.example.hanghaeplus.orm.entity;
 
+import com.example.hanghaeplus.orm.entity.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
-public class OrderProduct {
+@NoArgsConstructor
+@Getter
+public class OrderProduct{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,18 +22,31 @@ public class OrderProduct {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 
     private Long count;
 
     private Long price;
 
-    public OrderProduct(Order order, Product product, Long count, Long price) {
+    @CreatedDate
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+
+    public OrderProduct(Order order, Long productId, Long count, Long price) {
         this.order = order;
-        this.product = product;
+        this.productId = productId;
         this.count = count;
         this.price = price;
+    }
+
+    public OrderProduct(Order order, Long productId, Long count, Long price, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+        this.order = order;
+        this.productId = productId;
+        this.count = count;
+        this.price = price;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
     }
 }

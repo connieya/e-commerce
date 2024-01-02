@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.service.user;
 
 import com.example.hanghaeplus.dto.user.UserRegisterRequest;
 import com.example.hanghaeplus.error.ErrorCode;

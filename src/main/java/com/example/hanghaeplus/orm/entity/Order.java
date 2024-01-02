@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.orm.entity;
 
+import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
 import com.example.hanghaeplus.orm.entity.common.BaseEntity;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,30 +35,42 @@ public class Order extends BaseEntity {
     private Long totalPrice;
 
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL)
     private List<OrderProduct> product;
 
 
     @Builder
-    private Order(User user, List<Product> products) {
+    private Order(User user, List<ProductRequestForOrder> products) {
         this.user = user;
         this.product = getOrderProducts(products);
         this.totalPrice = calculateTotalPrice(products);
     }
 
-    private List<OrderProduct> getOrderProducts(List<Product> products) {
+    public Order(User user, List<ProductRequestForOrder> products, LocalDateTime dateTime) {
+        this.user = user;
+        this.product = getOrderProducts(products ,dateTime);
+        this.totalPrice = calculateTotalPrice(products);
+    }
+
+    private List<OrderProduct> getOrderProducts(List<ProductRequestForOrder> products, LocalDateTime dateTime) {
         return products.stream()
-               .map(product -> new OrderProduct(this, product, product.getQuantity(), product.getPrice()))
+                .map(product -> new OrderProduct(this, product.getProductId(), product.getQuantity(), product.getPrice() ,dateTime,dateTime))
                 .collect(Collectors.toList());
     }
 
-    private static long calculateTotalPrice(List<Product> products) {
+    private List<OrderProduct> getOrderProducts(List<ProductRequestForOrder> products) {
+        return products.stream()
+               .map(product -> new OrderProduct(this, product.getProductId(), product.getQuantity(), product.getPrice()))
+                .collect(Collectors.toList());
+    }
+
+    private static long calculateTotalPrice(List<ProductRequestForOrder> products) {
         return products.stream()
                 .mapToLong(product -> product.getPrice() * product.getQuantity())
                 .sum();
     }
 
-    public static Order create(User user, List<Product> products) {
+    public static Order create(User user, List<ProductRequestForOrder> products) {
         return new Order(user, products);
     }
 }
