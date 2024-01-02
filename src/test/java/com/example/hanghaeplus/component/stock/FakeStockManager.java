@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 public class FakeStockManager {
 
     private final ProductRepository productRepository;
-    private final FakeProductReader productReader;
+    private final FakeProductReader fakeProductReader;
 
     @Transactional
     public void deduct1(OrderPostRequest request) {
         List<ProductRequestForOrder> requestForOrders = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);
-        List<Product> products = productReader.readV1(request.getProducts());
+        List<Product> products = fakeProductReader.readV1(request.getProducts());
         for (Product product : products) {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);
@@ -38,7 +38,7 @@ public class FakeStockManager {
     public void deduct2(OrderPostRequest request) {
         List<ProductRequestForOrder> requestForOrders = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);
-        List<Product> products = productReader.readV2(request.getProducts());
+        List<Product> products = fakeProductReader.readV2(request.getProducts());
         for (Product product : products) {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);
@@ -50,7 +50,7 @@ public class FakeStockManager {
     public void deduct3(OrderPostRequest request) {
         List<ProductRequestForOrder> requestForOrders = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(requestForOrders);
-        List<Product> products = productReader.readV3(request.getProducts());
+        List<Product> products = fakeProductReader.readV3(request.getProducts());
         for (Product product : products) {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);

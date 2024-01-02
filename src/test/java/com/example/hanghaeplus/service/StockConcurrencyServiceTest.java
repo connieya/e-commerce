@@ -42,21 +42,22 @@ public class StockConcurrencyServiceTest {
 
         productRepository.saveAll(List.of(productOnion,productPotato,productCarrot,productMushroom));
 
-        User user = FakeUser.create(1L, "건희", 5000L);
+        User geonhee = FakeUser.create(1L, "건희", 5000L);
+        User gunny = FakeUser.create(1L, "거니", 5000L);
 
         // 양파 3개 , 감자 3개 주문
         ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 3L, productOnion.getPrice());
         ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 3L, productPotato.getPrice());
 
         // 감자 3개 , 양파 3개 주문
-        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productPotato.getId(), 3L, productPotato.getPrice());
-        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productOnion.getId(), 3L, productOnion.getPrice());
+        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productOnion.getId(), 3L, productOnion.getPrice());
+        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productPotato.getId(), 3L, productPotato.getPrice());
 
         OrderPostRequest requests1 = OrderPostRequest
-                .of(user.getId(), List.of(request1_1, request1_2));
+                .of(geonhee.getId(), List.of(request1_1, request1_2));
 
         OrderPostRequest requests2 = OrderPostRequest
-                .of(user.getId(), List.of(request2_1, request2_2));
+                .of(gunny.getId(), List.of(request2_1, request2_2));
 
         // when
         CompletableFuture.allOf(
@@ -69,7 +70,6 @@ public class StockConcurrencyServiceTest {
 
         //then
         Assertions.assertThat(findProductPotato.getQuantity()).isEqualTo(30L-3L-3L);
-
     }
 
     @DisplayName("동시에 주문을 했을 때 주문에 맞게 재고를 차감한다.")
