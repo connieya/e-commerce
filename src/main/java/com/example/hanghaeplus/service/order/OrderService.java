@@ -8,6 +8,8 @@ import com.example.hanghaeplus.component.user.UserManager;
 import com.example.hanghaeplus.component.user.UserReader;
 import com.example.hanghaeplus.dto.order.OrderPostRequest;
 import com.example.hanghaeplus.dto.order.OrderPostResponse;
+import com.example.hanghaeplus.orm.SystemTimeProvider;
+import com.example.hanghaeplus.orm.TimeProvider;
 import com.example.hanghaeplus.orm.entity.Order;
 import com.example.hanghaeplus.orm.entity.Payment;
 import com.example.hanghaeplus.orm.entity.Product;
@@ -37,15 +39,16 @@ public class OrderService {
     private final UserManager userManager;
     private final PaymentRepository paymentRepository;
     private final ApplicationEventPublisher publisher;
+    private final SystemTimeProvider timeProvider;
 
 
     @Transactional
-    public OrderPostResponse createOrder(OrderPostRequest request ) {
+    public OrderPostResponse createOrder(OrderPostRequest request) {
         User user = userReader.read(request.getUserId());
         // 재고 차감
         stockManager.deduct(request);
         // 주문
-        Order savedOrder = orderAppender.append(user, request.getProducts());
+        Order savedOrder = orderAppender.append(user, request.getProducts(),timeProvider);
         // 잔액 차감
         userManager.deductPoint(user, savedOrder);
         // 포인트 내역 저장

@@ -73,4 +73,8 @@ public class Order extends BaseEntity {
     public static Order create(User user, List<ProductRequestForOrder> products) {
         return new Order(user, products);
     }
+
+    public static Order create(User user, List<ProductRequestForOrder> products,LocalDateTime localDateTime) {
+        return new Order(user, products , localDateTime);
+    }
 }
