@@ -12,7 +12,9 @@ import com.example.hanghaeplus.orm.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.hanghaeplus.orm.vo.PointTransactionStatus.*;
 
@@ -34,6 +36,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+//    @Transactional
     public void rechargePoint(UserRechargeRequest request) {
         try {
             User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -41,10 +44,10 @@ public class UserService {
             Point point = Point.create(user, request.getPoint(), RECHARGE);
             pointRepository.save(point);
             userRepository.save(user);
-        } catch (OptimisticLockingFailureException e) {
+        } catch (ObjectOptimisticLockingFailureException e) {
+            log.info("낙관적 락");
             rechargePoint(request);
+//            throw new OptimisticLockingFailureException("트랜잭션 수정 충돌");
         }
-
-
     }
 }

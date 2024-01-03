@@ -4,13 +4,17 @@ import com.example.hanghaeplus.dto.user.UserRechargeRequest;
 import com.example.hanghaeplus.orm.entity.User;
 import com.example.hanghaeplus.orm.repository.UserRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +28,12 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
+
+//    @AfterEach
+//    void after(){
+//        userRepository.deleteAll();
+//
+//    }
 
     @DisplayName("요청한 포인트 만큼 사용자의 잔액을 충전한다.")
     @Test
@@ -65,5 +75,36 @@ class UserServiceTest {
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
         assertThat(findUser.getCurrentPoint()).isEqualTo(1000L+5000L+6000L);
+    }
+
+    @DisplayName("동시에 사용자의 포인트를 충전 했을 때 충전에 실패하게 한다. ")
+    @Test
+    void rechargePointWithConcurrency2(){
+        // given
+        User user = User.create("건희", 1000L);
+        User savedUser = userRepository.save(user);
+        UserRechargeRequest request1 = UserRechargeRequest.builder().
+                id(savedUser.getId())
+                .point(5000L)
+                .build();
+
+        UserRechargeRequest request2 = UserRechargeRequest.builder().
+                id(savedUser.getId())
+                .point(6000L)
+                .build();
+        // when
+        CompletableFuture<Void> future = CompletableFuture.allOf(
+                CompletableFuture.runAsync(() -> userService.rechargePoint(request1)),
+                CompletableFuture.runAsync(() -> userService.rechargePoint(request2))
+        );
+
+        future.exceptionally(throwable -> {
+            assertThat(throwable).isInstanceOf(CompletionException.class)
+                    .hasCauseInstanceOf(ObjectOptimisticLockingFailureException.class);
+            return null;
+        }).join();
+        User findUser = userRepository.findById(savedUser.getId()).get();
+        //then
+        assertThat(findUser.getCurrentPoint()).isEqualTo(1000L);
     }
 }

@@ -1,3 +1,8 @@
+server:
+  port: 8080
+  servlet:
+    application-display-name: local
+
 management:
   endpoints:
     web:
@@ -10,18 +15,23 @@ management:
 
 spring:
   datasource:
+    url: jdbc:mysql://localhost:3306/hhp
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: cony
     password: cony1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hhp?serverTimezone=Asia/Seoul
+  config:
+    activate:
+      on-profile: local
 
   jpa:
     hibernate:
       ddl-auto: create
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
+    database-platform: org.hibernate.dialect.MySQL5Dialect
 
 
 
