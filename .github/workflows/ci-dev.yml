@@ -1,4 +1,4 @@
-name: hanghae-plus-actions
+name: Docker Image CI to ECR - dev
 
 on:
   push:
@@ -20,14 +20,17 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew bootjar
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id : ${{secrets.AWS_ACCESS_KEY}}
         aws-secret-access-key : ${{secrets.AWS_SECRET_KEY}}
         aws-region: ap-northeast-2
+
     - name: Login to AWS ECR
       run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_DEV_URL}}
+
     - name: Build the Docker image
       run: docker build -t hanghae-plus .
     - name : ADD Tag

@@ -10,10 +10,12 @@ import com.example.hanghaeplus.orm.repository.OrderRepository;
 import com.example.hanghaeplus.orm.repository.ProductRepository;
 import com.example.hanghaeplus.orm.repository.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -21,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@Slf4j
 public class OrderServiceTest {
 
     @Autowired
@@ -192,8 +195,8 @@ public class OrderServiceTest {
 
         // when
         CompletableFuture.allOf(
-             CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
-             CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest1)),
+                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest2))
         ).join();
 
         List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
@@ -201,9 +204,9 @@ public class OrderServiceTest {
         Product findProduct2 = products.get(1);
         Product findProduct3 = products.get(2);
         //then
-        assertThat(findProduct1.getQuantity()).isEqualTo(30L-5L-3L);
-        assertThat(findProduct2.getQuantity()).isEqualTo(30L-10L-5L);
-        assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
+        assertThat(findProduct1.getQuantity()).isEqualTo(30L - 5L - 3L);
+        assertThat(findProduct2.getQuantity()).isEqualTo(30L - 10L - 5L);
+        assertThat(findProduct3.getQuantity()).isEqualTo(30L - 5L - 5L);
     }
 
 
@@ -219,7 +222,6 @@ public class OrderServiceTest {
         Product product1 = Product.create("양파", 1000L, 30L);
         Product product2 = Product.create("감자", 2000L, 30L);
         Product product3 = Product.create("당근", 3000L, 30L);
-
 
 
         productRepository.saveAll(List.of(product1, product2, product3));
@@ -252,8 +254,8 @@ public class OrderServiceTest {
 
         // when
         CompletableFuture.allOf(
-                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
-                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest1)),
+                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest2))
         ).join();
 
         List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
@@ -261,14 +263,13 @@ public class OrderServiceTest {
         Product findProduct2 = products.get(1);
         Product findProduct3 = products.get(2);
         //then
-        assertThat(findProduct1.getQuantity()).isEqualTo(30L-5L-3L);
-        assertThat(findProduct2.getQuantity()).isEqualTo(30L-10L-5L);
-        assertThat(findProduct3.getQuantity()).isEqualTo(30L-5L-5L);
+        assertThat(findProduct1.getQuantity()).isEqualTo(30L - 5L - 3L);
+        assertThat(findProduct2.getQuantity()).isEqualTo(30L - 10L - 5L);
+        assertThat(findProduct3.getQuantity()).isEqualTo(30L - 5L - 5L);
     }
 
 
     // 한 사용자가 다른 상품들을 주문 했을 때 테스트
-    // 전체 분산 락 or 잔액 차감
     @DisplayName("동시에 상품을 주문 하여도 주문한 상품 횟수 만큼 잔액을 차감한다.")
     @Test
     void deductPointWithConcurrency() {
@@ -282,7 +283,7 @@ public class OrderServiceTest {
         Product productMushroom = Product.create("버섯", 5000L, 30L);
 
 
-        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot ,productMushroom));
+        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom));
 
 
         ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 2L, productOnion.getPrice());
@@ -308,16 +309,16 @@ public class OrderServiceTest {
                 .build();
 
         // when
+
         CompletableFuture.allOf(
-                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest1)),
-                CompletableFuture.runAsync(()-> orderService.createOrder(orderPostRequest2))
+                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest1)),
+                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest2))
         ).join();
+
 
         User findUser = userRepository.findById(savedUser.getId()).get();
 
-
         //then                현재 잔액 5000L  - (양파 2개 , 감자 2개)  / ( 당근 2개 , 버섯 2개)
         assertThat(findUser.getCurrentPoint()).isEqualTo(50000L-6000L-16000L);
-
     }
 }

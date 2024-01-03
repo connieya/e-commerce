@@ -3,7 +3,6 @@ package com.example.hanghaeplus.orm.entity;
 import com.example.hanghaeplus.orm.entity.common.BaseEntity;
 import com.example.hanghaeplus.orm.vo.PointTransactionStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,7 @@ import static com.example.hanghaeplus.orm.vo.PointTransactionStatus.*;
 @NoArgsConstructor
 public class Point extends BaseEntity {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "point_id")
@@ -28,6 +28,7 @@ public class Point extends BaseEntity {
     private User user;
     private Long point;
 
+    @Enumerated(EnumType.STRING)
     private PointTransactionStatus status;
 
 
@@ -40,6 +41,10 @@ public class Point extends BaseEntity {
 
     public static Point create(User user, Long point){
         return new Point(user,point, DEDUCT);
+    }
+
+    public static Point create(User user, Long point, PointTransactionStatus status){
+        return new Point(user,point, status);
     }
 
     public void setUser(User user) {

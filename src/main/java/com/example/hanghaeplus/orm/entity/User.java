@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import static com.example.hanghaeplus.error.ErrorCode.INSUFFICIENT_POINT;
 
@@ -16,7 +15,6 @@ import static com.example.hanghaeplus.error.ErrorCode.INSUFFICIENT_POINT;
 @Getter
 public class User extends BaseEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -25,6 +23,8 @@ public class User extends BaseEntity {
 
     private Long currentPoint;
 
+    @Version
+    private Long version;
 
     public User(String name) {
         this.name = name;
@@ -43,19 +43,22 @@ public class User extends BaseEntity {
         this.currentPoint = currentPoint;
     }
 
+    public void rechargePoint(Long point) {
+        this.currentPoint += point;
+    }
+
 
     public void deductPoints(Long totalPrice) {
-        if (this.currentPoint < totalPrice){
+        if (this.currentPoint < totalPrice) {
             throw new InsufficientPointsException(INSUFFICIENT_POINT);
         }
         this.currentPoint -= totalPrice;
     }
 
-    public static User create(String name , Long currentPoint){
+    public static User create(String name, Long currentPoint) {
         return User.builder()
                 .name(name)
                 .currentPoint(currentPoint)
                 .build();
     }
-
 }

@@ -19,8 +19,10 @@ import com.example.hanghaeplus.service.payment.PaymentEvent;
 import com.example.hanghaeplus.service.payment.PaymentService;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class OrderService {
 
@@ -48,7 +51,7 @@ public class OrderService {
         // 재고 차감
         stockManager.deduct(request);
         // 주문
-        Order savedOrder = orderAppender.append(user, request.getProducts(),timeProvider);
+        Order savedOrder = orderAppender.append(user, request.getProducts(), timeProvider);
         // 잔액 차감
         userManager.deductPoint(user, savedOrder);
         // 포인트 내역 저장
@@ -57,7 +60,7 @@ public class OrderService {
         // 결제
         Payment payment = new Payment(savedOrder, user);
         Payment savedPayment = paymentRepository.save(payment);
-        publisher.publishEvent(new PaymentEvent(this,savedPayment));
+        publisher.publishEvent(new PaymentEvent(this, savedPayment));
 
         return OrderPostResponse.of(savedOrder);
     }

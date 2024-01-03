@@ -8,4 +8,9 @@ public class UserRegisterRequest {
 
     private String name;
     private Long point;
+
+    public UserRegisterRequest(String name, Long point) {
+        this.name = name;
+        this.point = point;
+    }
 }
