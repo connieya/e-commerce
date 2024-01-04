@@ -1,6 +1,5 @@
 package com.example.hanghaeplus.controller.order.request;
 
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

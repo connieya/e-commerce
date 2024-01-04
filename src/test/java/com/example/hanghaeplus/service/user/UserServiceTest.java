@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.service.user;
 
-import com.example.hanghaeplus.dto.user.UserRechargeRequest;
+import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;

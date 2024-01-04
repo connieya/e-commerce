@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.component.user;
 
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
 import com.example.hanghaeplus.orm.entity.FakeProduct;
 import com.example.hanghaeplus.repository.order.Order;

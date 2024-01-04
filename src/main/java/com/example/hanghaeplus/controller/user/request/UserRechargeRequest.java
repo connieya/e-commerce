@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.dto.user;
+package com.example.hanghaeplus.controller.user.request;
 
 import lombok.Builder;
 import lombok.Getter;

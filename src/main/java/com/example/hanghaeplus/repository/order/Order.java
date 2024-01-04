@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.repository.order;
 
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.product.OrderProduct;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.common.BaseEntity;

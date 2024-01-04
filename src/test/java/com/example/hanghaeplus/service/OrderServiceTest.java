@@ -1,8 +1,8 @@
 package com.example.hanghaeplus.service;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
-import com.example.hanghaeplus.dto.order.OrderPostResponse;
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
+import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.product.ProductRepository;

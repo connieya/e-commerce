@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.service;
 
-import com.example.hanghaeplus.dto.product.ProductGetResponse;
+import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;

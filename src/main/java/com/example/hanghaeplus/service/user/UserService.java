@@ -1,7 +1,8 @@
 package com.example.hanghaeplus.service.user;
 
-import com.example.hanghaeplus.dto.user.UserRechargeRequest;
-import com.example.hanghaeplus.dto.user.UserRegisterRequest;
+import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
+import com.example.hanghaeplus.controller.user.request.UserRegisterRequest;
+import com.example.hanghaeplus.controller.user.response.UserPointResponse;
 import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
@@ -34,7 +35,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    @Transactional
     public void rechargePoint(UserRechargeRequest request) {
         try {
             User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -45,7 +45,10 @@ public class UserService {
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
             rechargePoint(request);
-//            throw new OptimisticLockingFailureException("트랜잭션 수정 충돌");
         }
+    }
+
+    public UserPointResponse getPoint(Long id) {
+        return null;
     }
 }

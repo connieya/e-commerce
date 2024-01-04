@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.dto.product;
+package com.example.hanghaeplus.controller.product.response;
 
 import lombok.Builder;
 import lombok.Getter;

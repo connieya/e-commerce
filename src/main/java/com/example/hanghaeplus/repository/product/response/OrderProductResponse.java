@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.dto.orderproduct;
+package com.example.hanghaeplus.repository.product.response;
 
 public class OrderProductResponse {
 

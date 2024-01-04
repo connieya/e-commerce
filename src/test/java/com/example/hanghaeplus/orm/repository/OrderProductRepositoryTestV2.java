@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.orm.repository;
 
-import com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse;
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
+import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.orm.entity.*;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.order.OrderRepository;

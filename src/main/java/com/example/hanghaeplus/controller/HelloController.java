@@ -1,4 +1,4 @@
-package com.example.hanghaeplus;
+package com.example.hanghaeplus.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

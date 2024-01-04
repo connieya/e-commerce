@@ -1,10 +1,9 @@
-package com.example.hanghaeplus.dto.product;
+package com.example.hanghaeplus.controller.order.request;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@Getter @Setter @ToString
+@Getter @Setter
 public class ProductRequestForOrder {
 
     private Long productId;

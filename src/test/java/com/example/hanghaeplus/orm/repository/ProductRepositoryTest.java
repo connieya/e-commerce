@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.orm.repository;
 
-import com.example.hanghaeplus.dto.product.ProductPostRequest;
+import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import org.junit.jupiter.api.AfterEach;

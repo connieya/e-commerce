@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.dto.orderproduct;
+package com.example.hanghaeplus.controller.product.response;
 
 import lombok.Getter;
 import lombok.ToString;

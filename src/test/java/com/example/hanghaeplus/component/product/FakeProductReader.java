@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.component.product;
 
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;

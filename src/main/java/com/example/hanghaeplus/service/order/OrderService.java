@@ -6,7 +6,7 @@ import com.example.hanghaeplus.component.stock.StockManager;
 import com.example.hanghaeplus.component.user.UserManager;
 import com.example.hanghaeplus.component.user.UserReader;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
-import com.example.hanghaeplus.dto.order.OrderPostResponse;
+import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.repository.common.SystemTimeProvider;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.payment.Payment;

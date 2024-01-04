@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.repository.product;
 
-import com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse;
-import com.example.hanghaeplus.dto.orderproduct.OrderProductResponse;
+import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
