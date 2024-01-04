@@ -13,7 +13,7 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct,Long>
 
     OrderProduct findByProductId(Long productId);
 
-    @Query("select new com.example.hanghaeplus.dto.orderproduct.OrderProductResponse(o.productId,o.count,o.price)" +
+    @Query("select new com.example.hanghaeplus.repository.product.response.OrderProductResponse(o.productId,o.count,o.price)" +
             " from OrderProduct o where o.order.id = :orderId")
     List<OrderProductResponse> findByOrderId(@Param("orderId") Long orderId);
 
@@ -22,7 +22,7 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct,Long>
             "order by count(o.productId) desc limit 3")
     List<Long> findTop3ProductIdsByCount();
 
-    @Query("select new com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse(o.productId,p.name,count(o.productId)) " +
+    @Query("select new com.example.hanghaeplus.controller.product.response.OrderProductRankResponse(o.productId,p.name,count(o.productId)) " +
             "from OrderProduct o inner join Product p " +
             "on o.productId = p.id " +
             "group by o.productId  " +
@@ -30,7 +30,7 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct,Long>
     )
     List<OrderProductRankResponse> findTop3RankProductsByCount();
 
-    @Query("select new com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse(o.productId,p.name,count(o.productId)) " +
+    @Query("select new com.example.hanghaeplus.controller.product.response.OrderProductRankResponse(o.productId,p.name,count(o.productId)) " +
             "from OrderProduct o inner join Product p " +
             "on o.productId = p.id " +
             "where o.createdDate >= :startDate and o.createdDate < :endDate " +

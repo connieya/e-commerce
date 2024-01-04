@@ -2,6 +2,7 @@ package com.example.hanghaeplus.service;
 
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.repository.product.OrderProductRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.product.ProductService;
@@ -24,6 +25,8 @@ class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+    @Mock
+    private OrderProductRepository orderProductRepository;
 
     private AutoCloseable autoCloseable;
     private ProductService productService;
@@ -32,7 +35,7 @@ class ProductServiceTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        productService = new ProductService(productRepository);
+        productService = new ProductService(productRepository,orderProductRepository);
         productRepository.save(Product.create("아이패드",10000L,10L));
 
     }
