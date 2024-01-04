@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.repository.payment;
 
-import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.user.User;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 

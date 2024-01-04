@@ -9,10 +9,9 @@ import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.repository.common.SystemTimeProvider;
 import com.example.hanghaeplus.repository.order.Order;
-import com.example.hanghaeplus.repository.payment.Payment;
 import com.example.hanghaeplus.repository.user.User;
-import com.example.hanghaeplus.repository.payment.PaymentRepository;
-import com.example.hanghaeplus.service.payment.PaymentEvent;
+import com.example.hanghaeplus.service.payment.DataPlatformService;
+import com.example.hanghaeplus.service.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,9 +28,10 @@ public class OrderService {
     private final PointManager pointManager;
     private final StockManager stockManager;
     private final UserManager userManager;
-    private final PaymentRepository paymentRepository;
+    private final PaymentService paymentService;
     private final ApplicationEventPublisher publisher;
     private final SystemTimeProvider timeProvider;
+    private final DataPlatformService dataPlatformService;
 
 
     @Transactional
@@ -47,9 +47,9 @@ public class OrderService {
         pointManager.process(user, savedOrder);
 
         // 결제
-        Payment payment = new Payment(savedOrder, user);
-        Payment savedPayment = paymentRepository.save(payment);
-        publisher.publishEvent(new PaymentEvent(this, savedPayment));
+        paymentService.execute(savedOrder, user);
+        dataPlatformService.send(savedOrder);
+//        publisher.publishEvent(new OrderEvent(this, savedOrder));
 
         return OrderPostResponse.of(savedOrder);
     }
