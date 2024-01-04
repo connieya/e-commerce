@@ -10,13 +10,14 @@ import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.repository.common.SystemTimeProvider;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.user.User;
-import com.example.hanghaeplus.service.payment.DataPlatformService;
 import com.example.hanghaeplus.service.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 
 @Service
 @Slf4j
@@ -48,9 +49,12 @@ public class OrderService {
 
         // 결제
         paymentService.execute(savedOrder, user);
-        dataPlatformService.send(savedOrder);
+        try {
+            dataPlatformService.send(savedOrder);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
 //        publisher.publishEvent(new OrderEvent(this, savedOrder));
-
         return OrderPostResponse.of(savedOrder);
     }
 
