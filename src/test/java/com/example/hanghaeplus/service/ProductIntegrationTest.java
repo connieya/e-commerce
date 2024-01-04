@@ -1,8 +1,8 @@
 package com.example.hanghaeplus.service;
 
 
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

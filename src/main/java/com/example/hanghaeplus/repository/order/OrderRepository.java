@@ -1,6 +1,5 @@
-package com.example.hanghaeplus.orm.repository;
+package com.example.hanghaeplus.repository.order;
 
-import com.example.hanghaeplus.orm.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -3,21 +3,17 @@ package com.example.hanghaeplus.component.user;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
 import com.example.hanghaeplus.orm.entity.FakeProduct;
-import com.example.hanghaeplus.orm.entity.Order;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.OrderRepository;
+import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.user.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserManagerTest {

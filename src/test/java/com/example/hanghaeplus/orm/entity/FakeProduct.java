@@ -1,5 +1,7 @@
 package com.example.hanghaeplus.orm.entity;
 
+import com.example.hanghaeplus.repository.product.Product;
+
 public class FakeProduct {
 
     // id 는 DB auto increment 전략임

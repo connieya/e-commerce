@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.controller;
+package com.example.hanghaeplus.controller.user;
 
 import com.example.hanghaeplus.dto.user.UserRegisterRequest;
 import com.example.hanghaeplus.result.ResultResponse;

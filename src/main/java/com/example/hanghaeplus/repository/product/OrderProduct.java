@@ -1,6 +1,6 @@
-package com.example.hanghaeplus.orm.entity;
+package com.example.hanghaeplus.repository.product;
 
-import com.example.hanghaeplus.orm.entity.common.BaseEntity;
+import com.example.hanghaeplus.repository.order.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,5 @@
-package com.example.hanghaeplus.orm.repository;
+package com.example.hanghaeplus.repository.product;
 
-import com.example.hanghaeplus.orm.entity.Product;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;

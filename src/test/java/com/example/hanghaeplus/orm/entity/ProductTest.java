@@ -1,11 +1,10 @@
 package com.example.hanghaeplus.orm.entity;
 
-import org.junit.jupiter.api.Assertions;
+import com.example.hanghaeplus.repository.product.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProductTest {
 

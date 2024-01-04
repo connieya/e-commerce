@@ -1,10 +1,9 @@
-package com.example.hanghaeplus.orm.entity;
+package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.error.ErrorCode;
-import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
-import com.example.hanghaeplus.orm.entity.common.BaseEntity;
-import com.example.hanghaeplus.orm.vo.OrderStatus;
+import com.example.hanghaeplus.repository.product.OrderProduct;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +12,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.example.hanghaeplus.error.ErrorCode.*;
 
 
 @Entity

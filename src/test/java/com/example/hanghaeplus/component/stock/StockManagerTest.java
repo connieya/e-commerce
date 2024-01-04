@@ -1,19 +1,12 @@
 package com.example.hanghaeplus.component.stock;
 
-import com.example.hanghaeplus.dto.order.OrderPostRequest;
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.orm.entity.FakeProduct;
-import com.example.hanghaeplus.orm.entity.FakeUser;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
-import org.junit.jupiter.api.Assertions;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,9 +17,6 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class StockManagerTest {

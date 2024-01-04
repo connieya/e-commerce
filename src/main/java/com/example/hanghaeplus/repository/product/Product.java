@@ -1,15 +1,12 @@
-package com.example.hanghaeplus.orm.entity;
+package com.example.hanghaeplus.repository.product;
 
-import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
-import com.example.hanghaeplus.orm.entity.common.BaseEntity;
+import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 import static com.example.hanghaeplus.error.ErrorCode.*;
 

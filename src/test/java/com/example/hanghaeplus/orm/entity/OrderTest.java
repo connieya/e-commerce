@@ -2,6 +2,10 @@ package com.example.hanghaeplus.orm.entity;
 
 
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
+import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.product.OrderProduct;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

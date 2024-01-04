@@ -1,7 +1,7 @@
-package com.example.hanghaeplus.orm.entity;
+package com.example.hanghaeplus.repository.user;
 
 import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
-import com.example.hanghaeplus.orm.entity.common.BaseEntity;
+import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

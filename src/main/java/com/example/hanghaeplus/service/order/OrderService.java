@@ -2,33 +2,22 @@ package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.component.order.OrderAppender;
 import com.example.hanghaeplus.component.point.PointManager;
-import com.example.hanghaeplus.component.product.ProductReader;
 import com.example.hanghaeplus.component.stock.StockManager;
 import com.example.hanghaeplus.component.user.UserManager;
 import com.example.hanghaeplus.component.user.UserReader;
-import com.example.hanghaeplus.dto.order.OrderPostRequest;
+import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.dto.order.OrderPostResponse;
-import com.example.hanghaeplus.orm.SystemTimeProvider;
-import com.example.hanghaeplus.orm.TimeProvider;
-import com.example.hanghaeplus.orm.entity.Order;
-import com.example.hanghaeplus.orm.entity.Payment;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.PaymentRepository;
+import com.example.hanghaeplus.repository.common.SystemTimeProvider;
+import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.payment.Payment;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.payment.PaymentRepository;
 import com.example.hanghaeplus.service.payment.PaymentEvent;
-import com.example.hanghaeplus.service.payment.PaymentService;
-import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j

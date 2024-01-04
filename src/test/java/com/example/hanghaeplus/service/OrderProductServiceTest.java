@@ -1,12 +1,11 @@
 package com.example.hanghaeplus.service;
 
 
-import com.example.hanghaeplus.dto.order.OrderPostRequest;
+import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.TestTimeProvider;
 import com.example.hanghaeplus.orm.entity.FakeUser;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.service.order.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,15 +1,11 @@
 package com.example.hanghaeplus.service.point;
 
-import com.example.hanghaeplus.dto.point.PointGetResponse;
-import com.example.hanghaeplus.dto.point.PointPostRequest;
-import com.example.hanghaeplus.error.ErrorCode;
-import com.example.hanghaeplus.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
-import com.example.hanghaeplus.orm.entity.Order;
-import com.example.hanghaeplus.orm.entity.Point;
-import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.PointRepository;
-import com.example.hanghaeplus.orm.repository.UserRepository;
+import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.point.Point;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.point.PointRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

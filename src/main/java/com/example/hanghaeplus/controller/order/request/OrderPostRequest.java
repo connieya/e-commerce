@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.dto.order;
+package com.example.hanghaeplus.controller.order.request;
 
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import lombok.Builder;

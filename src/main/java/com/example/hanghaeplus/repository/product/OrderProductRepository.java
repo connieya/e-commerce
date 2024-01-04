@@ -1,13 +1,11 @@
-package com.example.hanghaeplus.orm.repository;
+package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse;
 import com.example.hanghaeplus.dto.orderproduct.OrderProductResponse;
-import com.example.hanghaeplus.orm.entity.OrderProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.service.payment;
 
-import com.example.hanghaeplus.orm.entity.Payment;
+import com.example.hanghaeplus.repository.payment.Payment;
 import org.springframework.context.ApplicationEvent;
 
 public class PaymentEvent extends ApplicationEvent {

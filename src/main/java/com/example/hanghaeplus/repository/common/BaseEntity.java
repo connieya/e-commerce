@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.orm.entity.common;
+package com.example.hanghaeplus.repository.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

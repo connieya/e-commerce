@@ -1,7 +1,7 @@
-package com.example.hanghaeplus.orm.entity;
+package com.example.hanghaeplus.repository.point;
 
-import com.example.hanghaeplus.orm.entity.common.BaseEntity;
-import com.example.hanghaeplus.orm.vo.PointTransactionStatus;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-import static com.example.hanghaeplus.orm.vo.PointTransactionStatus.*;
+import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 
 @Entity
 @Table(name = "points")

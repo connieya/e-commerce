@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.controller;
+package com.example.hanghaeplus.controller.point;
 
 import com.example.hanghaeplus.dto.point.PointPostRequest;
 import com.example.hanghaeplus.result.ResultResponse;

@@ -1,13 +1,12 @@
 package com.example.hanghaeplus.service;
 
 import com.example.hanghaeplus.component.stock.StockManager;
-import com.example.hanghaeplus.dto.order.OrderPostRequest;
+import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.FakeProduct;
 import com.example.hanghaeplus.orm.entity.FakeUser;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

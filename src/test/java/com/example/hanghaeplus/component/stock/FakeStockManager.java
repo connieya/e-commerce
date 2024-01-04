@@ -1,12 +1,12 @@
 package com.example.hanghaeplus.component.stock;
 
 import com.example.hanghaeplus.component.product.FakeProductReader;
-import com.example.hanghaeplus.dto.order.OrderPostRequest;
+import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
 import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

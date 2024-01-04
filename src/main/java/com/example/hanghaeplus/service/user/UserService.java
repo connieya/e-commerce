@@ -5,18 +5,16 @@ import com.example.hanghaeplus.dto.user.UserRegisterRequest;
 import com.example.hanghaeplus.error.ErrorCode;
 import com.example.hanghaeplus.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.orm.entity.Point;
-import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.PointRepository;
-import com.example.hanghaeplus.orm.repository.UserRepository;
+import com.example.hanghaeplus.repository.point.Point;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.point.PointRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.hanghaeplus.orm.vo.PointTransactionStatus.*;
+import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 
 @Service
 @RequiredArgsConstructor

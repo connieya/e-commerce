@@ -1,21 +1,23 @@
 package com.example.hanghaeplus.orm.repository;
 
-import com.example.hanghaeplus.dto.order.OrderPostRequest;
+import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.dto.orderproduct.OrderProductRankResponse;
 import com.example.hanghaeplus.dto.orderproduct.OrderProductResponse;
 import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.*;
+import com.example.hanghaeplus.repository.product.OrderProduct;
+import com.example.hanghaeplus.repository.product.OrderProductRepository;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

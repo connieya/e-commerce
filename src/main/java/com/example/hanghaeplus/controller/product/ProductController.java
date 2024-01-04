@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.controller;
+package com.example.hanghaeplus.controller.product;
 
 import com.example.hanghaeplus.dto.product.ProductGetResponse;
 import com.example.hanghaeplus.dto.product.ProductPostRequest;

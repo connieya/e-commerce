@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.dto.order;
 
-import com.example.hanghaeplus.orm.entity.Order;
+import com.example.hanghaeplus.repository.order.Order;
 import lombok.Builder;
 import lombok.Getter;
 

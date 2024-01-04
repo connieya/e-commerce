@@ -3,11 +3,10 @@ package com.example.hanghaeplus.service.product;
 import com.example.hanghaeplus.dto.product.ProductGetResponse;
 import com.example.hanghaeplus.dto.product.ProductPostRequest;
 import com.example.hanghaeplus.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import static com.example.hanghaeplus.error.ErrorCode.*;
 

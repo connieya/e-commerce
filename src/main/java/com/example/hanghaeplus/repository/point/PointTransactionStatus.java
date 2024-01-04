@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.orm.vo;
+package com.example.hanghaeplus.repository.point;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
