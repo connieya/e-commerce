@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.orm.repository;
+package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;

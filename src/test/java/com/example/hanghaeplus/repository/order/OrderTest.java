@@ -1,8 +1,8 @@
-package com.example.hanghaeplus.orm.entity;
+package com.example.hanghaeplus.repository.order;
 
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.product.FakeProduct;
 import com.example.hanghaeplus.repository.product.OrderProduct;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;

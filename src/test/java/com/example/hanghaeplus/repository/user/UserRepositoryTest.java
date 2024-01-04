@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.orm.repository;
+package com.example.hanghaeplus.repository.user;
 
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;

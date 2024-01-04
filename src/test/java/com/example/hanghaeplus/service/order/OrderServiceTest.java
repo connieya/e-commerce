@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.response.OrderPostResponse;

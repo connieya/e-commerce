@@ -1,9 +1,8 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.component.stock;
 
-import com.example.hanghaeplus.component.stock.StockManager;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.FakeUser;
+import com.example.hanghaeplus.repository.user.FakeUser;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.product.ProductRepository;

@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.service.product;
 
 
 import com.example.hanghaeplus.repository.product.Product;

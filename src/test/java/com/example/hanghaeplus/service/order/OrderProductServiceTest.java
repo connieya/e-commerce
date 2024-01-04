@@ -1,12 +1,11 @@
-package com.example.hanghaeplus.service;
+package com.example.hanghaeplus.service.order;
 
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.FakeUser;
+import com.example.hanghaeplus.repository.user.FakeUser;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
-import com.example.hanghaeplus.service.order.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import java.util.List;
 public class OrderProductServiceTest {
 
     @Autowired OrderService orderService;
-
 
 
     @BeforeEach

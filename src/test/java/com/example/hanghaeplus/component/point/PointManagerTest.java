@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.component.point;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.FakeUser;
+import com.example.hanghaeplus.repository.user.FakeUser;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.point.Point;
 import com.example.hanghaeplus.repository.user.User;

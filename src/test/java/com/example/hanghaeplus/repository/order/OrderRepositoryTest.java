@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.orm.repository;
+package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import org.junit.jupiter.api.DisplayName;

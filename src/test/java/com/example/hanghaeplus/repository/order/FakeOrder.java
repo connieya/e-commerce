@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.orm.entity;
+package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.order.Order;
