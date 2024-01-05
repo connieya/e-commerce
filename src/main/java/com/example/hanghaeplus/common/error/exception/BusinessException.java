@@ -1,7 +1,7 @@
-package com.example.hanghaeplus.error.exception;
+package com.example.hanghaeplus.common.error.exception;
 
-import com.example.hanghaeplus.error.ErrorCode;
-import com.example.hanghaeplus.error.ErrorResponse;
+import com.example.hanghaeplus.common.error.ErrorCode;
+import com.example.hanghaeplus.common.error.ErrorResponse;
 import lombok.Getter;
 
 import java.util.ArrayList;

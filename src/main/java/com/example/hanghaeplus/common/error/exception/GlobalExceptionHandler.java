@@ -1,7 +1,7 @@
-package com.example.hanghaeplus.error.exception;
+package com.example.hanghaeplus.common.error.exception;
 
-import com.example.hanghaeplus.error.ErrorCode;
-import com.example.hanghaeplus.error.ErrorResponse;
+import com.example.hanghaeplus.common.error.ErrorCode;
+import com.example.hanghaeplus.common.error.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import static com.example.hanghaeplus.error.ErrorCode.*;
+import static com.example.hanghaeplus.common.error.ErrorCode.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestControllerAdvice

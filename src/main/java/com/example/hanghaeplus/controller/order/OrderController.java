@@ -1,8 +1,8 @@
 package com.example.hanghaeplus.controller.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
-import com.example.hanghaeplus.result.ResultCode;
-import com.example.hanghaeplus.result.ResultResponse;
+import com.example.hanghaeplus.common.result.ResultCode;
+import com.example.hanghaeplus.common.result.ResultResponse;
 import com.example.hanghaeplus.service.order.OrderService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

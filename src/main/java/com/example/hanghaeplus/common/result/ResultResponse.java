@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.result;
+package com.example.hanghaeplus.common.result;
 
 import lombok.Getter;
 

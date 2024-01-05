@@ -1,13 +1,13 @@
 package com.example.hanghaeplus.repository.user;
 
-import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
 import com.example.hanghaeplus.repository.common.BaseEntity;
+import com.example.hanghaeplus.service.user.UserException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.example.hanghaeplus.error.ErrorCode.INSUFFICIENT_POINT;
+import static com.example.hanghaeplus.common.error.ErrorCode.INSUFFICIENT_POINT;
 
 @Entity
 @Table(name = "users")
@@ -50,7 +50,7 @@ public class User extends BaseEntity {
 
     public void deductPoints(Long totalPrice) {
         if (this.currentPoint < totalPrice) {
-            throw new InsufficientPointsException(INSUFFICIENT_POINT);
+            throw new UserException.InsufficientPointsException(INSUFFICIENT_POINT);
         }
         this.currentPoint -= totalPrice;
     }

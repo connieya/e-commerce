@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.error;
+package com.example.hanghaeplus.common.error;
 
 import jakarta.validation.ConstraintViolation;
 import lombok.AccessLevel;

@@ -3,7 +3,6 @@ package com.example.hanghaeplus.component.stock;
 import com.example.hanghaeplus.component.product.ProductReader;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.example.hanghaeplus.error.ErrorCode.INSUFFICIENT_STOCK;
+import static com.example.hanghaeplus.common.error.ErrorCode.INSUFFICIENT_STOCK;
 
 @Component
 @RequiredArgsConstructor
@@ -37,9 +36,6 @@ public class StockManager {
     public void deduct(List<Product> products ,  Map<Long, Long> stockMap) {
         for (Product product : products) {
             Long quantity = stockMap.get(product.getId());
-            if (product.isLessThanQuantity(quantity)){
-                throw new InsufficientStockException(INSUFFICIENT_STOCK);
-            }
             product.deductQuantity(quantity);
         }
         productRepository.saveAll(products);

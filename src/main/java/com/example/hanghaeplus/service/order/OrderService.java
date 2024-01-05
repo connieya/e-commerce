@@ -49,11 +49,11 @@ public class OrderService {
 
         // 결제
         paymentService.execute(savedOrder, user);
-        try {
-            dataPlatformService.send(savedOrder);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            dataPlatformService.send(savedOrder);
+//        } catch (RuntimeException e) {
+//            throw new RuntimeException(e);
+//        }
 //        publisher.publishEvent(new OrderEvent(this, savedOrder));
         return OrderPostResponse.of(savedOrder);
     }

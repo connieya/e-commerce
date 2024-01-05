@@ -1,9 +1,9 @@
 package com.example.hanghaeplus.component.stock;
 
-import com.example.hanghaeplus.error.exception.order.InsufficientStockException;
 import com.example.hanghaeplus.repository.product.FakeProduct;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.service.order.OrderException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,7 +75,7 @@ class StockManagerTest {
 
         //then
         assertThatThrownBy(() -> stockManager.deduct(products, stockMap))
-                .isInstanceOf(InsufficientStockException.class);
+                .isInstanceOf(OrderException.InsufficientStockException.class);
     }
 
 }

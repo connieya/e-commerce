@@ -1,11 +1,10 @@
 package com.example.hanghaeplus.service.product;
 
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
-import com.example.hanghaeplus.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.product.OrderProductRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
-import com.example.hanghaeplus.service.product.ProductService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

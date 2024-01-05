@@ -2,14 +2,14 @@ package com.example.hanghaeplus.controller.user;
 
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.controller.user.request.UserRegisterRequest;
-import com.example.hanghaeplus.result.ResultResponse;
+import com.example.hanghaeplus.common.result.ResultResponse;
 import com.example.hanghaeplus.service.user.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.hanghaeplus.result.ResultCode.*;
+import static com.example.hanghaeplus.common.result.ResultCode.*;
 
 @RestController
 @RequiredArgsConstructor

@@ -3,7 +3,7 @@ package com.example.hanghaeplus.service.product;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
-import com.example.hanghaeplus.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.product.OrderProductRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.hanghaeplus.error.ErrorCode.*;
+import static com.example.hanghaeplus.common.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor

@@ -1,11 +1,11 @@
 package com.example.hanghaeplus.component.user;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.error.exception.user.InsufficientPointsException;
 import com.example.hanghaeplus.repository.product.FakeProduct;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.service.user.UserException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ class UserManagerTest {
 
         // when  //then
         Assertions.assertThatThrownBy(()-> userManager.deductPoint(user,order))
-                .isInstanceOf(InsufficientPointsException.class);
+                .isInstanceOf(UserException.InsufficientPointsException.class);
     }
 
 }
