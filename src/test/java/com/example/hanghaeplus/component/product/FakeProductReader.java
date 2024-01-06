@@ -1,8 +1,8 @@
 package com.example.hanghaeplus.component.product;
 
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,11 +1,18 @@
 package com.example.hanghaeplus.service.payment;
 
+import com.example.hanghaeplus.repository.payment.Payment;
+import com.example.hanghaeplus.repository.payment.PaymentRepository;
+import com.example.hanghaeplus.repository.user.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentService {
-
-    public void executePayment() {
+    private final PaymentRepository paymentRepository;
+    public void execute(com.example.hanghaeplus.repository.order.Order order , User user) {
         // 결제 처리 로직
+        Payment payment = new Payment(order, user);
+         paymentRepository.save(payment);
     }
 }

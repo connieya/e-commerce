@@ -1,15 +1,14 @@
 package com.example.hanghaeplus.component.order;
 
-import com.example.hanghaeplus.dto.product.ProductRequestForOrder;
-import com.example.hanghaeplus.orm.entity.Order;
-import com.example.hanghaeplus.orm.entity.Product;
-import com.example.hanghaeplus.orm.entity.User;
-import com.example.hanghaeplus.orm.repository.ProductRepository;
-import com.example.hanghaeplus.orm.repository.UserRepository;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
