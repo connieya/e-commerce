@@ -44,6 +44,7 @@ public class UserService {
             userRepository.save(user);
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
+//            throw new
             rechargePoint(request);
         }
     }
