@@ -24,7 +24,6 @@ public class OrderLine {
     private Long productId;
     private Long quantity;
     private Long price;
-    private Long amounts;
 
     @CreatedDate
     private LocalDateTime createdDate;

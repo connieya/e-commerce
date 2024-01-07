@@ -23,10 +23,4 @@ public class OrderAppender {
         return orderRepository.save(order);
     }
 
-    @Transactional
-    public Order append(User user, List<ProductRequestForOrder> products, TimeProvider timeProvider) {
-        Order order = Order.create(user, products , timeProvider.getLocalDateTime());
-        return orderRepository.save(order);
-    }
-
 }

@@ -1,8 +1,10 @@
-package com.example.hanghaeplus.repository.product;
+package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.repository.order.OrderLineRepository;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.order.OrderLine;
@@ -19,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class OrderProductRepositoryTest {
+class OrderLineRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -27,7 +29,7 @@ class OrderProductRepositoryTest {
     private ProductRepository productRepository;
 
     @Autowired
-    private OrderLineRepository orderProductRepository;
+    private OrderLineRepository orderLineRepository;
 
     @Autowired
     private OrderService orderService;
@@ -105,7 +107,7 @@ class OrderProductRepositoryTest {
     @Test
     void findByAll() {
         // given ,when
-        List<OrderLine> orderProducts = orderProductRepository.findAll();
+        List<OrderLine> orderProducts = orderLineRepository.findAll();
         //then
         // 주문 1 (상품 3개) , 주문 2 (상품 2개) , 주문 3 (상품 2개) , 주문 4 (상품 3개)
         // 양파: 1000원 감자 2000원 당근 3000원 버섯 5000원 고구마 2000원
@@ -131,8 +133,8 @@ class OrderProductRepositoryTest {
     @Test
     void findByOrderId() {
         // given when
-        List<OrderProductResponse> orderProductResponses1 = orderProductRepository.findByOrderId(1L);
-        List<OrderProductResponse> orderProductResponses2 = orderProductRepository.findByOrderId(2L);
+        List<OrderProductResponse> orderProductResponses1 = orderLineRepository.findByOrderId(1L);
+        List<OrderProductResponse> orderProductResponses2 = orderLineRepository.findByOrderId(2L);
 
         //then
         assertThat(orderProductResponses1).hasSize(3);
@@ -147,7 +149,7 @@ class OrderProductRepositoryTest {
     void findTop3ProductsByCount() {
         // given , when
         // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
-        List<Long> top3ProductIds = orderProductRepository.findTop3ProductIdsByCount();
+        List<Long> top3ProductIds = orderLineRepository.findTop3ProductIdsByCount();
 
         //then
         assertThat(top3ProductIds.get(0)).isEqualTo(productCarrot.getId());
@@ -161,7 +163,7 @@ class OrderProductRepositoryTest {
     void findTop3RankProductsByCount() {
         // given , when
         // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
-        List<OrderProductRankResponse> top3RankProductsByCount = orderProductRepository.findTop3RankProductsByCount();
+        List<OrderProductRankResponse> top3RankProductsByCount = orderLineRepository.findTop3RankProductsByCount();
 
         //then
         assertThat(top3RankProductsByCount.get(0).getName()).isEqualTo("당근");
