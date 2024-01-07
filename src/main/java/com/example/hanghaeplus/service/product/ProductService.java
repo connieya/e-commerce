@@ -4,7 +4,7 @@ import com.example.hanghaeplus.controller.product.response.OrderProductRankRespo
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.repository.product.OrderProductRepository;
+import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final OrderProductRepository orderProductRepository;
+    private final OrderLineRepository orderProductRepository;
 
     public void registerProduct(ProductPostRequest request) {
         Product product = Product.create(request.getProductName(), request.getPrice(), request.getQuantity());

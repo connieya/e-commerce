@@ -4,6 +4,7 @@ import com.example.hanghaeplus.controller.product.response.OrderProductRankRespo
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.order.FakeOrder;
 import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.order.OrderRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
@@ -30,7 +31,7 @@ class OrderProductRepositoryTestV2 {
     private ProductRepository productRepository;
 
     @Autowired
-    private OrderProductRepository orderProductRepository;
+    private OrderLineRepository orderProductRepository;
     Product productOnion;
     Product productPotato;
     Product productCarrot;

@@ -2,12 +2,10 @@ package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.product.OrderProduct;
-import com.example.hanghaeplus.repository.product.OrderProductRepository;
-import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.order.OrderLine;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
@@ -29,7 +27,7 @@ class OrderProductRepositoryTest {
     private ProductRepository productRepository;
 
     @Autowired
-    private OrderProductRepository orderProductRepository;
+    private OrderLineRepository orderProductRepository;
 
     @Autowired
     private OrderService orderService;
@@ -107,7 +105,7 @@ class OrderProductRepositoryTest {
     @Test
     void findByAll() {
         // given ,when
-        List<OrderProduct> orderProducts = orderProductRepository.findAll();
+        List<OrderLine> orderProducts = orderProductRepository.findAll();
         //then
         // 주문 1 (상품 3개) , 주문 2 (상품 2개) , 주문 3 (상품 2개) , 주문 4 (상품 3개)
         // 양파: 1000원 감자 2000원 당근 3000원 버섯 5000원 고구마 2000원

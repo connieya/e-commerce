@@ -3,7 +3,6 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.product.FakeProduct;
-import com.example.hanghaeplus.repository.product.OrderProduct;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +48,7 @@ public class OrderTest {
         ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
         ProductRequestForOrder request3 = ProductRequestForOrder.of(mockProduct3.getId(), 2L, mockProduct3.getPrice());
         Order order = Order.create(user, List.of(request1,request2 ,request3));
-        List<OrderProduct> orderProducts = order.getProduct();
+        List<OrderLine> orderProducts = order.getProduct();
         assertThat(orderProducts).hasSize(3)
                 .extracting("productId","count","price")
                 .containsExactlyInAnyOrder(

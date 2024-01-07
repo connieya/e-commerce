@@ -1,6 +1,5 @@
-package com.example.hanghaeplus.repository.product;
+package com.example.hanghaeplus.repository.order;
 
-import com.example.hanghaeplus.repository.order.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
-public class OrderProduct{
+public class OrderLine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +22,9 @@ public class OrderProduct{
     private Order order;
 
     private Long productId;
-
-    private Long count;
-
+    private Long quantity;
     private Long price;
+    private Long amounts;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -34,17 +32,17 @@ public class OrderProduct{
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    public OrderProduct(Order order, Long productId, Long count, Long price) {
+    public OrderLine(Order order, Long productId, Long quantity, Long price) {
         this.order = order;
         this.productId = productId;
-        this.count = count;
+        this.quantity = quantity;
         this.price = price;
     }
 
-    public OrderProduct(Order order, Long productId, Long count, Long price, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+    public OrderLine(Order order, Long productId, Long count, Long price, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
         this.order = order;
         this.productId = productId;
-        this.count = count;
+        this.quantity = count;
         this.price = price;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
