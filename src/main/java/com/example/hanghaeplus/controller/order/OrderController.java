@@ -23,7 +23,7 @@ public class OrderController {
     @ApiOperation("주문 API")
     @PostMapping
     public ResponseEntity<ResultResponse> createOrder(@RequestBody OrderPostRequest request) {
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_POST_SUCCESS, orderService.createOrder(request)));
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_POST_SUCCESS, orderService.create(request)));
     }
 
 }

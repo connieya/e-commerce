@@ -7,7 +7,6 @@ import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.UserRepository;
-import com.example.hanghaeplus.service.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,7 +61,7 @@ public class OrderServiceTest {
                 .build();
 
         // when
-        orderService.createOrder(orderPostRequest);
+        orderService.create(orderPostRequest);
 
         List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
         Product findProduct1 = products.get(0);
@@ -102,7 +101,7 @@ public class OrderServiceTest {
                 .build();
 
         // when
-        OrderPostResponse order = orderService.createOrder(orderPostRequest);
+        OrderPostResponse order = orderService.create(orderPostRequest);
 
 
         //then
@@ -138,7 +137,7 @@ public class OrderServiceTest {
                 .build();
 
         // when
-        orderService.createOrder(orderPostRequest);
+        orderService.create(orderPostRequest);
 
         User findUser = userRepository.findById(savedUser.getId()).get();
         Long totalPrice = product1.getPrice() * request1.getQuantity() + product2.getPrice() * request2.getQuantity() + product3.getPrice() * request3.getQuantity();
@@ -191,8 +190,8 @@ public class OrderServiceTest {
 
         // when
         CompletableFuture.allOf(
-                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest1)),
-                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest2))
+                CompletableFuture.runAsync(() -> orderService.create(orderPostRequest1)),
+                CompletableFuture.runAsync(() -> orderService.create(orderPostRequest2))
         ).join();
 
         List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
@@ -250,8 +249,8 @@ public class OrderServiceTest {
 
         // when
         CompletableFuture.allOf(
-                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest1)),
-                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest2))
+                CompletableFuture.runAsync(() -> orderService.create(orderPostRequest1)),
+                CompletableFuture.runAsync(() -> orderService.create(orderPostRequest2))
         ).join();
 
         List<Product> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
@@ -307,8 +306,8 @@ public class OrderServiceTest {
         // when
 
         CompletableFuture.allOf(
-                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest1)),
-                CompletableFuture.runAsync(() -> orderService.createOrder(orderPostRequest2))
+                CompletableFuture.runAsync(() -> orderService.create(orderPostRequest1)),
+                CompletableFuture.runAsync(() -> orderService.create(orderPostRequest2))
         ).join();
 
 

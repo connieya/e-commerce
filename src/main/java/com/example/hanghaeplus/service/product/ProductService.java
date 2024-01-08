@@ -58,9 +58,19 @@ public class ProductService {
                 .quantity(product.getQuantity()).build();
     }
 
+    private Map<Long, Long> convertToProductIdQuantityMap(List<ProductRequestForOrder> products) {
+        return products.stream()
+                .collect(Collectors.toMap(ProductRequestForOrder::getProductId, ProductRequestForOrder::getQuantity));
+    }
+
+    private List<Product> findProducts(List<ProductRequestForOrder> productRequests){
+        return productRepository.findAllByPessimisticLock(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
+    }
+
     @Cacheable("rank_product")
     @Transactional(readOnly = true)
     public List<OrderProductRankResponse> getRankProduct() {
+
         LocalDate today = LocalDate.now();
         return orderLineRepository.findTop3RankProductsInLast3Days(today.minusDays(3).atStartOfDay(), today.atStartOfDay());
 
@@ -72,12 +82,5 @@ public class ProductService {
 
     }
 
-    private Map<Long, Long> convertToProductIdQuantityMap(List<ProductRequestForOrder> products) {
-        return products.stream()
-                .collect(Collectors.toMap(ProductRequestForOrder::getProductId, ProductRequestForOrder::getQuantity));
-    }
 
-    private List<Product> findProducts(List<ProductRequestForOrder> productRequests){
-        return productRepository.findAllByPessimisticLock(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
-    }
 }

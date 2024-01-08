@@ -51,7 +51,7 @@ public class OrderProductServiceTest {
                 .products(requests1)
                 .build();
 
-        orderService.createOrder(orderPostRequest1);
+        orderService.create(orderPostRequest1);
 
 
         // when

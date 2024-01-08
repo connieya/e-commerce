@@ -25,6 +25,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final PointRepository pointRepository;
 
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+    }
+
 
     public void registerUser(UserRegisterRequest request) {
         if (userRepository.findByName(request.getName()).isPresent()) {

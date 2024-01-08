@@ -2,12 +2,10 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
-import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.order.OrderLine;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
@@ -95,10 +93,10 @@ class OrderLineRepositoryTest {
         orderPostRequest3 = OrderPostRequest.of(savedUser1.getId(), requests3);
         orderPostRequest4 = OrderPostRequest.of(savedUser1.getId(), requests4);
 
-        orderService.createOrder(orderPostRequest1);
-        orderService.createOrder(orderPostRequest2);
-        orderService.createOrder(orderPostRequest3);
-        orderService.createOrder(orderPostRequest4);
+        orderService.create(orderPostRequest1);
+        orderService.create(orderPostRequest2);
+        orderService.create(orderPostRequest3);
+        orderService.create(orderPostRequest4);
     }
 
 
