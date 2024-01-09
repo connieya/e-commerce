@@ -27,13 +27,13 @@ jobs:
         aws-secret-access-key : ${{secrets.AWS_SECRET_KEY}}
         aws-region: ap-northeast-2
     - name: Login to AWS ECR
-      run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_URL}}
+      run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com
     - name: Build the Docker image
       run: docker build -t hanghae-plus .
     - name : ADD Tag
-      run : docker tag hanghae-plus:latest ${{secrets.ECR_URL}}/hanghae-plus:latest
+      run : docker tag hhplus-prod:latest 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com/hhplus-prod:latest
     - name: Push Docker image to ECR
-      run: docker push ${{secrets.ECR_URL}}/hanghae-plus:latest
+      run: docker push 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com/hhplus-prod:latest
       env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}

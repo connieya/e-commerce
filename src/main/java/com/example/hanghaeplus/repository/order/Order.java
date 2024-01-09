@@ -1,7 +1,6 @@
 package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.product.OrderProduct;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
@@ -30,10 +29,11 @@ public class Order extends BaseEntity {
     private User user;
 
     private Long totalPrice;
+    private Long discountPrice;
 
 
     @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL)
-    private List<OrderProduct> product;
+    private List<OrderLine> product;
 
 
     @Builder
@@ -49,15 +49,15 @@ public class Order extends BaseEntity {
         this.totalPrice = calculateTotalPrice(products);
     }
 
-    private List<OrderProduct> getOrderProducts(List<ProductRequestForOrder> products, LocalDateTime dateTime) {
+    private List<OrderLine> getOrderProducts(List<ProductRequestForOrder> products, LocalDateTime dateTime) {
         return products.stream()
-                .map(product -> new OrderProduct(this, product.getProductId(), product.getQuantity(), product.getPrice() ,dateTime,dateTime))
+                .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice() ,dateTime,dateTime))
                 .collect(Collectors.toList());
     }
 
-    private List<OrderProduct> getOrderProducts(List<ProductRequestForOrder> products) {
+    private List<OrderLine> getOrderProducts(List<ProductRequestForOrder> products) {
         return products.stream()
-               .map(product -> new OrderProduct(this, product.getProductId(), product.getQuantity(), product.getPrice()))
+               .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice()))
                 .collect(Collectors.toList());
     }
 

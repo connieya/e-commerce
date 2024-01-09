@@ -1,23 +1,29 @@
-package com.example.hanghaeplus.repository.product;
+package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.order.FakeOrder;
 import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.order.OrderRepository;
+import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-class OrderProductRepositoryTestV2 {
+@Transactional
+class OrderLineRepositoryTestV2 {
 
 
     @Autowired
@@ -30,7 +36,7 @@ class OrderProductRepositoryTestV2 {
     private ProductRepository productRepository;
 
     @Autowired
-    private OrderProductRepository orderProductRepository;
+    private OrderLineRepository orderProductRepository;
     Product productOnion;
     Product productPotato;
     Product productCarrot;
@@ -79,15 +85,16 @@ class OrderProductRepositoryTestV2 {
         ProductRequestForOrder request4_3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
         List<ProductRequestForOrder> requests4 = List.of(request4_1, request4_2, request4_3);
+        LocalDate today = LocalDate.now();
 
         // 주문 1  : 양파 ,감자 ,당근
-        Order order1 = FakeOrder.create(user, requests1, LocalDateTime.now().minusDays(1).withHour(0).withMinute(0).withSecond(0)); // 1일 전에 주문
+        Order order1 = FakeOrder.create(user, requests1, today.minusDays(1).atStartOfDay()); // 1일 전에 주문
         // 주문 2 : 당근 ,감자
-        Order order2 = FakeOrder.create(user, requests2, LocalDateTime.now().minusDays(2).withHour(0).withMinute(0).withSecond(0)); // 2일 전에 주문
+        Order order2 = FakeOrder.create(user, requests2, today.minusDays(2).atStartOfDay()); // 2일 전에 주문
         // 주문 3 : 당근 ,양파
-        Order order3 = FakeOrder.create(user, requests3, LocalDateTime.now().minusDays(2).withHour(0).withMinute(0).withSecond(0)); // 2일 전에 주문
+        Order order3 = FakeOrder.create(user, requests3, today.minusDays(3).atStartOfDay()); // 2일 전에 주문
         // 주문 4 : 버섯 , 양파 ,당근
-        Order order4 = FakeOrder.create(user, requests4, LocalDateTime.now().minusDays(3).withHour(0).withMinute(0).withSecond(0)); // 3일 전에 주문
+        Order order4 = FakeOrder.create(user, requests4, today.minusDays(4).atStartOfDay()); // 3일 전에 주문
 
 
         orderRepository.saveAll(List.of(order1, order2, order3, order4));
@@ -98,10 +105,8 @@ class OrderProductRepositoryTestV2 {
     @Test
     void findTop3ProductsInLast3Days() {
         // given   // when
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime threeDaysAgo = now.minusDays(2).withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime oneDaysAfter = now.plusDays(1).withHour(0).withMinute(0).withSecond(0);
-        List<OrderProductRankResponse> top3RankProductsInLast3Days = orderProductRepository.findTop3RankProductsInLast3Days(threeDaysAgo.toLocalDate().atStartOfDay(), oneDaysAfter.toLocalDate().atStartOfDay());
+        LocalDate today = LocalDate.now();
+        List<OrderProductRankResponse> top3RankProductsInLast3Days = orderProductRepository.findTop3RankProductsInLast3Days(today.minusDays(3).atStartOfDay(), today.atStartOfDay());
 
 
         // 주문 4 제외 =>  주문 1 , 주문 2,  주문 3 :  당근 3 , 양파 2,  감자 2

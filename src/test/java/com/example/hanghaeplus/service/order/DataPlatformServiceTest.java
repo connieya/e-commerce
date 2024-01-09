@@ -16,11 +16,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Slf4j
@@ -67,7 +65,7 @@ class DataPlatformServiceTest {
                 .build();
         Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(Order.class));
         // when
-        OrderPostResponse order = orderService.createOrder(orderPostRequest);
+        OrderPostResponse order = orderService.create(orderPostRequest);
         User findUser = userRepository.findByName("건희").get();
         //then
         assertThat(order).isNull();

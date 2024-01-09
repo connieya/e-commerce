@@ -16,16 +16,9 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 public class PointService {
 
     private final PointRepository pointRepository;
-    private final UserRepository userRepository;
 
-
-    public void processPayment(Order order) {
-        Long totalPrice = order.getTotalPrice();
-        User user = userRepository.findById(order.getUser().getId()).get();
-        if (user.getCurrentPoint() < totalPrice){
-            throw new UserException.InsufficientPointsException(INSUFFICIENT_POINT);
-        }
-        Point point = Point.create(user, totalPrice);
+    public void process(User user, Order order) {
+        Point point = Point.create(user, order.getTotalPrice());
         pointRepository.save(point);
     }
 }

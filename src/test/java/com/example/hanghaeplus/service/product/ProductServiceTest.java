@@ -2,7 +2,7 @@ package com.example.hanghaeplus.service.product;
 
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.repository.product.OrderProductRepository;
+import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -25,7 +25,7 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
     @Mock
-    private OrderProductRepository orderProductRepository;
+    private OrderLineRepository orderProductRepository;
 
     private AutoCloseable autoCloseable;
     private ProductService productService;

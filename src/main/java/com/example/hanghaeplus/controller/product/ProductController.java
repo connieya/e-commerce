@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.controller.product;
 
+import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
 import com.example.hanghaeplus.common.result.ResultResponse;
@@ -8,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.example.hanghaeplus.common.result.ResultCode.*;
 
@@ -35,8 +38,7 @@ public class ProductController {
 
     @ApiOperation("상위 상품 조회 API")
     @GetMapping("/rank")
-    public ResponseEntity<ResultResponse> getTopProduct(){
-        productService.getRankProduct();
-        return null;
+    public List<OrderProductRankResponse> getTopProduct(){
+       return productService.getRankProduct();
     }
 }
