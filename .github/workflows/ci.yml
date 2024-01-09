@@ -29,7 +29,7 @@ jobs:
     - name: Login to AWS ECR
       run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com
     - name: Build the Docker image
-      run: docker build -t hanghae-plus .
+      run: docker build -t hhplus-prod:latest
     - name : ADD Tag
       run : docker tag hhplus-prod:latest 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com/hhplus-prod:latest
     - name: Push Docker image to ECR
