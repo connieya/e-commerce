@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -15,6 +16,7 @@ import java.util.concurrent.CompletionException;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class UserServiceTest {
 
     @Autowired
@@ -63,6 +65,7 @@ class UserServiceTest {
                 .point(6000L)
                 .build();
         // when
+        System.out.println("request1 = " + request1.getId());
         CompletableFuture.allOf(
                 CompletableFuture.runAsync(()->  userService.rechargePoint(request1)),
                 CompletableFuture.runAsync(()->  userService.rechargePoint(request2))

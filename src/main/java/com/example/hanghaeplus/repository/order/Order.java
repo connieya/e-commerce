@@ -29,6 +29,7 @@ public class Order extends BaseEntity {
     private User user;
 
     private Long totalPrice;
+    private Long discountPrice;
 
 
     @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL)

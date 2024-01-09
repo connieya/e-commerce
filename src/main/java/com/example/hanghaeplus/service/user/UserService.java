@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.hanghaeplus.common.error.ErrorCode.*;
 import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 
 @Service
@@ -26,29 +28,31 @@ public class UserService {
     private final PointRepository pointRepository;
 
     public User findById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+        return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
 
+    @Transactional
     public void registerUser(UserRegisterRequest request) {
         if (userRepository.findByName(request.getName()).isPresent()) {
-            throw new EntityAlreadyExistException(ErrorCode.USER_ALREADY_EXIST);
+            throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
         }
         ;
         User user = User.create(request.getName(), request.getPoint());
         userRepository.save(user);
     }
 
+    @Transactional
     public void rechargePoint(UserRechargeRequest request) {
+        System.out.println("rechargePoint = " + request.getId());
         try {
-            User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+            User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
             user.rechargePoint(request.getPoint());
             Point point = Point.create(user, request.getPoint(), RECHARGE);
             pointRepository.save(point);
             userRepository.save(user);
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
-//            throw new
             rechargePoint(request);
         }
     }
