@@ -1,19 +1,19 @@
 server:
   port: 8080
+  servlet:
+    application-display-name: dev
 
 spring:
-  application:
-    name: hanghae-plus-dev
-
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ecommerce?serverTimezone=Asia/Seoul
-    username: root
-    password: 1234
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/testdb
+    username: sa
+    password:
 
   jpa:
     hibernate:
       ddl-auto: create
+      dialect: org.hibernate.dialect.H2Dialect
     show-sql: true
     properties:
       hibernate:
