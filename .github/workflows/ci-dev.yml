@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "dev" ]
 
+env:
+  AWS_REGION: ap-northeast-2
+  ECS_CLUSTER_NAME: cluster-hhplus-dev
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,7 +31,7 @@ jobs:
       with:
         aws-access-key-id : ${{secrets.AWS_ACCESS_KEY}}
         aws-secret-access-key : ${{secrets.AWS_SECRET_KEY}}
-        aws-region: ap-northeast-2
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Login to AWS ECR
       run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_DEV_URL}}
@@ -34,9 +39,10 @@ jobs:
     - name: Build the Docker image
       run: docker build -t hanghae-plus .
     - name : ADD Tag
-      run : docker tag hanghae-plus:latest ${{secrets.ECR_DEV_URL}}/hanghae-plus:latest
+      run : docker tag hhplus-dev:latest ${{secrets.ECR_DEV_URL}}/hhplus-dev:latest
     - name: Push Docker image to ECR
-      run: docker push ${{secrets.ECR_URL}}/hanghae-plus:latest
+      run: docker push ${{secrets.ECR_DEV_URL}}/hhplus-dev:latest
       env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
+
