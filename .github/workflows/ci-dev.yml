@@ -9,6 +9,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECS_CLUSTER_NAME: cluster-hhplus-dev
+  ECS_TASK_DEFINITION :
 
 
 jobs:
@@ -35,9 +36,8 @@ jobs:
 
     - name: Login to AWS ECR
       run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_DEV_URL}}
-
     - name: Build the Docker image
-      run: docker build -t hanghae-plus .
+      run: docker build -t hhplus-dev:latest .
     - name : ADD Tag
       run : docker tag hhplus-dev:latest ${{secrets.ECR_DEV_URL}}/hhplus-dev:latest
     - name: Push Docker image to ECR
@@ -45,4 +45,12 @@ jobs:
       env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
+    - name: Render ECS task-definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: "11"
+        cluster: ${{ env.ECS_CLUSTER_NAME }}
+        service: ${{ env.ECS_SERVICE_NAME }}
+        wait-for-service-stability: true
+
 
