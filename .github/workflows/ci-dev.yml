@@ -35,9 +35,15 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Login to AWS ECR
+      id: login-ecr
       run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_DEV_URL}}
+
     - name: Build the Docker image
-      run: docker build -t hhplus-dev:latest .
+      id: build-image
+      run: |
+       docker build -t hhplus-dev:latest .
+       echo "::set-output name=image::${{ secrets.ECR_DEV_URL }}/hhplus-dev:latest"
+
     - name : ADD Tag
       run : docker tag hhplus-dev:latest ${{secrets.ECR_DEV_URL}}/hhplus-dev:latest
     - name: Push Docker image to ECR
@@ -45,5 +51,11 @@ jobs:
       env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
-
+    - name: Render ECS task-definition
+      id: render-task-definition
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+       task-definition: task-definition-dev.json
+       container-name: hhp-dev
+       image: ${{ steps.build-image.outputs.image }}
 
