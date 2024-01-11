@@ -6,10 +6,14 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  AWS_REGION: ap-northeast-2
+  ECS_CLUSTER_NAME: cluster-hhplus-prod
+  ECS_SERVICE_NAME :
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -25,15 +29,33 @@ jobs:
       with:
         aws-access-key-id : ${{secrets.AWS_ACCESS_KEY}}
         aws-secret-access-key : ${{secrets.AWS_SECRET_KEY}}
-        aws-region: ap-northeast-2
+        aws-region: ${{ env.AWS_REGION }}
+
     - name: Login to AWS ECR
-      run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{secrets.ECR_URL}}
+      run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin  ${{secrets.ECR_URL}}
+
     - name: Build the Docker image
-      run: docker build -t hanghae-plus .
+      run: docker build -t hhplus-prod:latest .
+
     - name : ADD Tag
-      run : docker tag hanghae-plus:latest ${{secrets.ECR_URL}}/hanghae-plus:latest
+      run : docker tag hhplus-prod:latest ${{secrets.ECR_URL}}/hhplus-prod:latest
+
     - name: Push Docker image to ECR
-      run: docker push ${{secrets.ECR_URL}}/hanghae-plus:latest
+      run: docker push ${{secrets.ECR_URL}}/hhplus-prod:latest
       env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
+
+    - name: Render ECS task-definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+          task-definition: "11"
+          container-name :  hanghae-plus
+          wait-for-service-stability: true
+    - name: Deploy Amazon ECS task-definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.render-task-definition.outputs.task-definition }}
+        cluster: ""
+        service: ""
+        wait-for-service-stability: true

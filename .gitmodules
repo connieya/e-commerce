@@ -1,0 +1,3 @@
+[submodule "src/main/resources/task-definition"]
+	path = task-definition
+	url = https://github.com/connieya/task-definition.git

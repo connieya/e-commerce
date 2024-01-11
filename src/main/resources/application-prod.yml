@@ -1,12 +1,22 @@
 server:
-  port: 8081
-
+  port: 8080
+  servlet:
+    application-display-name: prod
 
 spring:
   application:
-    name: hanghae-plus-prod
+    name: prod
+
   datasource:
-    driver-class-name: # mysql
-    url: # prod db 엔드 포인트
-    username: # prod db username
-    password: # prod db password
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/test
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
