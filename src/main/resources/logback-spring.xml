@@ -10,19 +10,18 @@
     </appender>
     <appender name="ASYNC_AWS_LOGS" class="ca.pjer.logback.AwsLogsAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
+            <level>INFO</level>
         </filter>
         <layout>
             <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>
         </layout>
         <logGroupName>hhplus-ecommerce</logGroupName>
-    <logStreamUuidPrefix>info-</logStreamUuidPrefix>
     <logStreamUuidPrefix>error-</logStreamUuidPrefix>
-    <logRegion>ap-northeast-2</logRegion>
-    <maxBatchLogEvents>50</maxBatchLogEvents>
-    <maxFlushTimeMillis>30000</maxFlushTimeMillis>
-    <maxBlockTimeMillis>5000</maxBlockTimeMillis>
-    <retentionTimeDays>0</retentionTimeDays>
+        <logRegion>ap-northeast-2</logRegion>
+        <maxBatchLogEvents>50</maxBatchLogEvents>
+        <maxFlushTimeMillis>30000</maxFlushTimeMillis>
+        <maxBlockTimeMillis>5000</maxBlockTimeMillis>
+        <retentionTimeDays>0</retentionTimeDays>
     </appender>
 
     <springProfile name="dev">
@@ -34,6 +33,7 @@
 
     <root level="INFO">
         <appender-ref ref="console"/>
+        <appender-ref ref="ASYNC_AWS_LOGS" />
     </root>
 
 </configuration>
