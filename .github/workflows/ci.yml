@@ -35,7 +35,10 @@ jobs:
       run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin  ${{secrets.ECR_URL}}
 
     - name: Build the Docker image
-      run: docker build -t hhplus-prod:latest .
+      id: build-image
+      run: |
+        docker build -t hhplus-prod:latest .
+        echo "::set-output name=image::${{ secrets.ECR_URL }}/hhplus-dev:latest"
 
     - name : ADD Tag
       run : docker tag hhplus-prod:latest ${{secrets.ECR_URL}}/hhplus-prod:latest
@@ -45,17 +48,17 @@ jobs:
       env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
-
     - name: Render ECS task-definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-          task-definition: "11"
-          container-name :  hanghae-plus
-          wait-for-service-stability: true
+          task-definition: task-definition-prod.json
+          container-name : hhp-prod
+          image: ${{ steps.build-image.outputs.image }}
+
     - name: Deploy Amazon ECS task-definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-        task-definition: ${{ steps.render-task-definition.outputs.task-definition }}
-        cluster: ""
-        service: ""
-        wait-for-service-stability: true
+       task-definition: ${{ steps.render-task-definition.outputs.task-definition }}
+       cluster: ${{env.cluster-hhplus-prod}}
+       service: hhplus-task-prod-service
+       wait-for-service-stability: true
