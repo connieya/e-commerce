@@ -32,11 +32,19 @@ dependencies {
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.1.2'
 
+	// https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.4'
+
+
 	// aws 로그백
 	implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 	implementation 'org.codehaus.janino:janino:3.1.9'
+
+	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// DB
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

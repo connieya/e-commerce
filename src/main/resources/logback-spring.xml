@@ -16,7 +16,7 @@
             <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>
         </layout>
         <logGroupName>hhplus-ecommerce</logGroupName>
-    <logStreamUuidPrefix>error-</logStreamUuidPrefix>
+        <logStreamUuidPrefix>error-</logStreamUuidPrefix>
         <logRegion>ap-northeast-2</logRegion>
         <maxBatchLogEvents>50</maxBatchLogEvents>
         <maxFlushTimeMillis>30000</maxFlushTimeMillis>

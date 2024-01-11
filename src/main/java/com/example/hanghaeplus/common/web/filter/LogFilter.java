@@ -5,8 +5,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class LogFilter implements Filter {
 
@@ -18,18 +20,17 @@ public class LogFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String requestURI = httpRequest.getRequestURI();
         String method = httpRequest.getMethod();
-
+        MDC.put("traceId", UUID.randomUUID().toString().substring(0, 8));
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        try {
-            LOGGER.info("request URI = {} ", requestURI);
-            LOGGER.info("method = {}", method);
-            chain.doFilter(request, response);
-        } catch (Exception e) {
-            LOGGER.error("error = {} ");
-        } finally {
-            LOGGER.info("response status = {}" ,httpResponse.getStatus());
-        }
+
+        LOGGER.info("[{}]  request URI = {} ", MDC.get("traceId"), requestURI);
+        LOGGER.info("[{}]  method = {}", MDC.get("traceId"), method);
+        chain.doFilter(request, response);
+
+        LOGGER.info("[{}]  response status = {}", MDC.get("traceId"), httpResponse.getStatus());
+        MDC.clear();
+
 
     }
 }
