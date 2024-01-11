@@ -1,39 +1,42 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:490538782156:task-definition/hhplus-task-dev:6",
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:490538782156:task-definition/hhp-ecommerce-dev:1",
   "containerDefinitions": [
     {
-      "name": "hhp-dev",
-      "image": "490538782156.dkr.ecr.ap-northeast-2.amazonaws.com/hhplus-dev:latest",
+      "name": "ecommerce",
+      "image": "490538782156.dkr.ecr.ap-northeast-2.amazonaws.com/hhplus-dev",
       "cpu": 0,
       "portMappings": [
         {
-          "name": "hhp-dev-80-tcp",
-          "containerPort": 80,
-          "hostPort": 80,
+          "name": "ecommerce-8080-tcp",
+          "containerPort": 8080,
+          "hostPort": 8080,
           "protocol": "tcp",
           "appProtocol": "http"
         }
       ],
       "essential": true,
       "environment": [],
+      "environmentFiles": [],
       "mountPoints": [],
       "volumesFrom": [],
+      "ulimits": [],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
           "awslogs-create-group": "true",
-          "awslogs-group": "/ecs/hhplus-task-dev",
+          "awslogs-group": "/ecs/hhp-ecommerce-dev",
           "awslogs-region": "ap-northeast-2",
           "awslogs-stream-prefix": "ecs"
-        }
+        },
+        "secretOptions": []
       }
     }
   ],
-  "family": "hhplus-task-dev",
+  "family": "hhp-ecommerce-dev",
   "taskRoleArn": "arn:aws:iam::490538782156:role/role-ecs-tasks",
   "executionRoleArn": "arn:aws:iam::490538782156:role/role-ecs-tasks",
   "networkMode": "awsvpc",
-  "revision": 6,
+  "revision": 1,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -73,13 +76,13 @@
   "requiresCompatibilities": [
     "FARGATE"
   ],
-  "cpu": "512",
-  "memory": "1024",
+  "cpu": "1024",
+  "memory": "3072",
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-01-11T01:58:24.667Z",
-  "registeredBy": "arn:aws:iam::490538782156:user/hhp-user",
+  "registeredAt": "2024-01-11T07:03:08.235Z",
+  "registeredBy": "arn:aws:iam::490538782156:root",
   "tags": []
 }

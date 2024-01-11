@@ -15,13 +15,22 @@
         <layout>
             <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>
         </layout>
-    </appender>
+        <logGroupName>hhplus-ecommerce</logGroupName>
+    <logStreamUuidPrefix>info-</logStreamUuidPrefix>
     <logStreamUuidPrefix>error-</logStreamUuidPrefix>
     <logRegion>ap-northeast-2</logRegion>
     <maxBatchLogEvents>50</maxBatchLogEvents>
     <maxFlushTimeMillis>30000</maxFlushTimeMillis>
     <maxBlockTimeMillis>5000</maxBlockTimeMillis>
     <retentionTimeDays>0</retentionTimeDays>
+    </appender>
+
+    <springProfile name="dev">
+        <logger name="org.springframework" level="INFO" />
+        <root level="INFO">
+            <appender-ref ref="ASYNC_AWS_LOGS" />
+        </root>
+    </springProfile>
 
     <root level="INFO">
         <appender-ref ref="console"/>
