@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:490538782156:task-definition/hhplus-task-dev:4",
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:490538782156:task-definition/hhplus-task-dev:6",
   "containerDefinitions": [
     {
       "name": "hhp-dev",
@@ -33,7 +33,7 @@
   "taskRoleArn": "arn:aws:iam::490538782156:role/role-ecs-tasks",
   "executionRoleArn": "arn:aws:iam::490538782156:role/role-ecs-tasks",
   "networkMode": "awsvpc",
-  "revision": 4,
+  "revision": 6,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -79,7 +79,7 @@
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-01-11T01:52:18.072Z",
+  "registeredAt": "2024-01-11T01:58:24.667Z",
   "registeredBy": "arn:aws:iam::490538782156:user/hhp-user",
   "tags": []
 }
