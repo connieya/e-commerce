@@ -11,7 +11,6 @@ env:
   ECS_CLUSTER_NAME: cluster-hhplus-dev
 
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -63,7 +62,7 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.render-task-definition.outputs.task-definition }}
-        cluster: ${{env.cluster-hhplus-dev}}
+        cluster: ${{env.ECS_CLUSTER_NAME}}
         service: hhplus-task-dev-service
         wait-for-service-stability: true
 
