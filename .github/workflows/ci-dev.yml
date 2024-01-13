@@ -63,7 +63,7 @@ jobs:
       with:
         task-definition: ${{ steps.render-task-definition.outputs.task-definition }}
         cluster: ${{env.ECS_CLUSTER_NAME}}
-        service: hhp-ecommerce-service
+        service: hhp-service
         wait-for-service-stability: true
 
 

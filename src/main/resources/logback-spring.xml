@@ -2,7 +2,7 @@
 <configuration>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
+            <level>TRACE</level>
         </filter>
         <encoder>
             <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%thread] %highlight(%level) %M %logger %msg%n</pattern>
@@ -26,6 +26,9 @@
 
     <springProfile name="dev">
         <logger name="org.springframework" level="INFO" />
+        <logger name="com.example.hanghaeplus" level="INFO">
+            <appender-ref ref="ASYNC_AWS_LOGS"/>
+        </logger>
         <root level="INFO">
             <appender-ref ref="ASYNC_AWS_LOGS" />
         </root>
@@ -33,7 +36,6 @@
 
     <root level="INFO">
         <appender-ref ref="console"/>
-        <appender-ref ref="ASYNC_AWS_LOGS" />
     </root>
 
 </configuration>

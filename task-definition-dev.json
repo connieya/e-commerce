@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:490538782156:task-definition/hhp-ecommerce-dev:1",
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:490538782156:task-definition/hanghae-plus-task:6",
   "containerDefinitions": [
     {
       "name": "ecommerce",
@@ -7,9 +7,9 @@
       "cpu": 0,
       "portMappings": [
         {
-          "name": "ecommerce-8080-tcp",
-          "containerPort": 8080,
-          "hostPort": 8080,
+          "name": "ecommerce-80-tcp",
+          "containerPort": 80,
+          "hostPort": 80,
           "protocol": "tcp",
           "appProtocol": "http"
         }
@@ -24,7 +24,7 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-create-group": "true",
-          "awslogs-group": "/ecs/hhp-ecommerce-dev",
+          "awslogs-group": "/ecs/hanghae-plus-task",
           "awslogs-region": "ap-northeast-2",
           "awslogs-stream-prefix": "ecs"
         },
@@ -32,11 +32,11 @@
       }
     }
   ],
-  "family": "hhp-ecommerce-dev",
-  "taskRoleArn": "arn:aws:iam::490538782156:role/role-ecs-tasks",
-  "executionRoleArn": "arn:aws:iam::490538782156:role/role-ecs-tasks",
+  "family": "hanghae-plus-task",
+  "taskRoleArn": "arn:aws:iam::490538782156:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::490538782156:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 1,
+  "revision": 6,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -82,7 +82,7 @@
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-01-11T07:03:08.235Z",
+  "registeredAt": "2024-01-13T07:33:26.965Z",
   "registeredBy": "arn:aws:iam::490538782156:root",
   "tags": []
 }
