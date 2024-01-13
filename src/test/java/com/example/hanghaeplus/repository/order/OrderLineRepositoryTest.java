@@ -95,10 +95,10 @@ class OrderLineRepositoryTest {
         orderPostRequest3 = OrderPostRequest.of(savedUser1.getId(), requests3);
         orderPostRequest4 = OrderPostRequest.of(savedUser1.getId(), requests4);
 
-        orderService.create(orderPostRequest1);
-        orderService.create(orderPostRequest2);
-        orderService.create(orderPostRequest3);
-        orderService.create(orderPostRequest4);
+        orderService.create(orderPostRequest1.toCommand());
+        orderService.create(orderPostRequest2.toCommand());
+        orderService.create(orderPostRequest3.toCommand());
+        orderService.create(orderPostRequest4.toCommand()).toString();
     }
 
 

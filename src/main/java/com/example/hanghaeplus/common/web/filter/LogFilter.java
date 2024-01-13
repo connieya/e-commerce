@@ -31,6 +31,5 @@ public class LogFilter implements Filter {
         LOGGER.info("[{}]  response status = {}", MDC.get("traceId"), httpResponse.getStatus());
         MDC.clear();
 
-
     }
 }
