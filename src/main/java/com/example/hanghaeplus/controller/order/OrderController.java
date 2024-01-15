@@ -26,7 +26,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<ResultResponse> createOrder(@RequestBody OrderPostRequest request) {
         Order order = orderService.create(request.toCommand());
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_POST_SUCCESS, order));
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_POST_SUCCESS, OrderPostResponse.of(order)));
     }
 
 }

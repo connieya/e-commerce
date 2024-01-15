@@ -3,11 +3,13 @@ package com.example.hanghaeplus.controller.order.request;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Setter @Getter
+@NoArgsConstructor
 @Builder
 public class OrderPostRequest {
 
