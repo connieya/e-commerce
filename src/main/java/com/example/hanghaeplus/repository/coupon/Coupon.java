@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
+import static com.example.hanghaeplus.repository.coupon.CouponState.*;
 import static com.example.hanghaeplus.service.coupon.CouponException.*;
 
 @Entity
@@ -36,8 +37,12 @@ public class Coupon extends BaseEntity {
     }
 
     public void verify(LocalDateTime today) {
-        if (couponState != CouponState.UNUSED || today.isAfter(expirationPeriod) ){
+        if (couponState != UNUSED || today.isAfter(expirationPeriod) ){
             throw new CouponCodeVerificationException(COUPON_VERIFY_FAIL);
         }
+    }
+
+    public void use() {
+        this.couponState = USED;
     }
 }

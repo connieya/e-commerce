@@ -38,4 +38,12 @@ public class CouponService {
         coupon.verify(LocalDate.now().atStartOfDay());
         return coupon;
     }
+
+    public Integer use(String couponCode) {
+        Coupon coupon = couponRepository.findByCode(couponCode);
+        if (coupon == null) return 0;
+        coupon.verify(LocalDate.now().atStartOfDay());
+        coupon.use();
+        return coupon.getRate();
+    }
 }

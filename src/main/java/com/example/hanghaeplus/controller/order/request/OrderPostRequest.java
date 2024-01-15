@@ -13,11 +13,19 @@ public class OrderPostRequest {
 
     List<ProductRequestForOrder> products;
     private Long userId;
+    private String couponCode;
 
     @Builder
     private OrderPostRequest(List<ProductRequestForOrder> products, Long userId) {
         this.products = products;
         this.userId = userId;
+    }
+
+    @Builder
+    public OrderPostRequest(List<ProductRequestForOrder> products, Long userId, String couponCode) {
+        this.products = products;
+        this.userId = userId;
+        this.couponCode = couponCode;
     }
 
     public static OrderPostRequest of(Long userId , List<ProductRequestForOrder> requests){
@@ -28,7 +36,17 @@ public class OrderPostRequest {
                 .build();
     }
 
+    public static OrderPostRequest of(Long userId , List<ProductRequestForOrder> requests , String couponCode){
+        return OrderPostRequest
+                .builder()
+                .userId(userId)
+                .products(requests)
+                .couponCode(couponCode)
+                .build();
+    }
+
+
     public OrderCommand toCommand(){
-        return new OrderCommand(products,userId);
+        return new OrderCommand(products,userId,couponCode);
     }
 }
