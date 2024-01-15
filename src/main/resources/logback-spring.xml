@@ -8,7 +8,7 @@
             <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%thread] %highlight(%level) %M %logger %msg%n</pattern>
         </encoder>
     </appender>
-    <appender name="ASYNC_AWS_LOGS" class="ca.pjer.logback.AwsLogsAppender">
+    <appender name="ASYNC_AWS_LOGS" class="ca. pjer.logback.AwsLogsAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>

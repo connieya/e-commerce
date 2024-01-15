@@ -23,9 +23,9 @@ public class CouponController {
     private final Logger LOGGER = LoggerFactory.getLogger(LogFilter.class);
     @GetMapping
     public ResponseEntity<ResultResponse> get() {
-        couponService.findAll();
         String traceId = MDC.get("traceId");
         LOGGER.info("[{}] CouponController", traceId);
+        couponService.findAll();
         return null;
     }
 }

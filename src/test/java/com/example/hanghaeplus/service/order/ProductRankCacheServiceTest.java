@@ -11,27 +11,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDate;
+
 import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
+@MockBean(OrderLineRepository.class)
 public class ProductRankCacheServiceTest {
 
 
     @MockBean
     private OrderLineRepository orderLineRepository;
 
-    @Autowired
+    @InjectMocks
     private ProductService productService;
 
     @Test
     public void testGetRankProductCaching() {
         // 모의 객체의 반환값 설정
         // getRankProduct 메서드 3번 호출
+        LocalDate today = LocalDate.now();
         for (int i = 0; i < 3; i++) {
             productService.getRankProduct();
         }
 
-        verify(productService, times(1)).getRankProduct();
+        verify(orderLineRepository, times(1)).findTop3RankProductsInLast3Days(today.minusDays(3).atStartOfDay(), today.atStartOfDay());
     }
 }

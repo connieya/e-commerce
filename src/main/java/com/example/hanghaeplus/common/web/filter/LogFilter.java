@@ -23,7 +23,6 @@ public class LogFilter implements Filter {
         MDC.put("traceId", UUID.randomUUID().toString().substring(0, 8));
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-
         LOGGER.info("[{}]  request URI = {} ", MDC.get("traceId"), requestURI);
         LOGGER.info("[{}]  method = {}", MDC.get("traceId"), method);
         chain.doFilter(request, response);

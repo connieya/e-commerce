@@ -5,6 +5,7 @@ import com.example.hanghaeplus.common.error.ErrorResponse;
 import com.example.hanghaeplus.common.web.filter.LogFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,11 +21,14 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class GlobalExceptionHandler {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LogFilter.class);
+
+
+
     @ExceptionHandler
     protected ResponseEntity<?> handleBusinessException(BusinessException e) {
+        String traceId = MDC.get("traceId");
         ErrorCode errorCode = e.getErrorCode();
         ErrorResponse response = ErrorResponse.of(errorCode, e.getErrors());
-        LOGGER.error(e.getMessage(), errorCode.getMessage());
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
 
