@@ -4,6 +4,7 @@ import com.example.hanghaeplus.common.result.ResultCode;
 import com.example.hanghaeplus.common.result.ResultResponse;
 import com.example.hanghaeplus.common.web.filter.LogFilter;
 import com.example.hanghaeplus.controller.coupon.request.CouponPostRequest;
+import com.example.hanghaeplus.repository.coupon.Coupon;
 import com.example.hanghaeplus.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +36,10 @@ public class CouponController {
     }
 
     @GetMapping
-    public ResponseEntity<ResultResponse> get() {
+    public ResponseEntity<ResultResponse> findByCode(@RequestParam("code") String code) {
         String traceId = MDC.get("traceId");
         LOGGER.info("[{}] CouponController", traceId);
-        couponService.findAll();
-        return null;
+        Coupon coupon = couponService.findByCode(code);
+        return ResponseEntity.ok(ResultResponse.of(COUPON_POST_SUCCESS, coupon));
     }
 }

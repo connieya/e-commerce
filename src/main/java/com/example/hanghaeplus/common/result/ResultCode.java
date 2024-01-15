@@ -19,6 +19,7 @@ public enum ResultCode {
 
     // coupon
     COUPON_POST_SUCCESS(200, "C001", "할인 쿠폰 등록에 성공하였습니다. "),
+    COUPON_GET_SUCCESS(200, "C002", "할인 쿠폰 조회에 성공하였습니다. "),
 
 
     // order

@@ -1,5 +1,7 @@
 package com.example.hanghaeplus.service.coupon;
 
+import com.example.hanghaeplus.common.error.ErrorCode;
+import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.common.web.filter.LogFilter;
 import com.example.hanghaeplus.repository.coupon.Coupon;
 import com.example.hanghaeplus.repository.coupon.CouponRepository;
@@ -8,6 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+
+import static com.example.hanghaeplus.common.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,5 +28,14 @@ public class CouponService {
 
     public void save(Coupon coupon) {
         couponRepository.save(coupon);
+    }
+
+    public Coupon findByCode(String code) {
+        Coupon coupon = couponRepository.findByCode(code);
+        if (coupon == null){
+            throw new EntityNotFoundException(COUPON_NOT_EXIST);
+        }
+        coupon.verify(LocalDate.now().atStartOfDay());
+        return coupon;
     }
 }
