@@ -25,15 +25,31 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.1.5'
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.1.2'
-// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.1.2'
 
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.4'
+
+
+	// aws 로그백
+	implementation "ca.pjer:logback-awslogs-appender:1.6.0"
+	implementation 'org.codehaus.janino:janino:3.1.9'
+
+	implementation 'ch.qos.logback.contrib:logback-contrib:0.1.5' // 최신 버전 확인
+//	implementation 'ch.qos.logback:logback-classic:1.1.7'
+//	implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+//	implementation 'ch.qos.logback.contrib:logback-jackson:0.1.5'
+//	implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
+
+
+	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// DB
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -1,38 +1,64 @@
-name: hanghae-plus-actions
-
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v1
-      with:
-          java-version: 17
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew bootjar
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id : ${{secrets.AWS_ACCESS_KEY}}
-        aws-secret-access-key : ${{secrets.AWS_SECRET_KEY}}
-        aws-region: ap-northeast-2
-    - name: Login to AWS ECR
-      run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com
-    - name: Build the Docker image
-      run: docker build -t hhplus-prod:latest .
-    - name : ADD Tag
-      run : docker tag hhplus-prod:latest 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com/hhplus-prod:latest
-    - name: Push Docker image to ECR
-      run: docker push 490538782156.dkr.ecr.ap-northeast-2.amazonaws.com/hhplus-prod:latest
-      env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
+#name: hanghae-plus-actions
+#
+#on:
+#  push:
+#    branches: [ "master" ]
+#  pull_request:
+#    branches: [ "master" ]
+#
+#env:
+#  AWS_REGION: ap-northeast-2
+#  ECS_CLUSTER_NAME: cluster-hhplus-prod
+#  ECS_SERVICE_NAME :
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v3
+#    - name: Set up JDK 17
+#      uses: actions/setup-java@v1
+#      with:
+#          java-version: 17
+#    - name: Grant execute permission for gradlew
+#      run: chmod +x gradlew
+#    - name: Build with Gradle
+#      run: ./gradlew bootjar
+#    - name: Configure AWS credentials
+#      uses: aws-actions/configure-aws-credentials@v1
+#      with:
+#        aws-access-key-id : ${{secrets.AWS_ACCESS_KEY}}
+#        aws-secret-access-key : ${{secrets.AWS_SECRET_KEY}}
+#        aws-region: ${{ env.AWS_REGION }}
+#
+#    - name: Login to AWS ECR
+#      run: aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin  ${{secrets.ECR_URL}}
+#
+#    - name: Build the Docker image
+#      id: build-image
+#      run: |
+#        docker build -t hhplus-prod:latest .
+#        echo "::set-output name=image::${{ secrets.ECR_URL }}/hhplus-dev:latest"
+#
+#    - name : ADD Tag
+#      run : docker tag hhplus-prod:latest ${{secrets.ECR_URL}}/hhplus-prod:latest
+#
+#    - name: Push Docker image to ECR
+#      run: docker push ${{secrets.ECR_URL}}/hhplus-prod:latest
+#      env:
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
+#    - name: Render ECS task-definition
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#          task-definition: task-definition-prod.json
+#          container-name : hhp-prod
+#          image: ${{ steps.build-image.outputs.image }}
+#
+#    - name: Deploy Amazon ECS task-definition
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#       task-definition: ${{ steps.render-task-definition.outputs.task-definition }}
+#       cluster: ${{env.cluster-hhplus-prod}}
+#       service: hhplus-task-prod-service
+#       wait-for-service-stability: true

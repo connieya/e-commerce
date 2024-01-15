@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.controller.order.request;
 
+import com.example.hanghaeplus.service.order.request.OrderCommand;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +26,9 @@ public class OrderPostRequest {
                 .userId(userId)
                 .products(requests)
                 .build();
+    }
+
+    public OrderCommand toCommand(){
+        return new OrderCommand(products,userId);
     }
 }

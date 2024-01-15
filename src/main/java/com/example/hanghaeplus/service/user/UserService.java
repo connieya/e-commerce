@@ -44,13 +44,13 @@ public class UserService {
 
     @Transactional
     public void rechargePoint(UserRechargeRequest request) {
-        System.out.println("rechargePoint = " + request.getId());
         try {
             User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
             user.rechargePoint(request.getPoint());
             Point point = Point.create(user, request.getPoint(), RECHARGE);
             pointRepository.save(point);
             userRepository.save(user);
+
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
             rechargePoint(request);

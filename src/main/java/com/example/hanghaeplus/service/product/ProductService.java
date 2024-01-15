@@ -9,6 +9,7 @@ import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.service.order.request.OrderCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -39,7 +40,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void deduct(OrderPostRequest request) {
+    public void deduct(OrderCommand request) {
         List<ProductRequestForOrder> productRequests = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(productRequests);
         List<Product> products = findProducts(productRequests);
