@@ -1,8 +1,11 @@
 package com.example.hanghaeplus.service.order;
 
+import com.example.hanghaeplus.controller.coupon.request.CouponPostRequest;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.repository.coupon.Coupon;
+import com.example.hanghaeplus.repository.coupon.CouponRepository;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,6 +35,9 @@ public class OrderServiceTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CouponRepository couponRepository;
 
 
     @DisplayName("주문 한 상품 수량 만큼 재고를 차감한다.")
@@ -80,9 +87,48 @@ public class OrderServiceTest {
         User user = User.create("건희", 50000L);
         User savedUser = userRepository.save(user);
 
+        Product productOnion = Product.create("양파", 1000L, 5L);
+        Product productPotato = Product.create("감자", 2000L, 1L);
+        Product productCarrot = Product.create("당근", 3000L, 5L);
+
+        List<Product> products = List.of(productOnion, productPotato, productCarrot);
+
+        productRepository.saveAll(products);
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 1L, productOnion.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 1L, productPotato.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
+
+        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+
+
+
+
+        // given
+        OrderPostRequest orderPostRequest = OrderPostRequest.builder()
+                .userId(savedUser.getId())
+                .products(requests)
+
+                .build();
+
+        // when
+        Order order = orderService.create(orderPostRequest.toCommand());
+
+        //then
+        assertThat(order.getTotalPrice()).isEqualTo(9000L);
+    }
+
+    @DisplayName("주문 한 상품의 총 가격과 할인 가격을 구한다.")
+    @Test
+    void createOrder2() {
+        // given
+        User user = User.create("건희", 50000L);
+        User savedUser = userRepository.save(user);
+
         Product product1 = Product.create("양파", 1000L, 5L);
         Product product2 = Product.create("감자", 2000L, 1L);
-        Product product3 = Product.create("당금", 3000L, 5L);
+        Product product3 = Product.create("당근", 3000L, 5L);
 
         List<Product> products = List.of(product1, product2, product3);
 
@@ -95,18 +141,22 @@ public class OrderServiceTest {
 
         List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
 
-        // given
+        CouponPostRequest couponPostRequest = CouponPostRequest.create("2099-12-31", 15);
+        UUID uuid = UUID.randomUUID();
+        Coupon coupon = couponPostRequest.toDomain(uuid);
+        couponRepository.save(coupon);
+
         OrderPostRequest orderPostRequest = OrderPostRequest.builder()
                 .userId(savedUser.getId())
                 .products(requests)
+                .couponCode(uuid.toString())
                 .build();
-
         // when
         Order order = orderService.create(orderPostRequest.toCommand());
 
-
         //then
         assertThat(order.getTotalPrice()).isEqualTo(9000L);
+        assertThat(order.getDiscountPrice()).isEqualTo(1350L);
     }
 
 
