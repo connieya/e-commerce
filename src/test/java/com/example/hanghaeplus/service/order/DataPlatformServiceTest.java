@@ -65,7 +65,7 @@ class DataPlatformServiceTest {
                 .build();
         Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(Order.class));
         // when
-        OrderPostResponse order = orderService.create(orderPostRequest);
+        Order order = orderService.create(orderPostRequest.toCommand());
         User findUser = userRepository.findByName("건희").get();
         //then
         assertThat(order).isNull();

@@ -7,7 +7,6 @@ build/
 
 
 
-
 ### STS ###
 .apt_generated
 .classpath
@@ -21,6 +20,9 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+application-aws.yml
+
+
 .idea
 *.iws
 *.iml
@@ -28,6 +30,8 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+/src/main/resources/*.yml
 
 ### NetBeans ###
 /nbproject/private/
