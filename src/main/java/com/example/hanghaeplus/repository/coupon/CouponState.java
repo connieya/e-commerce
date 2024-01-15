@@ -1,5 +1,8 @@
 package com.example.hanghaeplus.repository.coupon;
 
+import lombok.Getter;
+
+@Getter
 public enum CouponState {
     UNUSED("사용 전"),
     USED("사용 완료"),
@@ -13,7 +16,4 @@ public enum CouponState {
         this.state = state;
     }
 
-    public String getState() {
-        return state;
-    }
 }
