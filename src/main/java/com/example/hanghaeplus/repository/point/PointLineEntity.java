@@ -15,7 +15,7 @@ import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 @Table(name = "point_line")
 @Getter
 @NoArgsConstructor
-public class PointLine extends BaseEntity {
+public class PointLineEntity extends BaseEntity {
 
 
     @Id
@@ -33,18 +33,18 @@ public class PointLine extends BaseEntity {
 
 
     @Builder
-    private PointLine(UserEntity user, Long point, PointTransactionStatus status) {
+    private PointLineEntity(UserEntity user, Long point, PointTransactionStatus status) {
         this.user = user;
         this.point = point;
         this.status = status;
     }
 
-    public static PointLine create(UserEntity user, Long point){
-        return new PointLine(user,point, DEDUCT);
+    public static PointLineEntity create(UserEntity user, Long point){
+        return new PointLineEntity(user,point, DEDUCT);
     }
 
-    public static PointLine create(UserEntity user, Long point, PointTransactionStatus status){
-        return new PointLine(user,point, status);
+    public static PointLineEntity create(UserEntity user, Long point, PointTransactionStatus status){
+        return new PointLineEntity(user,point, status);
     }
 
     public void setUser(UserEntity user) {
@@ -57,7 +57,7 @@ public class PointLine extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PointLine point1 = (PointLine) o;
+        PointLineEntity point1 = (PointLineEntity) o;
         return Objects.equals(id, point1.id) && Objects.equals(user, point1.user) && Objects.equals(point, point1.point) && status == point1.status;
     }
 

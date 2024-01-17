@@ -3,8 +3,8 @@ package com.example.hanghaeplus.service.payment;
 import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.payment.Payment;
 import com.example.hanghaeplus.repository.payment.PaymentRepository;
-import com.example.hanghaeplus.repository.point.PointLine;
-import com.example.hanghaeplus.repository.point.PointRepository;
+import com.example.hanghaeplus.repository.point.PointLineEntity;
+import com.example.hanghaeplus.repository.point.PointLineRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
-    private final PointRepository pointRepository;
+    private final PointLineRepository pointLineRepository;
 
     public void execute(OrderEntity order , UserEntity user) {
         user.deductPoints(order.getTotalPrice());
         // 포인트 사용 내역
-        PointLine point = PointLine.create(user, order.getTotalPrice());
-        pointRepository.save(point);
+        PointLineEntity point = PointLineEntity.create(user, order.getTotalPrice());
+        pointLineRepository.save(point);
         // 결제
         Payment payment = new Payment(order, user);
         paymentRepository.save(payment);

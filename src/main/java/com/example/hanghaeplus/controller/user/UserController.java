@@ -3,6 +3,8 @@ package com.example.hanghaeplus.controller.user;
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.controller.user.request.UserCreateRequest;
 import com.example.hanghaeplus.common.result.ResultResponse;
+import com.example.hanghaeplus.controller.user.response.UserPointResponse;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.service.user.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,6 @@ import static com.example.hanghaeplus.common.result.ResultCode.*;
 public class UserController {
 
     private final UserService userService;
-
 
     @ApiOperation("유저 등록 API")
     @PostMapping
@@ -36,6 +37,7 @@ public class UserController {
     @ApiOperation("잔액 조회 API")
     @GetMapping("/{id}")
     public ResponseEntity<ResultResponse> getPoint(@PathVariable("id") Long id){
-        return ResponseEntity.ok(ResultResponse.of(POINT_GET_SUCCESS ,userService.getPoint(id)));
+        User user = userService.getPoint(id);
+        return ResponseEntity.ok(ResultResponse.of(POINT_GET_SUCCESS , user.getPoint()));
     }
 }
