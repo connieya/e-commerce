@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.repository.user;
 
+import com.example.hanghaeplus.domain.User;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import com.example.hanghaeplus.service.user.UserException;
 import jakarta.persistence.*;
@@ -43,6 +44,25 @@ public class UserEntity extends BaseEntity {
     private UserEntity(String name, Long currentPoint) {
         this.name = name;
         this.currentPoint = currentPoint;
+    }
+
+    public static UserEntity from(User user){
+        UserEntity userEntity = new UserEntity();
+        userEntity.name = user.getName();
+        userEntity.email = user.getEmail();
+        userEntity.nickname = user.getNickname();
+        userEntity.currentPoint = user.getCurrenPoint();
+        return userEntity;
+    }
+
+    public User toDomain(){
+        return User.builder()
+                .id(id)
+                .name(name)
+                .email(email)
+                .nickname(nickname)
+                .currenPoint(currentPoint)
+                .build();
     }
 
     public void rechargePoint(Long point) {

@@ -2,7 +2,7 @@ package com.example.hanghaeplus.service.user;
 
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.repository.user.UserEntity;
-import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.repository.user.UserJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 class UserServiceTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
 
     @Autowired
     private UserService userService;

@@ -18,7 +18,7 @@ class UserRepositoryTest {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
 
     @AfterEach
     void tearDown() {

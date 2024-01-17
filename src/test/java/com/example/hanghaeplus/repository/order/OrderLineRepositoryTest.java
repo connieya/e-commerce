@@ -7,7 +7,7 @@ import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.user.UserEntity;
-import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.repository.user.UserJpaRepository;
 import com.example.hanghaeplus.service.order.OrderService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 class OrderLineRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
 

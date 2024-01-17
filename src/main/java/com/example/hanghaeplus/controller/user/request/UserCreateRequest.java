@@ -6,13 +6,11 @@ import lombok.Setter;
 
 @Setter @Getter
 @NoArgsConstructor
-public class UserRegisterRequest {
+public class UserCreateRequest {
 
     private String name;
+    private String email;
+    private String nickname;
     private Long point;
 
-    public UserRegisterRequest(String name, Long point) {
-        this.name = name;
-        this.point = point;
-    }
 }
