@@ -1,16 +1,15 @@
 package com.example.hanghaeplus.service.user;
 
-import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
-import com.example.hanghaeplus.controller.user.request.UserCreateRequest;
 import com.example.hanghaeplus.controller.user.response.UserPointResponse;
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.repository.point.Point;
-import com.example.hanghaeplus.repository.user.UserEntity;
+import com.example.hanghaeplus.repository.point.PointLine;
 import com.example.hanghaeplus.repository.point.PointRepository;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.user.request.UserCreate;
+import com.example.hanghaeplus.service.user.request.UserRecharge;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -43,23 +42,26 @@ public class UserService {
             throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
         }
 
-        UserEntity user = UserEntity.create(userCreate.getName(), userCreate.getPoint());
+        User user = User.create(userCreate);
         userRepository.save(user);
     }
 
     @Transactional
-    public void rechargePoint(UserRechargeRequest request) {
+    public void rechargePoint(UserRecharge userRecharge) {
         try {
-            UserEntity user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-            user.rechargePoint(request.getPoint());
-            Point point = Point.create(user, request.getPoint(), RECHARGE);
-            pointRepository.save(point);
+            User user = findById(userRecharge);
+            user.rechargePoint(userRecharge.getPoint());
+            PointLine pointLine = PointLine.create(UserEntity.from(user), userRecharge.getPoint(), RECHARGE);
+            pointRepository.save(pointLine);
             userRepository.save(user);
-
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
-            rechargePoint(request);
+            rechargePoint(userRecharge);
         }
+    }
+
+    private User findById(UserRecharge request) {
+        return userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
     public UserPointResponse getPoint(Long id) {

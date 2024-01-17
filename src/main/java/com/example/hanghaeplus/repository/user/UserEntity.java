@@ -51,7 +51,7 @@ public class UserEntity extends BaseEntity {
         userEntity.name = user.getName();
         userEntity.email = user.getEmail();
         userEntity.nickname = user.getNickname();
-        userEntity.currentPoint = user.getCurrenPoint();
+        userEntity.currentPoint = user.getPoint();
         return userEntity;
     }
 
@@ -61,12 +61,8 @@ public class UserEntity extends BaseEntity {
                 .name(name)
                 .email(email)
                 .nickname(nickname)
-                .currenPoint(currentPoint)
+                .point(currentPoint)
                 .build();
-    }
-
-    public void rechargePoint(Long point) {
-        this.currentPoint += point;
     }
 
 
@@ -77,10 +73,4 @@ public class UserEntity extends BaseEntity {
         this.currentPoint -= totalPrice;
     }
 
-    public static UserEntity create(String name, Long currentPoint) {
-        return UserEntity.builder()
-                .name(name)
-                .currentPoint(currentPoint)
-                .build();
-    }
 }

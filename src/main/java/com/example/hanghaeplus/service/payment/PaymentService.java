@@ -3,7 +3,7 @@ package com.example.hanghaeplus.service.payment;
 import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.payment.Payment;
 import com.example.hanghaeplus.repository.payment.PaymentRepository;
-import com.example.hanghaeplus.repository.point.Point;
+import com.example.hanghaeplus.repository.point.PointLine;
 import com.example.hanghaeplus.repository.point.PointRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class PaymentService {
     public void execute(OrderEntity order , UserEntity user) {
         user.deductPoints(order.getTotalPrice());
         // 포인트 사용 내역
-        Point point = Point.create(user, order.getTotalPrice());
+        PointLine point = PointLine.create(user, order.getTotalPrice());
         pointRepository.save(point);
         // 결제
         Payment payment = new Payment(order, user);

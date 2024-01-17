@@ -1,5 +1,8 @@
 package com.example.hanghaeplus.service.user.request;
 
+import lombok.Getter;
+
+@Getter
 public class UserCreate {
 
     private String name;
