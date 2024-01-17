@@ -5,10 +5,12 @@ import com.example.hanghaeplus.controller.user.request.UserCreateRequest;
 import com.example.hanghaeplus.controller.user.response.UserPointResponse;
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.point.Point;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.point.PointRepository;
-import com.example.hanghaeplus.repository.user.UserJpaRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -23,25 +25,25 @@ import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 @Slf4j
 public class UserService {
 
-    private final UserJpaRepository userRepository;
+    private final UserRepository userRepository;
     private final PointRepository pointRepository;
 
-    public UserEntity findById(Long userId) {
+    public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
-    public UserEntity findByIdPessimisticLock(Long userId){
+    public User findByIdPessimisticLock(Long userId){
         return userRepository.findByIdPessimisticLock(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
 
     @Transactional
-    public void save(UserCreateRequest request) {
-        if (userRepository.findByName(request.getName()).isPresent()) {
+    public void save(UserCreate userCreate) {
+        if (userRepository.findByName(userCreate.getName()).isPresent()) {
             throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
         }
 
-        UserEntity user = UserEntity.create(request.getName(), request.getPoint());
+        UserEntity user = UserEntity.create(userCreate.getName(), userCreate.getPoint());
         userRepository.save(user);
     }
 

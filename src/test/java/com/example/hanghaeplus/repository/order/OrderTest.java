@@ -30,7 +30,7 @@ public class OrderTest {
 
         ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
         ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
-        Order order = Order.create(user, List.of(request1,request2));
+        OrderEntity order = OrderEntity.create(user, List.of(request1,request2));
         assertThat(order.getTotalPrice()).isEqualTo(7000L);
     }
 
@@ -45,7 +45,7 @@ public class OrderTest {
 
         ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
         ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
-        Order order = Order.create(user, List.of(request1,request2),12);
+        OrderEntity order = OrderEntity.create(user, List.of(request1,request2),12);
         assertThat(order.getTotalPrice()).isEqualTo(7000L);
         assertThat(order.getDiscountPrice()).isEqualTo(840L);
     }
@@ -63,7 +63,7 @@ public class OrderTest {
         ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
         ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
         ProductRequestForOrder request3 = ProductRequestForOrder.of(mockProduct3.getId(), 2L, mockProduct3.getPrice());
-        Order order = Order.create(user, List.of(request1,request2 ,request3));
+        OrderEntity order = OrderEntity.create(user, List.of(request1,request2 ,request3));
         List<OrderLine> orderLines = order.getProduct();
         assertThat(orderLines).hasSize(3)
                 .extracting("productId","quantity","price")

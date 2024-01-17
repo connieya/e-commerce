@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.domain;
+package com.example.hanghaeplus.domain.user;
 
 import lombok.Builder;
 import lombok.Getter;

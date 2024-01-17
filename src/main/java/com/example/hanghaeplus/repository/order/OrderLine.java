@@ -19,7 +19,7 @@ public class OrderLine {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderEntity order;
 
     private Long productId;
     private Long quantity;
@@ -31,14 +31,14 @@ public class OrderLine {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    public OrderLine(Order order, Long productId, Long quantity, Long price) {
+    public OrderLine(OrderEntity order, Long productId, Long quantity, Long price) {
         this.order = order;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public OrderLine(Order order, Long productId, Long count, Long price, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+    public OrderLine(OrderEntity order, Long productId, Long count, Long price, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
         this.order = order;
         this.productId = productId;
         this.quantity = count;

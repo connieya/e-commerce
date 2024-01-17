@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.service.point;
 
-import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.point.Point;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.point.PointRepository;
@@ -13,7 +13,7 @@ public class PointService {
 
     private final PointRepository pointRepository;
 
-    public void process(UserEntity user, Order order) {
+    public void process(UserEntity user, OrderEntity order) {
         Point point = Point.create(user, order.getTotalPrice());
         pointRepository.save(point);
     }

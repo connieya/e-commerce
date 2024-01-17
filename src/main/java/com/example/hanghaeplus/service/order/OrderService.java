@@ -1,8 +1,8 @@
 package com.example.hanghaeplus.service.order;
 
-import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.domain.user.User;
+import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.order.OrderRepository;
-import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.service.coupon.CouponService;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import com.example.hanghaeplus.service.payment.PaymentService;
@@ -27,11 +27,11 @@ public class OrderService {
     private final ApplicationEventPublisher publisher;
 
     @Transactional
-    public Order create(OrderCommand request) {
-        UserEntity user = userService.findByIdPessimisticLock(request.getUserId());
+    public OrderEntity create(OrderCommand request) {
+        User user = userService.findByIdPessimisticLock(request.getUserId());
         productService.deduct(request);
         Integer rate = couponService.use(request.getCouponCode());
-        Order order = Order.create(user, request.getProducts() ,rate);
+        OrderEntity order = OrderEntity.create(user, request.getProducts() ,rate);
         orderRepository.save(order);
         paymentService.execute(order, user);
         publisher.publishEvent(new OrderEvent(this, order));

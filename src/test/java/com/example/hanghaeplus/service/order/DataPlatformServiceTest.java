@@ -2,7 +2,7 @@ package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
@@ -62,9 +62,9 @@ class DataPlatformServiceTest {
                 .userId(savedUser.getId())
                 .products(requests)
                 .build();
-        Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(Order.class));
+        Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(OrderEntity.class));
         // when
-        Order order = orderService.create(orderPostRequest.toCommand());
+        OrderEntity order = orderService.create(orderPostRequest.toCommand());
         UserEntity findUser = userRepository.findByName("건희").get();
         //then
         assertThat(order).isNull();

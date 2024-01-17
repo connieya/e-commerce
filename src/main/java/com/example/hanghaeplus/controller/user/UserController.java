@@ -22,7 +22,7 @@ public class UserController {
     @ApiOperation("유저 등록 API")
     @PostMapping
     public ResponseEntity<ResultResponse> save(@RequestBody UserCreateRequest request) {
-        userService.save(request);
+        userService.save(request.toCommand());
         return ResponseEntity.ok(ResultResponse.of(USER_POST_SUCCESS));
     }
 

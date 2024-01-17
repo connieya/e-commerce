@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class FakeOrder {
-    public static Order create(UserEntity user , List<ProductRequestForOrder> products , LocalDateTime dateTime) {
-        return new Order(user,products,dateTime);
+    public static OrderEntity create(UserEntity user , List<ProductRequestForOrder> products , LocalDateTime dateTime) {
+        return new OrderEntity(user,products,dateTime);
     }
 }

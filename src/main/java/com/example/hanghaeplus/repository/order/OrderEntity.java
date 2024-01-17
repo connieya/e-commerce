@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Table(name = "orders")
 @Getter
 @NoArgsConstructor
-public class Order extends BaseEntity {
+public class OrderEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,19 +38,19 @@ public class Order extends BaseEntity {
 
 
     @Builder
-    private Order(UserEntity user, List<ProductRequestForOrder> products) {
+    private OrderEntity(UserEntity user, List<ProductRequestForOrder> products) {
         this.user = user;
         this.product = getOrderProducts(products);
         this.totalPrice = calculateTotalPrice(products);
     }
 
 
-    public Order(UserEntity user, List<ProductRequestForOrder> products, LocalDateTime dateTime) {
+    public OrderEntity(UserEntity user, List<ProductRequestForOrder> products, LocalDateTime dateTime) {
         this.user = user;
         this.product = getOrderProducts(products ,dateTime);
         this.totalPrice = calculateTotalPrice(products);
     }
-    public Order(UserEntity user, List<ProductRequestForOrder> products, Integer rate) {
+    public OrderEntity(UserEntity user, List<ProductRequestForOrder> products, Integer rate) {
         Long totalPrice = calculateTotalPrice(products);
         this.user = user;
         this.product = getOrderProducts(products);
@@ -75,15 +76,15 @@ public class Order extends BaseEntity {
                 .sum();
     }
 
-    public static Order create(UserEntity user, List<ProductRequestForOrder> products) {
-        return new Order(user, products);
+    public static OrderEntity create(User user, List<ProductRequestForOrder> products) {
+        return new OrderEntity(user, products);
     }
 
-    public static Order create(UserEntity user, List<ProductRequestForOrder> products, LocalDateTime localDateTime) {
-        return new Order(user, products , localDateTime);
+    public static OrderEntity create(User user, List<ProductRequestForOrder> products, LocalDateTime localDateTime) {
+        return new OrderEntity(user, products , localDateTime);
     }
-    public static Order create(UserEntity user, List<ProductRequestForOrder> products , Integer rate) {
-        return new Order(user, products,rate);
+    public static OrderEntity create(User user, List<ProductRequestForOrder> products , Integer rate) {
+        return new OrderEntity(user, products,rate);
     }
 
 }

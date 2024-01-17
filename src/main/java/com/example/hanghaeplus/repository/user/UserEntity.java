@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.repository.user;
 
-import com.example.hanghaeplus.domain.User;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import com.example.hanghaeplus.service.user.UserException;
 import jakarta.persistence.*;

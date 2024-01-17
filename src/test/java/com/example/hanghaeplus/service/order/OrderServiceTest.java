@@ -5,7 +5,7 @@ import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.coupon.Coupon;
 import com.example.hanghaeplus.repository.coupon.CouponRepository;
-import com.example.hanghaeplus.repository.order.Order;
+import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.product.ProductRepository;
@@ -112,7 +112,7 @@ public class OrderServiceTest {
                 .build();
 
         // when
-        Order order = orderService.create(orderPostRequest.toCommand());
+        OrderEntity order = orderService.create(orderPostRequest.toCommand());
 
         //then
         assertThat(order.getTotalPrice()).isEqualTo(9000L);
@@ -151,7 +151,7 @@ public class OrderServiceTest {
                 .couponCode(uuid.toString())
                 .build();
         // when
-        Order order = orderService.create(orderPostRequest.toCommand());
+        OrderEntity order = orderService.create(orderPostRequest.toCommand());
 
         //then
         assertThat(order.getTotalPrice()).isEqualTo(9000L);
