@@ -23,8 +23,8 @@ public class User extends BaseEntity {
 
     private Long currentPoint;
 
-    @Version
-    private Long version;
+//    @Version
+//    private Long version;
 
     public User(String name) {
         this.name = name;

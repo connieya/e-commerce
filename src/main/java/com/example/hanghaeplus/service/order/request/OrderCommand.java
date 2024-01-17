@@ -9,9 +9,16 @@ import java.util.List;
 public class OrderCommand {
     List<ProductRequestForOrder> products;
     private Long userId;
+    private String couponCode;
 
     public OrderCommand(List<ProductRequestForOrder> products, Long userId) {
         this.products = products;
         this.userId = userId;
+    }
+
+    public OrderCommand(List<ProductRequestForOrder> products, Long userId, String couponCode) {
+        this.products = products;
+        this.userId = userId;
+        this.couponCode = couponCode;
     }
 }

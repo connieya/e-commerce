@@ -1,9 +1,11 @@
 package com.example.hanghaeplus.controller.order.request;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
+@NoArgsConstructor
 public class ProductRequestForOrder {
 
     private Long productId;
