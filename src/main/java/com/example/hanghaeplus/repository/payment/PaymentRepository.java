@@ -1,6 +1,8 @@
 package com.example.hanghaeplus.repository.payment;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.hanghaeplus.domain.payment.Payment;
 
-public interface PaymentRepository extends JpaRepository<PaymentEntity,Long> {
+public interface PaymentRepository {
+
+    Payment save(Payment payment);
 }

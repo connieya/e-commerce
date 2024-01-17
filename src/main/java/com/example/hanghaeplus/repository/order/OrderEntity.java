@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.common.BaseEntity;
@@ -34,26 +35,46 @@ public class OrderEntity extends BaseEntity {
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderLine> product;
+    private List<OrderLine> orderLines;
 
 
     @Builder
     private OrderEntity(UserEntity user, List<ProductRequestForOrder> products) {
         this.user = user;
-        this.product = getOrderProducts(products);
+        this.orderLines = getOrderProducts(products);
         this.totalPrice = calculateTotalPrice(products);
     }
 
 
+    public static OrderEntity from(Order order) {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.user = UserEntity.from(order.getUser());
+        orderEntity.totalPrice = order.getTotalPrice();
+        orderEntity.discountPrice = order.getDiscountPrice();
+        orderEntity.orderLines = order.getOrderLines();
+        return orderEntity;
+    }
+
+    public Order toDomain(){
+        return Order.builder()
+                .user(user.toDomain())
+                .orderLines(orderLines)
+                .totalPrice(totalPrice)
+                .discountPrice(discountPrice)
+                .build();
+    }
+
+
+
     public OrderEntity(UserEntity user, List<ProductRequestForOrder> products, LocalDateTime dateTime) {
         this.user = user;
-        this.product = getOrderProducts(products ,dateTime);
+        this.orderLines = getOrderProducts(products ,dateTime);
         this.totalPrice = calculateTotalPrice(products);
     }
     public OrderEntity(UserEntity user, List<ProductRequestForOrder> products, Integer rate) {
         Long totalPrice = calculateTotalPrice(products);
         this.user = user;
-        this.product = getOrderProducts(products);
+        this.orderLines = getOrderProducts(products);
         this.totalPrice = totalPrice;
         this.discountPrice = totalPrice * rate / 100;
     }

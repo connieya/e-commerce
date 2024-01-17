@@ -22,7 +22,7 @@ class OrderLineRepositoryTestV2 {
 
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderJpaRepository orderRepository;
 
     @Autowired
     private UserJpaRepository userRepository;
