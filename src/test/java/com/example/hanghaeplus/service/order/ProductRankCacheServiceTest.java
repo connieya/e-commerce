@@ -17,14 +17,13 @@ import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
-@MockBean(OrderLineRepository.class)
 public class ProductRankCacheServiceTest {
 
 
     @MockBean
     private OrderLineRepository orderLineRepository;
 
-    @InjectMocks
+    @Autowired
     private ProductService productService;
 
     @Test

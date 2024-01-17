@@ -32,7 +32,7 @@ public class Order extends BaseEntity {
     private Long discountPrice;
 
 
-    @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderLine> product;
 
 
@@ -43,10 +43,24 @@ public class Order extends BaseEntity {
         this.totalPrice = calculateTotalPrice(products);
     }
 
+
     public Order(User user, List<ProductRequestForOrder> products, LocalDateTime dateTime) {
         this.user = user;
         this.product = getOrderProducts(products ,dateTime);
         this.totalPrice = calculateTotalPrice(products);
+    }
+    public Order(User user, List<ProductRequestForOrder> products, Integer rate) {
+        Long totalPrice = calculateTotalPrice(products);
+        this.user = user;
+        this.product = getOrderProducts(products);
+        this.totalPrice = totalPrice;
+        this.discountPrice = totalPrice * rate / 100;
+    }
+
+    private List<OrderLine> getOrderProducts(List<ProductRequestForOrder> products) {
+        return products.stream()
+                .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice()))
+                .collect(Collectors.toList());
     }
 
     private List<OrderLine> getOrderProducts(List<ProductRequestForOrder> products, LocalDateTime dateTime) {
@@ -55,13 +69,7 @@ public class Order extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
-    private List<OrderLine> getOrderProducts(List<ProductRequestForOrder> products) {
-        return products.stream()
-               .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice()))
-                .collect(Collectors.toList());
-    }
-
-    private static long calculateTotalPrice(List<ProductRequestForOrder> products) {
+    private Long calculateTotalPrice(List<ProductRequestForOrder> products) {
         return products.stream()
                 .mapToLong(product -> product.getPrice() * product.getQuantity())
                 .sum();
@@ -74,4 +82,8 @@ public class Order extends BaseEntity {
     public static Order create(User user, List<ProductRequestForOrder> products,LocalDateTime localDateTime) {
         return new Order(user, products , localDateTime);
     }
+    public static Order create(User user, List<ProductRequestForOrder> products , Integer rate) {
+        return new Order(user, products,rate);
+    }
+
 }

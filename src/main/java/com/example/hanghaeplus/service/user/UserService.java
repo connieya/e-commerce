@@ -31,6 +31,10 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
+    public User findByIdPessimisticLock(Long userId){
+        return userRepository.findByIdPessimisticLock(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
+    }
+
 
     @Transactional
     public void registerUser(UserRegisterRequest request) {

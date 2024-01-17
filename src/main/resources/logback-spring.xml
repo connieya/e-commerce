@@ -2,15 +2,15 @@
 <configuration>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>TRACE</level>
+            <level>INFO</level>
         </filter>
         <encoder>
             <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%thread] %highlight(%level) %M %logger %msg%n</pattern>
         </encoder>
     </appender>
-    <appender name="ASYNC_AWS_LOGS" class="ca. pjer.logback.AwsLogsAppender">
+    <appender name="ASYNC_AWS_LOGS" class="ca.pjer.logback.AwsLogsAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
+            <level>ERROR</level>
         </filter>
         <layout>
             <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>
@@ -25,11 +25,11 @@
     </appender>
 
     <springProfile name="dev">
-        <logger name="org.springframework" level="INFO" />
-        <logger name="com.example.hanghaeplus" level="INFO">
+        <logger name="org.springframework" level="ERROR" />
+        <logger name="com.example.hanghaeplus" level="ERROR">
             <appender-ref ref="ASYNC_AWS_LOGS"/>
         </logger>
-        <root level="INFO">
+        <root level="ERROR">
             <appender-ref ref="ASYNC_AWS_LOGS" />
         </root>
     </springProfile>
