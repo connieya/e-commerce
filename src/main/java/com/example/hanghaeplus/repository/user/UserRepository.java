@@ -8,11 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<User> findByName(String  name);
+    Optional<UserEntity> findByName(String  name);
 
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    @Query("select u from User u where u.id = :userId")
-    Optional<User> findByIdPessimisticLock(@Param("userId") Long userId);
+    @Query("select u from UserEntity u where u.id = :userId")
+    Optional<UserEntity> findByIdPessimisticLock(@Param("userId") Long userId);
 }

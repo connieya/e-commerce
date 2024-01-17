@@ -2,11 +2,10 @@ package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -40,8 +39,8 @@ class DataPlatformServiceTest {
     @Test
     void dataPlatformThrow() {
         // given
-        User user = User.create("건희", 10000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 10000L);
+        UserEntity savedUser = userRepository.save(user);
 
         Product productOnion = Product.create("양파", 1000L, 5L);
         Product productPotato = Product.create("감자", 2000L, 15L);
@@ -66,7 +65,7 @@ class DataPlatformServiceTest {
         Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(Order.class));
         // when
         Order order = orderService.create(orderPostRequest.toCommand());
-        User findUser = userRepository.findByName("건희").get();
+        UserEntity findUser = userRepository.findByName("건희").get();
         //then
         assertThat(order).isNull();
         assertThat(findUser.getCurrentPoint()).isEqualTo(10000L);

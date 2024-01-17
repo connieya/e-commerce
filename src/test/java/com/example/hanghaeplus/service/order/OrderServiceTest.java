@@ -2,13 +2,12 @@ package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.controller.coupon.request.CouponPostRequest;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
-import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.coupon.Coupon;
 import com.example.hanghaeplus.repository.coupon.CouponRepository;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +43,8 @@ public class OrderServiceTest {
     @Test
     void deductQuantity() {
         // given
-        User user = User.create("건희", 1000000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 1000000L);
+        UserEntity savedUser = userRepository.save(user);
 
         Product product1 = Product.create("양파", 1000L, 5L);
         Product product2 = Product.create("감자", 2000L, 15L);
@@ -84,8 +83,8 @@ public class OrderServiceTest {
     @DisplayName("주문 한 상품의 총 가격을 구한다.")
     @Test
     void createOrder() {
-        User user = User.create("건희", 50000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 50000L);
+        UserEntity savedUser = userRepository.save(user);
 
         Product productOnion = Product.create("양파", 1000L, 5L);
         Product productPotato = Product.create("감자", 2000L, 1L);
@@ -123,8 +122,8 @@ public class OrderServiceTest {
     @Test
     void createOrder2() {
         // given
-        User user = User.create("건희", 50000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 50000L);
+        UserEntity savedUser = userRepository.save(user);
 
         Product product1 = Product.create("양파", 1000L, 5L);
         Product product2 = Product.create("감자", 2000L, 1L);
@@ -163,8 +162,8 @@ public class OrderServiceTest {
     @DisplayName("주문 한 상품 가격 만큼 잔액을 차감 한다.")
     @Test
     void deductPoint() {
-        User user = User.create("건희", 50000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 50000L);
+        UserEntity savedUser = userRepository.save(user);
 
         Product product1 = Product.create("양파", 1000L, 5L);
         Product product2 = Product.create("감자", 2000L, 1L);
@@ -190,7 +189,7 @@ public class OrderServiceTest {
         // when
         orderService.create(orderPostRequest.toCommand());
 
-        User findUser = userRepository.findById(savedUser.getId()).get();
+        UserEntity findUser = userRepository.findById(savedUser.getId()).get();
         Long totalPrice = product1.getPrice() * request1.getQuantity() + product2.getPrice() * request2.getQuantity() + product3.getPrice() * request3.getQuantity();
 
         //then
@@ -201,10 +200,10 @@ public class OrderServiceTest {
     @Test
     void deductQuantityWithConcurrency() {
         // given
-        User user1 = User.create("건희", 100000000L);
-        User user2 = User.create("거니", 100000000L);
-        User savedUser1 = userRepository.save(user1);
-        User savedUser2 = userRepository.save(user2);
+        UserEntity user1 = UserEntity.create("건희", 100000000L);
+        UserEntity user2 = UserEntity.create("거니", 100000000L);
+        UserEntity savedUser1 = userRepository.save(user1);
+        UserEntity savedUser2 = userRepository.save(user2);
 
         Product product1 = Product.create("양파", 1000L, 30L);
         Product product2 = Product.create("감자", 2000L, 30L);
@@ -260,10 +259,10 @@ public class OrderServiceTest {
     @Test
     void deductQuantityWithConcurrency2() {
         // given
-        User user1 = User.create("건희", 100000000L);
-        User user2 = User.create("거니", 100000000L);
-        User savedUser1 = userRepository.save(user1);
-        User savedUser2 = userRepository.save(user2);
+        UserEntity user1 = UserEntity.create("건희", 100000000L);
+        UserEntity user2 = UserEntity.create("거니", 100000000L);
+        UserEntity savedUser1 = userRepository.save(user1);
+        UserEntity savedUser2 = userRepository.save(user2);
 
         Product productOnion = Product.create("양파", 1000L, 30L);
         Product productPotato = Product.create("감자", 2000L, 30L);
@@ -322,8 +321,8 @@ public class OrderServiceTest {
     @Test
     void deductPointWithConcurrency() {
         // given
-        User user = User.create("건희", 50000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 50000L);
+        UserEntity savedUser = userRepository.save(user);
 
         Product productOnion = Product.create("양파", 1000L, 30L);
         Product productPotato = Product.create("감자", 2000L, 30L);
@@ -369,7 +368,7 @@ public class OrderServiceTest {
         ).join();
 
 
-        User findUser = userRepository.findById(savedUser.getId()).get();
+        UserEntity findUser = userRepository.findById(savedUser.getId()).get();
 
         //then                현재 잔액 5000L  - (양파 2개 , 감자 2개)  / ( 당근 2개 , 버섯 2개)
         assertThat(findUser.getCurrentPoint()).isEqualTo(50000L-6000L-16000L);

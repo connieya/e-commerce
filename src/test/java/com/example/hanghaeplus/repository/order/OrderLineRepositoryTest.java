@@ -6,7 +6,7 @@ import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
 import org.junit.jupiter.api.*;
@@ -48,8 +48,8 @@ class OrderLineRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        User user1 = User.create("건희", 100000000L);
-        User savedUser1 = userRepository.save(user1);
+        UserEntity user1 = UserEntity.create("건희", 100000000L);
+        UserEntity savedUser1 = userRepository.save(user1);
 
         productOnion = Product.create("양파", 1000L, 300L);
         productPotato = Product.create("감자", 2000L, 300L);

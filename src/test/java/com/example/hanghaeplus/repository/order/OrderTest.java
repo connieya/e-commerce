@@ -4,7 +4,7 @@ package com.example.hanghaeplus.repository.order;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.product.FakeProduct;
 import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ public class OrderTest {
         Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
         Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
 
-        User user = User.create("건희", 10000L);
+        UserEntity user = UserEntity.create("건희", 10000L);
 
         ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
         ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
@@ -41,7 +41,7 @@ public class OrderTest {
         Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
         Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
 
-        User user = User.create("건희", 10000L);
+        UserEntity user = UserEntity.create("건희", 10000L);
 
         ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
         ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
@@ -58,7 +58,7 @@ public class OrderTest {
         Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
         Product mockProduct3 = FakeProduct.create(3L,"감자", 5000L, 5L);
 
-        User user = User.create("건희", 10000L);
+        UserEntity user = UserEntity.create("건희", 10000L);
 
         ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
         ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());

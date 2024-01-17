@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.repository.payment;
 
 import com.example.hanghaeplus.repository.order.Order;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
@@ -16,9 +16,9 @@ public class Payment {
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private UserEntity user;
 
-    public Payment(Order order, User user) {
+    public Payment(Order order, UserEntity user) {
         this.order = order;
         this.user = user;
     }

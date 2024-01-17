@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.repository.point;
 
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -25,7 +25,7 @@ public class Point extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
     private Long point;
 
     @Enumerated(EnumType.STRING)
@@ -33,21 +33,21 @@ public class Point extends BaseEntity {
 
 
     @Builder
-    private Point(User user, Long point, PointTransactionStatus status) {
+    private Point(UserEntity user, Long point, PointTransactionStatus status) {
         this.user = user;
         this.point = point;
         this.status = status;
     }
 
-    public static Point create(User user, Long point){
+    public static Point create(UserEntity user, Long point){
         return new Point(user,point, DEDUCT);
     }
 
-    public static Point create(User user, Long point, PointTransactionStatus status){
+    public static Point create(UserEntity user, Long point, PointTransactionStatus status){
         return new Point(user,point, status);
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
 
         this.user = user;
     }

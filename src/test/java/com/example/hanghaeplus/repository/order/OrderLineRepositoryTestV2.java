@@ -2,13 +2,9 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.order.FakeOrder;
-import com.example.hanghaeplus.repository.order.Order;
-import com.example.hanghaeplus.repository.order.OrderLineRepository;
-import com.example.hanghaeplus.repository.order.OrderRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -46,7 +41,7 @@ class OrderLineRepositoryTestV2 {
 
     @BeforeEach
     void setUp() {
-        User user = User.create("건희", 10000000L);
+        UserEntity user = UserEntity.create("건희", 10000000L);
 
         userRepository.save(user);
 

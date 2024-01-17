@@ -13,32 +13,34 @@ import static com.example.hanghaeplus.common.error.ErrorCode.INSUFFICIENT_POINT;
 @Table(name = "users")
 @NoArgsConstructor
 @Getter
-public class User extends BaseEntity {
+public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
     private String name;
+    private String email;
+    private String nickname;
 
     private Long currentPoint;
 
-//    @Version
-//    private Long version;
+    @Version
+    private Long version;
 
-    public User(String name) {
+    public UserEntity(String name) {
         this.name = name;
     }
 
     @Builder
-    private User(Long id, String name, Long currentPoint) {
+    private UserEntity(Long id, String name, Long currentPoint) {
         this.id = id;
         this.name = name;
         this.currentPoint = currentPoint;
     }
 
     @Builder
-    private User(String name, Long currentPoint) {
+    private UserEntity(String name, Long currentPoint) {
         this.name = name;
         this.currentPoint = currentPoint;
     }
@@ -55,8 +57,8 @@ public class User extends BaseEntity {
         this.currentPoint -= totalPrice;
     }
 
-    public static User create(String name, Long currentPoint) {
-        return User.builder()
+    public static UserEntity create(String name, Long currentPoint) {
+        return UserEntity.builder()
                 .name(name)
                 .currentPoint(currentPoint)
                 .build();

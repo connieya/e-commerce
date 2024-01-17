@@ -3,11 +3,10 @@ package com.example.hanghaeplus.service.user;
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.controller.user.request.UserRegisterRequest;
 import com.example.hanghaeplus.controller.user.response.UserPointResponse;
-import com.example.hanghaeplus.common.error.ErrorCode;
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.point.Point;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.point.PointRepository;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +26,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PointRepository pointRepository;
 
-    public User findById(Long userId) {
+    public UserEntity findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
-    public User findByIdPessimisticLock(Long userId){
+    public UserEntity findByIdPessimisticLock(Long userId){
         return userRepository.findByIdPessimisticLock(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
@@ -42,14 +41,14 @@ public class UserService {
             throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
         }
         ;
-        User user = User.create(request.getName(), request.getPoint());
+        UserEntity user = UserEntity.create(request.getName(), request.getPoint());
         userRepository.save(user);
     }
 
     @Transactional
     public void rechargePoint(UserRechargeRequest request) {
         try {
-            User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+            UserEntity user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
             user.rechargePoint(request.getPoint());
             Point point = Point.create(user, request.getPoint(), RECHARGE);
             pointRepository.save(point);

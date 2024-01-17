@@ -1,11 +1,9 @@
 package com.example.hanghaeplus.repository.user;
 
-import com.example.hanghaeplus.repository.user.User;
-
 public class FakeUser {
 
-    public static User create(Long id , String name , Long currentPoint) {
-        return User
+    public static UserEntity create(Long id , String name , Long currentPoint) {
+        return UserEntity
                 .builder()
                 .id(id)
                 .name(name)

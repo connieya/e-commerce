@@ -1,8 +1,6 @@
 package com.example.hanghaeplus.repository.user;
 
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.repository.user.User;
-import com.example.hanghaeplus.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,17 +29,17 @@ class UserRepositoryTest {
     @DisplayName("잔액 조회")
     @Test
     void getCurrentPoint() {
-        User user = User.create("건희", 5000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 5000L);
+        UserEntity savedUser = userRepository.save(user);
         assertThat(savedUser.getCurrentPoint()).isEqualTo(5000L);
     }
 
     @DisplayName("유저 조회")
     @Test
     void findById() {
-        User user = User.create("건희", 5000L);
-        User savedUser = userRepository.save(user);
-        User findUser = userRepository.findById(savedUser.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+        UserEntity user = UserEntity.create("건희", 5000L);
+        UserEntity savedUser = userRepository.save(user);
+        UserEntity findUser = userRepository.findById(savedUser.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
         assertThat(savedUser.getId()).isEqualTo(findUser.getId());
     }
 

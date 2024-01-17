@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.service.user;
 
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,15 +36,15 @@ class UserServiceTest {
     @Test
     void rechargePoint(){
         // given
-        User user = User.create("건희", 1000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 1000L);
+        UserEntity savedUser = userRepository.save(user);
         UserRechargeRequest request = UserRechargeRequest.builder().
                 id(savedUser.getId())
                 .point(5000L)
                 .build();
         // when
         userService.rechargePoint(request);
-        User findUser = userRepository.findById(savedUser.getId()).get();
+        UserEntity findUser = userRepository.findById(savedUser.getId()).get();
         //then
         assertThat(findUser.getCurrentPoint()).isEqualTo(1000L+5000L);
     }
@@ -53,8 +53,8 @@ class UserServiceTest {
     @Test
     void rechargePointWithConcurrency(){
         // given
-        User user = User.create("건희", 1000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 1000L);
+        UserEntity savedUser = userRepository.save(user);
         UserRechargeRequest request1 = UserRechargeRequest.builder().
                 id(savedUser.getId())
                 .point(5000L)
@@ -70,7 +70,7 @@ class UserServiceTest {
                 CompletableFuture.runAsync(()->  userService.rechargePoint(request1)),
                 CompletableFuture.runAsync(()->  userService.rechargePoint(request2))
         ).join();
-        User findUser = userRepository.findById(savedUser.getId()).get();
+        UserEntity findUser = userRepository.findById(savedUser.getId()).get();
         //then
         assertThat(findUser.getCurrentPoint()).isEqualTo(1000L+5000L+6000L);
     }
@@ -79,8 +79,8 @@ class UserServiceTest {
     @Test
     void rechargePointWithConcurrency2(){
         // given
-        User user = User.create("건희", 1000L);
-        User savedUser = userRepository.save(user);
+        UserEntity user = UserEntity.create("건희", 1000L);
+        UserEntity savedUser = userRepository.save(user);
         UserRechargeRequest request1 = UserRechargeRequest.builder().
                 id(savedUser.getId())
                 .point(5000L)
@@ -101,7 +101,7 @@ class UserServiceTest {
                     .hasCauseInstanceOf(ObjectOptimisticLockingFailureException.class);
             return null;
         }).join();
-        User findUser = userRepository.findById(savedUser.getId()).get();
+        UserEntity findUser = userRepository.findById(savedUser.getId()).get();
         //then
         assertThat(findUser.getCurrentPoint()).isEqualTo(1000L);
     }

@@ -1,10 +1,8 @@
 package com.example.hanghaeplus.service.order;
 
-import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
-import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.order.OrderRepository;
-import com.example.hanghaeplus.repository.user.User;
+import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.service.coupon.CouponService;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import com.example.hanghaeplus.service.payment.PaymentService;
@@ -30,7 +28,7 @@ public class OrderService {
 
     @Transactional
     public Order create(OrderCommand request) {
-        User user = userService.findByIdPessimisticLock(request.getUserId());
+        UserEntity user = userService.findByIdPessimisticLock(request.getUserId());
         productService.deduct(request);
         Integer rate = couponService.use(request.getCouponCode());
         Order order = Order.create(user, request.getProducts() ,rate);
