@@ -2,13 +2,16 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserJpaRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +27,7 @@ import static org.assertj.core.api.Assertions.*;
 class OrderLineRepositoryTest {
 
     @Autowired
-    private UserJpaRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
 
@@ -48,8 +51,12 @@ class OrderLineRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        UserEntity user1 = UserEntity.create("건희", 100000000L);
-        UserEntity savedUser1 = userRepository.save(user1);
+        UserCreate userCreate = UserCreate.builder()
+                .name("건희")
+                .point(1000000L)
+                .build();
+        User user1 = User.create(userCreate);
+        User savedUser1 = userRepository.save(user1);
 
         productOnion = Product.create("양파", 1000L, 300L);
         productPotato = Product.create("감자", 2000L, 300L);

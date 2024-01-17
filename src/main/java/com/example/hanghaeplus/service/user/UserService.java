@@ -2,9 +2,11 @@ package com.example.hanghaeplus.service.user;
 
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.domain.point.PointLine;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.point.PointLineEntity;
 import com.example.hanghaeplus.repository.point.PointLineJpaRepository;
+import com.example.hanghaeplus.repository.point.PointLineRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.user.request.UserCreate;
@@ -24,7 +26,7 @@ import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PointLineJpaRepository pointLineRepository;
+    private final PointLineRepository pointLineRepository;
 
     public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
@@ -47,7 +49,7 @@ public class UserService {
         try {
             User user = findById(userRecharge);
             user.rechargePoint(userRecharge.getPoint());
-            PointLineEntity pointLine = PointLineEntity.create(UserEntity.from(user), userRecharge.getPoint(), RECHARGE);
+            PointLine pointLine = PointLine.create(user, userRecharge.getPoint());
             pointLineRepository.save(pointLine);
             userRepository.save(user);
         } catch (ObjectOptimisticLockingFailureException e) {

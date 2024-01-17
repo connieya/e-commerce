@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.controller.order.response;
 
+import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.repository.order.OrderEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class OrderPostResponse {
         this.userId = userId;
     }
 
-    public static OrderPostResponse of(OrderEntity order){
+    public static OrderPostResponse of(Order order){
         return OrderPostResponse.builder()
                 .totalPrice(order.getTotalPrice())
                 .discountPrice(order.getDiscountPrice())

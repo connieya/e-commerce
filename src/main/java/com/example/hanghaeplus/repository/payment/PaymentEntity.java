@@ -26,7 +26,15 @@ public class PaymentEntity {
 
     public static PaymentEntity from(Payment payment){
         PaymentEntity paymentEntity = new PaymentEntity();
-        paymentEntity.order = payment.getOrder();
+        paymentEntity.order = OrderEntity.from(payment.getOrder());
+        paymentEntity.user = UserEntity.from(payment.getUser());
+        return paymentEntity;
+    }
 
+    public Payment toDomain() {
+        return Payment.builder()
+                .order(order.toDomain())
+                .user(user.toDomain())
+                .build();
     }
 }
