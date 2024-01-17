@@ -66,11 +66,6 @@ public class UserEntity extends BaseEntity {
     }
 
 
-    public void deductPoints(Long totalPrice) {
-        if (this.currentPoint < totalPrice) {
-            throw new UserException.InsufficientPointsException(INSUFFICIENT_POINT);
-        }
-        this.currentPoint -= totalPrice;
-    }
+
 
 }

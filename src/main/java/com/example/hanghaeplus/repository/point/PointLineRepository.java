@@ -1,8 +1,10 @@
 package com.example.hanghaeplus.repository.point;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.hanghaeplus.domain.point.PointLine;
 
-public interface PointLineRepository extends JpaRepository<PointLineEntity,Long> {
+public interface PointLineRepository {
 
-    PointLineEntity findByUserId(Long userId);
+    PointLine findByUserId(Long userId);
+
+    PointLine save(PointLine pointLine);
 }

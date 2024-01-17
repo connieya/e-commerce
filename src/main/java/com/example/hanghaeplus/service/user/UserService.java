@@ -4,7 +4,7 @@ import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistExceptio
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.point.PointLineEntity;
-import com.example.hanghaeplus.repository.point.PointLineRepository;
+import com.example.hanghaeplus.repository.point.PointLineJpaRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.user.request.UserCreate;
@@ -24,7 +24,7 @@ import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PointLineRepository pointLineRepository;
+    private final PointLineJpaRepository pointLineRepository;
 
     public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));

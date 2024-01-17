@@ -1,5 +1,7 @@
 package com.example.hanghaeplus.repository.point;
 
+import com.example.hanghaeplus.domain.point.PointLine;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
@@ -32,24 +34,24 @@ public class PointLineEntity extends BaseEntity {
     private PointTransactionStatus status;
 
 
-    @Builder
-    private PointLineEntity(UserEntity user, Long point, PointTransactionStatus status) {
-        this.user = user;
-        this.point = point;
-        this.status = status;
-    }
-
-    public static PointLineEntity create(UserEntity user, Long point){
-        return new PointLineEntity(user,point, DEDUCT);
-    }
-
-    public static PointLineEntity create(UserEntity user, Long point, PointTransactionStatus status){
-        return new PointLineEntity(user,point, status);
-    }
-
     public void setUser(UserEntity user) {
-
         this.user = user;
+    }
+
+    public static PointLineEntity from(PointLine pointLine){
+        PointLineEntity pointLineEntity = new PointLineEntity();
+        pointLineEntity.user = UserEntity.from(pointLine.getUser());
+        pointLineEntity.point = pointLine.getPoint();
+        pointLineEntity.status = pointLine.getStatus();
+        return pointLineEntity;
+    }
+
+    public PointLine toDomain() {
+        return PointLine.builder()
+                .point(point)
+                .status(status)
+                .user(user.toDomain())
+                .build();
     }
 
 

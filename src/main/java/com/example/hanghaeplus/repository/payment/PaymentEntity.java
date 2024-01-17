@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-public class Payment {
+public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
-    public Payment(OrderEntity order, UserEntity user) {
+    public PaymentEntity(OrderEntity order, UserEntity user) {
         this.order = order;
         this.user = user;
     }

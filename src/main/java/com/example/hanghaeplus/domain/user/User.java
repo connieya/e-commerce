@@ -1,8 +1,11 @@
 package com.example.hanghaeplus.domain.user;
 
+import com.example.hanghaeplus.service.user.UserException;
 import com.example.hanghaeplus.service.user.request.UserCreate;
 import lombok.Builder;
 import lombok.Getter;
+
+import static com.example.hanghaeplus.common.error.ErrorCode.INSUFFICIENT_POINT;
 
 @Getter
 public class User {
@@ -25,6 +28,13 @@ public class User {
 
     public void rechargePoint(Long point) {
         this.point += point;
+    }
+
+    public void deductPoints(Long totalPrice) {
+        if (this.point < totalPrice) {
+            throw new UserException.InsufficientPointsException(INSUFFICIENT_POINT);
+        }
+        this.point -= totalPrice;
     }
 
     public static User create(UserCreate userCreate){
