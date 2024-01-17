@@ -2,10 +2,14 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.domain.order.Order;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserJpaRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,10 +26,10 @@ class OrderLineRepositoryTestV2 {
 
 
     @Autowired
-    private OrderJpaRepository orderRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
-    private UserJpaRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -41,7 +45,12 @@ class OrderLineRepositoryTestV2 {
 
     @BeforeEach
     void setUp() {
-        UserEntity user = UserEntity.create("건희", 10000000L);
+        UserCreate userCreate = UserCreate.builder()
+                .name("건희")
+                .point(10000L)
+                .build();
+
+        User user = User.create(userCreate);
 
         userRepository.save(user);
 
@@ -83,14 +92,13 @@ class OrderLineRepositoryTestV2 {
         LocalDate today = LocalDate.now();
 
         // 주문 1  : 양파 ,감자 ,당근
-        OrderEntity order1 = FakeOrder.create(user, requests1, today.minusDays(1).atStartOfDay()); // 1일 전에 주문
+        Order order1 = FakeOrder.create(user, requests1, today.minusDays(1).atStartOfDay()); // 1일 전에 주문
         // 주문 2 : 당근 ,감자
-        OrderEntity order2 = FakeOrder.create(user, requests2, today.minusDays(2).atStartOfDay()); // 2일 전에 주문
+        Order order2 = FakeOrder.create(user, requests2, today.minusDays(2).atStartOfDay()); // 2일 전에 주문
         // 주문 3 : 당근 ,양파
-        OrderEntity order3 = FakeOrder.create(user, requests3, today.minusDays(3).atStartOfDay()); // 2일 전에 주문
+        Order order3 = FakeOrder.create(user, requests3, today.minusDays(3).atStartOfDay()); // 2일 전에 주문
         // 주문 4 : 버섯 , 양파 ,당근
-        OrderEntity order4 = FakeOrder.create(user, requests4, today.minusDays(4).atStartOfDay()); // 3일 전에 주문
-
+        Order order4 = FakeOrder.create(user, requests4, today.minusDays(4).atStartOfDay()); // 3일 전에 주문
 
         orderRepository.saveAll(List.of(order1, order2, order3, order4));
     }
