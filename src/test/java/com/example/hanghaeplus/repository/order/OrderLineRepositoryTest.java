@@ -9,6 +9,7 @@ import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,7 +49,13 @@ class OrderLineRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        User user1 = User.create("건희", 100000000L);
+
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(100000000L)
+                .build();
+        User user1 = User.create(userCreate);
         User savedUser1 = userRepository.save(user1);
 
         productOnion = Product.create("양파", 1000L, 300L);

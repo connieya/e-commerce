@@ -10,6 +10,7 @@ import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +47,12 @@ class OrderLineRepositoryTestV2 {
 
     @BeforeEach
     void setUp() {
-        User user = User.create("건희", 10000000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
+        User user = User.create(userCreate);
 
         userRepository.save(user);
 

@@ -10,6 +10,7 @@ import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,13 @@ public class OrderServiceTest {
     @Test
     void deductQuantity() {
         // given
-        User user = User.create("건희", 1000000L);
+
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(1000000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
 
         Product product1 = Product.create("양파", 1000L, 5L);
@@ -83,7 +90,12 @@ public class OrderServiceTest {
     @DisplayName("주문 한 상품의 총 가격을 구한다.")
     @Test
     void createOrder() {
-        User user = User.create("건희", 50000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
 
         Product productOnion = Product.create("양파", 1000L, 5L);
@@ -122,7 +134,12 @@ public class OrderServiceTest {
     @Test
     void createOrder2() {
         // given
-        User user = User.create("건희", 50000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
 
         Product product1 = Product.create("양파", 1000L, 5L);
@@ -162,7 +179,13 @@ public class OrderServiceTest {
     @DisplayName("주문 한 상품 가격 만큼 잔액을 차감 한다.")
     @Test
     void deductPoint() {
-        User user = User.create("건희", 50000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(50000L)
+                .build();
+
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
 
         Product product1 = Product.create("양파", 1000L, 5L);
@@ -200,8 +223,20 @@ public class OrderServiceTest {
     @Test
     void deductQuantityWithConcurrency() {
         // given
-        User user1 = User.create("건희", 100000000L);
-        User user2 = User.create("거니", 100000000L);
+        UserCreate userCreate1 = UserCreate
+                .builder()
+                .name("건희")
+                .point(100000000L)
+                .build();
+
+        UserCreate userCreate2 = UserCreate
+                .builder()
+                .name("거니")
+                .point(100000000L)
+                .build();
+
+        User user1 = User.create(userCreate1);
+        User user2 = User.create(userCreate2);
         User savedUser1 = userRepository.save(user1);
         User savedUser2 = userRepository.save(user2);
 
@@ -259,8 +294,19 @@ public class OrderServiceTest {
     @Test
     void deductQuantityWithConcurrency2() {
         // given
-        User user1 = User.create("건희", 100000000L);
-        User user2 = User.create("거니", 100000000L);
+        UserCreate userCreate1 = UserCreate
+                .builder()
+                .name("건희")
+                .point(100000000L)
+                .build();
+        UserCreate userCreate2 = UserCreate
+                .builder()
+                .name("거니")
+                .point(100000000L)
+                .build();
+
+        User user1 = User.create(userCreate1);
+        User user2 = User.create(userCreate2);
         User savedUser1 = userRepository.save(user1);
         User savedUser2 = userRepository.save(user2);
 
@@ -321,7 +367,12 @@ public class OrderServiceTest {
     @Test
     void deductPointWithConcurrency() {
         // given
-        User user = User.create("건희", 50000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(50000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
 
         Product productOnion = Product.create("양파", 1000L, 30L);

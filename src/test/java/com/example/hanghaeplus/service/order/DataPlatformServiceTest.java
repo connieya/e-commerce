@@ -7,6 +7,7 @@ import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,13 @@ class DataPlatformServiceTest {
     @Test
     void dataPlatformThrow() {
         // given
-        User user = User.create("건희", 10000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000L)
+                .build();
+
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
 
         Product productOnion = Product.create("양파", 1000L, 5L);

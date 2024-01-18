@@ -3,6 +3,8 @@ package com.example.hanghaeplus.service.user;
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +28,22 @@ class UserServiceTest {
     private UserService userService;
 
 
-//    @AfterEach
-//    void after(){
-//        userRepository.deleteAll();
-//
-//    }
+    @AfterEach
+    void after(){
+        userRepository.deleteAll();
+
+    }
 
     @DisplayName("요청한 포인트 만큼 사용자의 잔액을 충전한다.")
     @Test
     void rechargePoint(){
         // given
-        User user = User.create("건희", 1000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
         UserRechargeRequest request = UserRechargeRequest.builder().
                 id(savedUser.getId())
@@ -53,7 +60,13 @@ class UserServiceTest {
     @Test
     void rechargePointWithConcurrency(){
         // given
-        User user = User.create("건희", 1000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(1000L)
+                .build();
+
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
         UserRechargeRequest request1 = UserRechargeRequest.builder().
                 id(savedUser.getId())
@@ -79,7 +92,12 @@ class UserServiceTest {
     @Test
     void rechargePointWithConcurrency2(){
         // given
-        User user = User.create("건희", 1000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(1000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
         UserRechargeRequest request1 = UserRechargeRequest.builder().
                 id(savedUser.getId())
