@@ -9,6 +9,7 @@ import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.pointline.PointLineRepository;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.user.request.UserCreate;
+import com.example.hanghaeplus.service.user.request.UserRecharge;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -46,17 +47,17 @@ public class UserService {
     }
 
     @Transactional
-    public void rechargePoint(UserRechargeRequest request) {
+    public void rechargePoint(UserRecharge userRecharge) {
         try {
-            User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-            user.rechargePoint(request.getPoint());
-            PointLine point = PointLine.create(user, request.getPoint(), RECHARGE);
+            User user = userRepository.findById(userRecharge.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+            user.rechargePoint(userRecharge.getPoint());
+            PointLine point = PointLine.create(user, userRecharge.getPoint());
             pointRepository.save(point);
             userRepository.save(user);
 
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
-            rechargePoint(request);
+            rechargePoint(userRecharge);
         }
     }
 

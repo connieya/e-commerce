@@ -4,6 +4,7 @@ import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.user.request.UserCreate;
+import com.example.hanghaeplus.service.user.request.UserRecharge;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class UserServiceTest {
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
-        UserRechargeRequest request = UserRechargeRequest.builder().
+        UserRecharge request = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(5000L)
                 .build();
@@ -68,12 +69,12 @@ class UserServiceTest {
 
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
-        UserRechargeRequest request1 = UserRechargeRequest.builder().
+        UserRecharge request1 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(5000L)
                 .build();
 
-        UserRechargeRequest request2 = UserRechargeRequest.builder().
+        UserRecharge request2 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(6000L)
                 .build();
@@ -99,12 +100,12 @@ class UserServiceTest {
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
-        UserRechargeRequest request1 = UserRechargeRequest.builder().
+        UserRecharge request1 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(5000L)
                 .build();
 
-        UserRechargeRequest request2 = UserRechargeRequest.builder().
+        UserRecharge request2 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(6000L)
                 .build();

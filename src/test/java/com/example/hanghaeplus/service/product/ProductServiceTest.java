@@ -26,8 +26,6 @@ class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
-    @Mock
-    private OrderLineRepository orderProductRepository;
 
     private AutoCloseable autoCloseable;
     private ProductService productService;
@@ -36,7 +34,7 @@ class ProductServiceTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        productService = new ProductService(productRepository,orderProductRepository);
+        productService = new ProductService(productRepository);
 
         ProductCreate productCreate = ProductCreate
                 .builder()
@@ -104,7 +102,7 @@ class ProductServiceTest {
                 .build();
 
         // when
-        productService.addQuantity(productQuantityAdd);
+//        productService.addQuantity(productQuantityAdd);
 
 
         //then

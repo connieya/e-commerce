@@ -29,7 +29,7 @@ public class UserController {
     @ApiOperation("잔액 충전 API")
     @PostMapping("/point")
     public ResponseEntity<ResultResponse> recharge(@RequestBody UserRechargeRequest request){
-        userService.rechargePoint(request);
+        userService.rechargePoint(request.toCommand());
         return ResponseEntity.ok(ResultResponse.of(POINT_POST_SUCCESS));
     }
 
