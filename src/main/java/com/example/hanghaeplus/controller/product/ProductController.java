@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.controller.product;
 
+import com.example.hanghaeplus.controller.product.request.ProductQuantityRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
@@ -26,6 +27,12 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ResultResponse> save(@RequestBody ProductPostRequest request){
         productService.save(request.toCommand());
+        return ResponseEntity.ok(ResultResponse.of(PRODUCT_POST_SUCCESS));
+    }
+
+    @ApiOperation("재고 추가 API")
+    @PostMapping
+    public ResponseEntity<ResultResponse> addStock(@RequestBody ProductQuantityRequest productQuantityRequest) {
         return ResponseEntity.ok(ResultResponse.of(PRODUCT_POST_SUCCESS));
     }
 

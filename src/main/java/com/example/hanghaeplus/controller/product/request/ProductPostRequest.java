@@ -15,14 +15,6 @@ public class ProductPostRequest {
     private Long quantity;
 
 
-
-    @Builder
-    private ProductPostRequest(String productName, Long price, Long quantity) {
-        this.name = productName;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
     public ProductCreate toCommand() {
         return ProductCreate
                 .builder()
