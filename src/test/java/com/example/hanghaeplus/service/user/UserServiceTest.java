@@ -46,7 +46,7 @@ class UserServiceTest {
         userService.rechargePoint(request);
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(1000L+5000L);
+        assertThat(findUser.getPoint()).isEqualTo(1000L+5000L);
     }
 
     @DisplayName("동시에 사용자의 포인트를 충전 했을 때 충전 요청 만큼 잔액을 충전한다.")
@@ -72,7 +72,7 @@ class UserServiceTest {
         ).join();
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(1000L+5000L+6000L);
+        assertThat(findUser.getPoint()).isEqualTo(1000L+5000L+6000L);
     }
 
     @DisplayName("동시에 사용자의 포인트를 충전 했을 때 충전에 실패하게 한다. ")
@@ -103,6 +103,6 @@ class UserServiceTest {
         }).join();
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(1000L);
+        assertThat(findUser.getPoint()).isEqualTo(1000L);
     }
 }

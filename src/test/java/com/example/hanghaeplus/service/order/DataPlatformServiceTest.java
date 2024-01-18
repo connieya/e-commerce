@@ -2,7 +2,6 @@ package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
@@ -69,6 +68,6 @@ class DataPlatformServiceTest {
         User findUser = userRepository.findByName("건희").get();
         //then
         assertThat(order).isNull();
-        assertThat(findUser.getCurrentPoint()).isEqualTo(10000L);
+        assertThat(findUser.getPoint()).isEqualTo(10000L);
     }
 }

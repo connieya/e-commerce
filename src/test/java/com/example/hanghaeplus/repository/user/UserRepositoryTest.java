@@ -1,8 +1,6 @@
 package com.example.hanghaeplus.repository.user;
 
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.repository.user.User;
-import com.example.hanghaeplus.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +31,7 @@ class UserRepositoryTest {
     void getCurrentPoint() {
         User user = User.create("건희", 5000L);
         User savedUser = userRepository.save(user);
-        assertThat(savedUser.getCurrentPoint()).isEqualTo(5000L);
+        assertThat(savedUser.getPoint()).isEqualTo(5000L);
     }
 
     @DisplayName("유저 조회")

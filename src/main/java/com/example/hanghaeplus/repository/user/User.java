@@ -2,6 +2,7 @@ package com.example.hanghaeplus.repository.user;
 
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import com.example.hanghaeplus.service.user.UserException;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,45 +21,42 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
     private String name;
-
-    private Long currentPoint;
+    private String email;
+    private String nickname;
+    private Long point;
 
 //    @Version
 //    private Long version;
 
-    public User(String name) {
-        this.name = name;
-    }
+
 
     @Builder
-    private User(Long id, String name, Long currentPoint) {
+    private User(Long id, String name, String email, String nickname, Long point) {
         this.id = id;
         this.name = name;
-        this.currentPoint = currentPoint;
-    }
-
-    @Builder
-    private User(String name, Long currentPoint) {
-        this.name = name;
-        this.currentPoint = currentPoint;
+        this.email = email;
+        this.nickname = nickname;
+        this.point = point;
     }
 
     public void rechargePoint(Long point) {
-        this.currentPoint += point;
+        this.point += point;
     }
 
 
     public void deductPoints(Long totalPrice) {
-        if (this.currentPoint < totalPrice) {
+        if (this.point < totalPrice) {
             throw new UserException.InsufficientPointsException(INSUFFICIENT_POINT);
         }
-        this.currentPoint -= totalPrice;
+        this.point -= totalPrice;
     }
 
-    public static User create(String name, Long currentPoint) {
+    public static User create(UserCreate userCreate) {
         return User.builder()
-                .name(name)
-                .currentPoint(currentPoint)
+                .name(userCreate.getName())
+                .email(userCreate.getEmail())
+                .nickname(userCreate.getNickname())
+                .point(userCreate.getPoint())
                 .build();
     }
 }

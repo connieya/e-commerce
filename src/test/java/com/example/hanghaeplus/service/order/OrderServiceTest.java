@@ -2,7 +2,6 @@ package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.controller.coupon.request.CouponPostRequest;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
-import com.example.hanghaeplus.controller.order.response.OrderPostResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.coupon.Coupon;
 import com.example.hanghaeplus.repository.coupon.CouponRepository;
@@ -194,7 +193,7 @@ public class OrderServiceTest {
         Long totalPrice = product1.getPrice() * request1.getQuantity() + product2.getPrice() * request2.getQuantity() + product3.getPrice() * request3.getQuantity();
 
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(50000L - totalPrice);
+        assertThat(findUser.getPoint()).isEqualTo(50000L - totalPrice);
     }
 
     @DisplayName("동시에 상품을 주문 하여도 주문한 수량 만큼 재고를 차감한다.")
@@ -372,6 +371,6 @@ public class OrderServiceTest {
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         //then                현재 잔액 5000L  - (양파 2개 , 감자 2개)  / ( 당근 2개 , 버섯 2개)
-        assertThat(findUser.getCurrentPoint()).isEqualTo(50000L-6000L-16000L);
+        assertThat(findUser.getPoint()).isEqualTo(50000L-6000L-16000L);
     }
 }
