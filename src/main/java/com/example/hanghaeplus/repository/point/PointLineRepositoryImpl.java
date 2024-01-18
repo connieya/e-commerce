@@ -2,7 +2,9 @@ package com.example.hanghaeplus.repository.point;
 
 import com.example.hanghaeplus.domain.point.PointLine;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
 public class PointLineRepositoryImpl implements PointLineRepository {
 

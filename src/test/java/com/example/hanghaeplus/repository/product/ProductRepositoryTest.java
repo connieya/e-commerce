@@ -1,8 +1,6 @@
 package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
-import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,12 +31,12 @@ class ProductRepositoryTest {
     void before() {
         ProductPostRequest productRequest = ProductPostRequest
                 .builder()
-                .productName("아이 패드")
+                .name("아이 패드")
                 .price(500000L)
                 .quantity(130L)
                 .build();
 
-        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice(),productRequest.getQuantity());
+        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
         savedProduct = productRepository.save(product);
     }
 
@@ -48,18 +46,18 @@ class ProductRepositoryTest {
         // given
         ProductPostRequest productRequest = ProductPostRequest
                 .builder()
-                .productName("아이폰 15")
+                .name("아이폰 15")
                 .price(100000L)
                 .quantity(30L)
                 .build();
 
-        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice(),productRequest.getQuantity());
+        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
 
         // when
         Product savedProduct = productRepository.save(product);
 
         //then
-        assertThat(productRequest.getProductName()).isEqualTo(savedProduct.getName());
+        assertThat(productRequest.getName()).isEqualTo(savedProduct.getName());
         assertThat(productRequest.getPrice()).isEqualTo(savedProduct.getPrice());
         assertThat(productRequest.getQuantity()).isEqualTo(savedProduct.getQuantity());
     }

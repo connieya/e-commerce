@@ -1,15 +1,14 @@
 package com.example.hanghaeplus.service.product;
 
-import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
-import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,8 +32,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final OrderLineRepository orderLineRepository;
 
-    public void registerProduct(ProductPostRequest request) {
-        Product product = Product.create(request.getProductName(), request.getPrice(), request.getQuantity());
+    public void save(ProductCreate productCreate) {
+        Product product = Product.create(productCreate.getName(), productCreate.getPrice(), productCreate.getQuantity());
         productRepository.save(product);
     }
 

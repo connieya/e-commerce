@@ -2,8 +2,10 @@ package com.example.hanghaeplus.repository.payment;
 
 import com.example.hanghaeplus.domain.payment.Payment;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 
+@Repository
 @RequiredArgsConstructor
 public class PaymentRepositoryImpl implements PaymentRepository {
 

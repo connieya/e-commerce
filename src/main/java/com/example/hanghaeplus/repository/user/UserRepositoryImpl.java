@@ -2,9 +2,11 @@ package com.example.hanghaeplus.repository.user;
 
 import com.example.hanghaeplus.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 

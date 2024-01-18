@@ -2,10 +2,12 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.domain.order.Order;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 @RequiredArgsConstructor
 public class OrderRepositoryImpl implements OrderRepository{
 

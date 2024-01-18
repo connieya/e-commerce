@@ -24,8 +24,8 @@ public class ProductController {
 
     @ApiOperation("상품 등록 API")
     @PostMapping
-    public ResponseEntity<ResultResponse> registerProduct(@RequestBody ProductPostRequest request){
-        productService.registerProduct(request);
+    public ResponseEntity<ResultResponse> save(@RequestBody ProductPostRequest request){
+        productService.save(request.toCommand());
         return ResponseEntity.ok(ResultResponse.of(PRODUCT_POST_SUCCESS));
     }
 

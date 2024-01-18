@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Builder
 public class Order {
 
     private Long id;
@@ -22,6 +21,13 @@ public class Order {
     private Long discountPrice;
     private List<OrderLine> orderLines;
 
+    @Builder
+    public Order(User user, Long totalPrice, Long discountPrice, List<OrderLine> orderLines) {
+        this.user = user;
+        this.totalPrice = totalPrice;
+        this.discountPrice = discountPrice;
+        this.orderLines = orderLines;
+    }
 
     private Order(User user, List<ProductRequestForOrder> products) {
         this.user = user;
