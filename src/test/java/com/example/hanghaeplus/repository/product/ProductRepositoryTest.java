@@ -1,8 +1,6 @@
 package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
-import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +36,7 @@ class ProductRepositoryTest {
                 .quantity(130L)
                 .build();
 
-        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice(),productRequest.getQuantity());
+        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
         savedProduct = productRepository.save(product);
     }
 
@@ -53,13 +51,13 @@ class ProductRepositoryTest {
                 .quantity(30L)
                 .build();
 
-        Product product = Product.create(productRequest.getProductName(), productRequest.getPrice(),productRequest.getQuantity());
+        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
 
         // when
         Product savedProduct = productRepository.save(product);
 
         //then
-        assertThat(productRequest.getProductName()).isEqualTo(savedProduct.getName());
+        assertThat(productRequest.getName()).isEqualTo(savedProduct.getName());
         assertThat(productRequest.getPrice()).isEqualTo(savedProduct.getPrice());
         assertThat(productRequest.getQuantity()).isEqualTo(savedProduct.getQuantity());
     }
