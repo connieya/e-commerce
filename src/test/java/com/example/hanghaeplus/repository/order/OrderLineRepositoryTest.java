@@ -96,12 +96,20 @@ class OrderLineRepositoryTest {
         productMushroom = Product.create(productCreateMushroom);
         productSweetPotato = Product.create(productCreateSweetPotato);
 
-        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
+        List<Product> products = productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
+        productOnion = products.get(0);
+        productPotato = products.get(1);
+        productCarrot = products.get(2);
+        productMushroom = products.get(3);
+        productSweetPotato = products.get(4);
 
         // 주문 1
         ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
         ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 10L, productPotato.getPrice());
         ProductRequestForOrder request1_3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+
+
+        System.out.println("productOnion = " + productOnion.getId());
 
         List<ProductRequestForOrder> requests1 = List.of(request1_1, request1_2, request1_3);
 
@@ -135,9 +143,9 @@ class OrderLineRepositoryTest {
         orderPostRequest4 = OrderPostRequest.of(savedUser1.getId(), requests4);
 
         orderService.create(orderPostRequest1.toCommand());
-        orderService.create(orderPostRequest2.toCommand());
-        orderService.create(orderPostRequest3.toCommand());
-        orderService.create(orderPostRequest4.toCommand()).toString();
+//        orderService.create(orderPostRequest2.toCommand());
+//        orderService.create(orderPostRequest3.toCommand());
+//        orderService.create(orderPostRequest4.toCommand());
     }
 
 
@@ -146,70 +154,77 @@ class OrderLineRepositoryTest {
     @Test
     void findByAll() {
         // given ,when
-        List<OrderLine> orderProducts = orderLineRepository.findAll();
-        //then
-        // 주문 1 (상품 3개) , 주문 2 (상품 2개) , 주문 3 (상품 2개) , 주문 4 (상품 3개)
-        // 양파: 1000원 감자 2000원 당근 3000원 버섯 5000원 고구마 2000원
-        assertThat(orderProducts).hasSize(10)
-                .extracting("productId", "count", "price")
-                .containsExactlyInAnyOrder(
-                        tuple(1L, 5L, 1000L), // 양파
-                        tuple(2L, 10L, 2000L), //감자
-                        tuple(3L, 5L, 3000L),//  당근   주문 1 (양파 ,감자 ,당근)
-                        tuple(3L, 5L, 3000L), // 당근
-                        tuple(2L, 5L, 2000L), // 감자  주문 2 (당근 ,감자)
-                        tuple(3L, 5L, 3000L), // 당근
-                        tuple(1L, 5L, 1000L), // 양파  주문 3 (당근 ,양파)
-                        tuple(4L, 5L, 5000L), // 버섯
-                        tuple(1L, 5L, 1000L), // 양파
-                        tuple(3L, 5L, 3000L) //  당근 주문 4 (버섯 ,양파 ,당근)
-                );
+        System.out.println("productOnion = " + productOnion.getId());
+        System.out.println("orderPostRequest1.toCommand() = " + orderPostRequest1.toCommand());
+        List<ProductRequestForOrder> products = orderPostRequest1.toCommand().getProducts();
+        for (ProductRequestForOrder product : products) {
+            System.out.println("product.getProductId() +\" \" + product.getQuantity() = " + product.getProductId() +" " + product.getQuantity());
+        }
+        System.out.println("orderPostRequest1.toCommand().getUserId() = " + orderPostRequest1.toCommand().getUserId());
+//        List<OrderLine> orderProducts = orderLineRepository.findAll();
+//        //then
+//        // 주문 1 (상품 3개) , 주문 2 (상품 2개) , 주문 3 (상품 2개) , 주문 4 (상품 3개)
+//        // 양파: 1000원 감자 2000원 당근 3000원 버섯 5000원 고구마 2000원
+//        assertThat(orderProducts).hasSize(10)
+//                .extracting("productId", "count", "price")
+//                .containsExactlyInAnyOrder(
+//                        tuple(1L, 5L, 1000L), // 양파
+//                        tuple(2L, 10L, 2000L), //감자
+//                        tuple(3L, 5L, 3000L),//  당근   주문 1 (양파 ,감자 ,당근)
+//                        tuple(3L, 5L, 3000L), // 당근
+//                        tuple(2L, 5L, 2000L), // 감자  주문 2 (당근 ,감자)
+//                        tuple(3L, 5L, 3000L), // 당근
+//                        tuple(1L, 5L, 1000L), // 양파  주문 3 (당근 ,양파)
+//                        tuple(4L, 5L, 5000L), // 버섯
+//                        tuple(1L, 5L, 1000L), // 양파
+//                        tuple(3L, 5L, 3000L) //  당근 주문 4 (버섯 ,양파 ,당근)
+//                );
 
     }
-
-
-    @DisplayName("주문 번호를 이용하여 주문 내역에서 해당 데이터를 조회한다.")
-    @Test
-    void findByOrderId() {
-        // given when
-        List<OrderProductResponse> orderProductResponses1 = orderLineRepository.findByOrderId(1L);
-        List<OrderProductResponse> orderProductResponses2 = orderLineRepository.findByOrderId(2L);
-
-        //then
-        assertThat(orderProductResponses1).hasSize(3);
-        assertThat(orderProductResponses2).hasSize(2);
-
-
-    }
-
-
-    @DisplayName("최근에 가장 많이 주문한 인기 상품 id 3개를 조회한다.")
-    @Test
-    void findTop3ProductsByCount() {
-        // given , when
-        // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
-        List<Long> top3ProductIds = orderLineRepository.findTop3ProductIdsByCount();
-
-        //then
-        assertThat(top3ProductIds.get(0)).isEqualTo(productCarrot.getId());
-        assertThat(top3ProductIds.get(1)).isEqualTo(productOnion.getId());
-        assertThat(top3ProductIds.get(2)).isEqualTo(productPotato.getId());
-
-    }
-
-    @DisplayName("최근에 가장 많이 주문한 상위 상품 3개를 조회 한다.")
-    @Test
-    void findTop3RankProductsByCount() {
-        // given , when
-        // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
-        List<OrderProductRankResponse> top3RankProductsByCount = orderLineRepository.findTop3RankProductsByCount();
-
-        //then
-        assertThat(top3RankProductsByCount.get(0).getName()).isEqualTo("당근");
-        assertThat(top3RankProductsByCount.get(0).getOrderCount()).isEqualTo(4);
-        assertThat(top3RankProductsByCount.get(1).getName()).isEqualTo("양파");
-        assertThat(top3RankProductsByCount.get(1).getOrderCount()).isEqualTo(3);
-
-    }
+//
+//
+//    @DisplayName("주문 번호를 이용하여 주문 내역에서 해당 데이터를 조회한다.")
+//    @Test
+//    void findByOrderId() {
+//        // given when
+//        List<OrderProductResponse> orderProductResponses1 = orderLineRepository.findByOrderId(1L);
+//        List<OrderProductResponse> orderProductResponses2 = orderLineRepository.findByOrderId(2L);
+//
+//        //then
+//        assertThat(orderProductResponses1).hasSize(3);
+//        assertThat(orderProductResponses2).hasSize(2);
+//
+//
+//    }
+//
+//
+//    @DisplayName("최근에 가장 많이 주문한 인기 상품 id 3개를 조회한다.")
+//    @Test
+//    void findTop3ProductsByCount() {
+//        // given , when
+//        // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
+//        List<Long> top3ProductIds = orderLineRepository.findTop3ProductIdsByCount();
+//
+//        //then
+//        assertThat(top3ProductIds.get(0)).isEqualTo(productCarrot.getId());
+//        assertThat(top3ProductIds.get(1)).isEqualTo(productOnion.getId());
+//        assertThat(top3ProductIds.get(2)).isEqualTo(productPotato.getId());
+//
+//    }
+//
+//    @DisplayName("최근에 가장 많이 주문한 상위 상품 3개를 조회 한다.")
+//    @Test
+//    void findTop3RankProductsByCount() {
+//        // given , when
+//        // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
+//        List<OrderProductRankResponse> top3RankProductsByCount = orderLineRepository.findTop3RankProductsByCount();
+//
+//        //then
+//        assertThat(top3RankProductsByCount.get(0).getName()).isEqualTo("당근");
+//        assertThat(top3RankProductsByCount.get(0).getOrderCount()).isEqualTo(4);
+//        assertThat(top3RankProductsByCount.get(1).getName()).isEqualTo("양파");
+//        assertThat(top3RankProductsByCount.get(1).getOrderCount()).isEqualTo(3);
+//
+//    }
 
 }

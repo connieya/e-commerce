@@ -43,6 +43,7 @@ public class ProductEntity extends BaseEntity {
 
     public Product toDomain() {
         return Product.builder()
+                .id(id)
                 .name(name)
                 .price(price)
                 .quantity(quantity)

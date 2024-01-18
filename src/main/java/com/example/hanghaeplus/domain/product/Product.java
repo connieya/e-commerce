@@ -29,11 +29,14 @@ public class Product {
     }
 
     @Builder
-    private Product(String name, Long price, Long quantity) {
+    private Product(Long id, String name, Long price, Long quantity) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
     }
+
+    @Builder
 
     public static Product create(ProductCreate productCreate){
         return Product.builder()

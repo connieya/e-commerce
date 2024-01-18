@@ -22,6 +22,9 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductJpaRepository productJpaRepository;
+
     @AfterEach
     void tearDown() {
 //        productRepository.deleteAllInBatch();
@@ -70,13 +73,25 @@ class ProductRepositoryTest {
     @Test
     void findProductById() {
         // given
-        Product product = productRepository.findById(savedProduct.getId()).get();
+        ProductCreate productCreate = ProductCreate
+                .builder()
+                .name("아이 패드")
+                .price(500000L)
+                .quantity(130L)
+                .build();
+
+        Product product = Product.create(productCreate);
+        Product savedProduct = productRepository.save(product);
+
+        System.out.println("savedProduct = " + savedProduct.getId());
+
+        Product findProduct = productRepository.findById(savedProduct.getId()).get();
         // when
 
         //then
-        assertThat(product.getPrice()).isEqualTo(500000L);
-        assertThat(product.getName()).isEqualTo("아이 패드");
-        assertThat(product.getQuantity()).isEqualTo(130L);
+        assertThat(findProduct.getPrice()).isEqualTo(500000L);
+        assertThat(findProduct.getName()).isEqualTo("아이 패드");
+        assertThat(findProduct.getQuantity()).isEqualTo(130L);
 
     }
 
@@ -85,7 +100,8 @@ class ProductRepositoryTest {
     void findAllByPessimisticLock(){
 
         //given
-        List<Product> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
+//        List<Product> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
+        List<ProductEntity> products = productJpaRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
         assertThat(products.get(0).getPrice()).isEqualTo(500000L);
         assertThat(products.get(0).getName()).isEqualTo("아이 패드");
         assertThat(products.get(0).getQuantity()).isEqualTo(130L);

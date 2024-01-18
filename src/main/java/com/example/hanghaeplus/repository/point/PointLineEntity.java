@@ -48,6 +48,7 @@ public class PointLineEntity extends BaseEntity {
 
     public PointLine toDomain() {
         return PointLine.builder()
+                .id(id)
                 .point(point)
                 .status(status)
                 .user(user.toDomain())

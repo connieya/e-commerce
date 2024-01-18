@@ -33,19 +33,6 @@ public class UserEntity extends BaseEntity {
         this.name = name;
     }
 
-    @Builder
-    private UserEntity(Long id, String name, Long currentPoint) {
-        this.id = id;
-        this.name = name;
-        this.currentPoint = currentPoint;
-    }
-
-    @Builder
-    private UserEntity(String name, Long currentPoint) {
-        this.name = name;
-        this.currentPoint = currentPoint;
-    }
-
     public static UserEntity from(User user){
         UserEntity userEntity = new UserEntity();
         userEntity.name = user.getName();

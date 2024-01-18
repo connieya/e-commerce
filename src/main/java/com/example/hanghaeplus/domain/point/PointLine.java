@@ -15,6 +15,14 @@ public class PointLine {
     private PointTransactionStatus status;
 
     @Builder
+    private PointLine(Long id, User user, Long point, PointTransactionStatus status) {
+        this.id = id;
+        this.user = user;
+        this.point = point;
+        this.status = status;
+    }
+
+    @Builder
     private PointLine(User user, Long point, PointTransactionStatus status) {
         this.user = user;
         this.point = point;

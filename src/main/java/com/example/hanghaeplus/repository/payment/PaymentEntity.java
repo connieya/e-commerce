@@ -34,6 +34,7 @@ public class PaymentEntity {
 
     public Payment toDomain() {
         return Payment.builder()
+                .id(id)
                 .order(order.toDomain())
                 .user(user.toDomain())
                 .build();

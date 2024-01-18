@@ -22,7 +22,8 @@ public class Order {
     private List<OrderLine> orderLines;
 
     @Builder
-    public Order(User user, Long totalPrice, Long discountPrice, List<OrderLine> orderLines) {
+    private Order(Long id, User user, Long totalPrice, Long discountPrice, List<OrderLine> orderLines) {
+        this.id = id;
         this.user = user;
         this.totalPrice = totalPrice;
         this.discountPrice = discountPrice;

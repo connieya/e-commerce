@@ -49,6 +49,7 @@ public class OrderEntity extends BaseEntity {
 
     public Order toDomain(){
         return Order.builder()
+                .id(id)
                 .user(user.toDomain())
                 .orderLines(orderLines)
                 .totalPrice(totalPrice)
