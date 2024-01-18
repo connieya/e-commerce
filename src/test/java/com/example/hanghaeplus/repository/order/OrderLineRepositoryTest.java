@@ -3,12 +3,10 @@ package com.example.hanghaeplus.repository.order;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.product.ProductEntity;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.user.UserEntity;
-import com.example.hanghaeplus.repository.user.UserJpaRepository;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.order.OrderService;
 import com.example.hanghaeplus.service.user.request.UserCreate;
@@ -29,7 +27,7 @@ class OrderLineRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @Autowired
     private OrderLineRepository orderLineRepository;
@@ -38,11 +36,11 @@ class OrderLineRepositoryTest {
     private OrderService orderService;
 
 
-    Product productOnion;
-    Product productPotato;
-    Product productCarrot;
-    Product productMushroom;
-    Product productSweetPotato;
+    ProductEntity productOnion;
+    ProductEntity productPotato;
+    ProductEntity productCarrot;
+    ProductEntity productMushroom;
+    ProductEntity productSweetPotato;
 
     OrderPostRequest orderPostRequest1;
     OrderPostRequest orderPostRequest2;
@@ -58,11 +56,11 @@ class OrderLineRepositoryTest {
         User user1 = User.create(userCreate);
         User savedUser1 = userRepository.save(user1);
 
-        productOnion = Product.create("양파", 1000L, 300L);
-        productPotato = Product.create("감자", 2000L, 300L);
-        productCarrot = Product.create("당근", 3000L, 300L);
-        productMushroom = Product.create("버섯", 5000L, 300L);
-        productSweetPotato = Product.create("고구마", 2000L, 300L);
+        productOnion = ProductEntity.create("양파", 1000L, 300L);
+        productPotato = ProductEntity.create("감자", 2000L, 300L);
+        productCarrot = ProductEntity.create("당근", 3000L, 300L);
+        productMushroom = ProductEntity.create("버섯", 5000L, 300L);
+        productSweetPotato = ProductEntity.create("고구마", 2000L, 300L);
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
 

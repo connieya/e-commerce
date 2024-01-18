@@ -5,8 +5,7 @@ import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.product.FakeProduct;
-import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.user.UserEntity;
+import com.example.hanghaeplus.repository.product.ProductEntity;
 import com.example.hanghaeplus.service.user.request.UserCreate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,8 +25,8 @@ public class OrderTest {
     @Test
     void getTotalPoint() {
         // given
-        Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
-        Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
+        ProductEntity mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
+        ProductEntity mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
         UserCreate userCreate = UserCreate.builder()
                 .name("건희")
                 .point(10000L)
@@ -45,8 +44,8 @@ public class OrderTest {
     @Test
     void getTotalPointAndDiscountPoint() {
         // given
-        Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
-        Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
+        ProductEntity mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
+        ProductEntity mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
 
         UserCreate userCreate = UserCreate.builder()
                 .name("건희")
@@ -66,9 +65,9 @@ public class OrderTest {
     @Test
     void getOrderProducts() {
         // given
-        Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
-        Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
-        Product mockProduct3 = FakeProduct.create(3L,"감자", 5000L, 5L);
+        ProductEntity mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
+        ProductEntity mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
+        ProductEntity mockProduct3 = FakeProduct.create(3L,"감자", 5000L, 5L);
 
         UserCreate userCreate = UserCreate.builder()
                 .name("건희")

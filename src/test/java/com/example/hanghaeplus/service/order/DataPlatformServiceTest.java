@@ -3,8 +3,8 @@ package com.example.hanghaeplus.service.order;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.order.OrderEntity;
-import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.product.ProductEntity;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserJpaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ class DataPlatformServiceTest {
     private UserJpaRepository userRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @Autowired
     private OrderService orderService;
@@ -42,9 +42,9 @@ class DataPlatformServiceTest {
         UserEntity user = UserEntity.create("건희", 10000L);
         UserEntity savedUser = userRepository.save(user);
 
-        Product productOnion = Product.create("양파", 1000L, 5L);
-        Product productPotato = Product.create("감자", 2000L, 15L);
-        Product productCarrot = Product.create("당근", 3000L, 20L);
+        ProductEntity productOnion = ProductEntity.create("양파", 1000L, 5L);
+        ProductEntity productPotato = ProductEntity.create("감자", 2000L, 15L);
+        ProductEntity productCarrot = ProductEntity.create("당근", 3000L, 20L);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));

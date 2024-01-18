@@ -23,7 +23,7 @@ public interface OrderLineRepository extends JpaRepository<OrderLine,Long> {
     List<Long> findTop3ProductIdsByCount();
 
     @Query("select new com.example.hanghaeplus.controller.product.response.OrderProductRankResponse(o.productId,p.name,count(o.productId)) " +
-            "from OrderLine o inner join Product p " +
+            "from OrderLine o inner join ProductEntity p " +
             "on o.productId = p.id " +
             "group by o.productId  " +
             "order by count(o.productId) desc limit 3"
@@ -31,7 +31,7 @@ public interface OrderLineRepository extends JpaRepository<OrderLine,Long> {
     List<OrderProductRankResponse> findTop3RankProductsByCount();
 
     @Query("select new com.example.hanghaeplus.controller.product.response.OrderProductRankResponse(o.productId,p.name,count(o.productId)) " +
-            "from OrderLine o inner join Product p " +
+            "from OrderLine o inner join ProductEntity p " +
             "on o.productId = p.id " +
             "where o.createdDate >= :startDate and o.createdDate < :endDate " +
             "group by o.productId  " +

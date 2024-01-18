@@ -6,8 +6,9 @@ import com.example.hanghaeplus.repository.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
-@Entity
 @NoArgsConstructor
+@Entity
+@Table(name = "payment")
 public class PaymentEntity {
 
     @Id

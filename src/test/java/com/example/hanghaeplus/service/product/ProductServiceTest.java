@@ -3,8 +3,8 @@ package com.example.hanghaeplus.service.product;
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.order.OrderLineRepository;
-import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.product.ProductEntity;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.*;
 class ProductServiceTest {
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
     @Mock
     private OrderLineRepository orderProductRepository;
 
@@ -35,7 +35,7 @@ class ProductServiceTest {
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
         productService = new ProductService(productRepository,orderProductRepository);
-        productRepository.save(Product.create("아이패드",10000L,10L));
+        productRepository.save(ProductEntity.create("아이패드",10000L,10L));
 
     }
     @AfterEach
@@ -61,7 +61,7 @@ class ProductServiceTest {
     @Test
     void findByProductId(){
         Long productId = 1L;
-        Product mockProduct = Product.create("아이패드", 10000L, 10L);
+        ProductEntity mockProduct = ProductEntity.create("아이패드", 10000L, 10L);
 
         // Define the behavior of the mocked repository
         given(productRepository.findById(productId)).willReturn(Optional.of(mockProduct));

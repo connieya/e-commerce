@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 class ProductRepositoryTest {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @AfterEach
     void tearDown() {
@@ -25,7 +25,7 @@ class ProductRepositoryTest {
     }
 
 
-    Product savedProduct;
+    ProductEntity savedProduct;
 
     @BeforeEach
     void before() {
@@ -36,7 +36,7 @@ class ProductRepositoryTest {
                 .quantity(130L)
                 .build();
 
-        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
+        ProductEntity product = ProductEntity.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
         savedProduct = productRepository.save(product);
     }
 
@@ -51,10 +51,10 @@ class ProductRepositoryTest {
                 .quantity(30L)
                 .build();
 
-        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
+        ProductEntity product = ProductEntity.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
 
         // when
-        Product savedProduct = productRepository.save(product);
+        ProductEntity savedProduct = productRepository.save(product);
 
         //then
         assertThat(productRequest.getName()).isEqualTo(savedProduct.getName());
@@ -67,7 +67,7 @@ class ProductRepositoryTest {
     @Test
     void findProductById() {
         // given
-        Product product = productRepository.findById(savedProduct.getId()).get();
+        ProductEntity product = productRepository.findById(savedProduct.getId()).get();
         // when
 
         //then
@@ -82,7 +82,7 @@ class ProductRepositoryTest {
     void findAllByPessimisticLock(){
 
         //given
-        List<Product> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
+        List<ProductEntity> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
         assertThat(products.get(0).getPrice()).isEqualTo(500000L);
         assertThat(products.get(0).getName()).isEqualTo("아이 패드");
         assertThat(products.get(0).getQuantity()).isEqualTo(130L);

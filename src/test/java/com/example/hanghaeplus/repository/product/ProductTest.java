@@ -11,7 +11,7 @@ class ProductTest {
     @Test
     void isQuantityLessThan(){
         // given
-        Product product = Product.create("아메리카노", 2000L, 10L);
+        ProductEntity product = ProductEntity.create("아메리카노", 2000L, 10L);
         Long orderQuantity = 11L;
 
         // when
@@ -25,7 +25,7 @@ class ProductTest {
     @Test
     void deductQuantity(){
         // given
-        Product product = FakeProduct.create(1L,"아메리카노", 2000L, 10L);
+        ProductEntity product = FakeProduct.create(1L,"아메리카노", 2000L, 10L);
         Long orderQuantity = 5L;
 
         // when

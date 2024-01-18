@@ -4,8 +4,10 @@ import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.repository.order.OrderLineRepository;
-import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductEntity;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
@@ -33,7 +35,7 @@ public class ProductService {
     private final OrderLineRepository orderLineRepository;
 
     public void save(ProductCreate productCreate) {
-        Product product = Product.create(productCreate.getName(), productCreate.getPrice(), productCreate.getQuantity());
+        Product product = Product.create(productCreate);
         productRepository.save(product);
     }
 
@@ -41,8 +43,8 @@ public class ProductService {
     public void deduct(OrderCommand request) {
         List<ProductRequestForOrder> productRequests = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(productRequests);
-        List<Product> products = findProducts(productRequests);
-        for (Product product : products) {
+        List<ProductEntity> products = findProducts(productRequests);
+        for (ProductEntity product : products) {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);
         }
@@ -51,7 +53,7 @@ public class ProductService {
     }
 
     public ProductGetResponse getProduct(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
+        ProductEntity product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
         return ProductGetResponse.builder()
                 .productName(product.getName())
                 .productPrice(product.getPrice())
@@ -64,7 +66,7 @@ public class ProductService {
                 .collect(Collectors.toMap(ProductRequestForOrder::getProductId, ProductRequestForOrder::getQuantity));
     }
 
-    private List<Product> findProducts(List<ProductRequestForOrder> productRequests){
+    private List<ProductEntity> findProducts(List<ProductRequestForOrder> productRequests){
         return productRepository.findAllByPessimisticLock(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
     }
 

@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.repository.product;
 
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import com.example.hanghaeplus.service.order.OrderException;
 import jakarta.persistence.*;
@@ -13,7 +14,8 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 @Entity
 @Setter @Getter
 @NoArgsConstructor
-public class Product extends BaseEntity {
+@Table(name = "product")
+public class ProductEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
@@ -25,7 +27,7 @@ public class Product extends BaseEntity {
     private Long quantity;
 
 
-    public Product(String name, Long price) {
+    public ProductEntity(String name, Long price) {
         this.name = name;
         this.price = price;
     }
@@ -35,29 +37,24 @@ public class Product extends BaseEntity {
     }
 
 
-    @Builder
-    private Product(Long id, String name, Long price, Long quantity) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
+    public static ProductEntity from(Product product){
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.name = product.getName();
+        productEntity.price = product.getPrice();
+        productEntity.quantity = product.getQuantity();
+        return productEntity;
     }
 
-    @Builder
-    private Product(String name, Long price, Long quantity) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-
-    public static Product create(String name, Long price , Long quantity){
-        return Product
-                .builder()
+    public Product toDomain() {
+        return Product.builder()
                 .name(name)
                 .price(price)
-                .quantity(quantity).build();
+                .quantity(quantity)
+                .build();
     }
+
+
+
 
     public void deductQuantity(Long quantity) {
         if (isLessThanQuantity(quantity)){
