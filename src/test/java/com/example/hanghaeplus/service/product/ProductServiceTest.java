@@ -6,6 +6,7 @@ import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
+import com.example.hanghaeplus.service.product.request.ProductQuantityAdd;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -91,6 +92,22 @@ class ProductServiceTest {
         assertEquals("아이패드", result.getProductName());
         assertEquals(10000L, result.getProductPrice());
         assertEquals(10L, result.getQuantity());
+    }
+
+    @DisplayName("상품의 재고를 추가한다.")
+    @Test
+    void addQuantity(){
+        // given
+        ProductQuantityAdd productQuantityAdd = ProductQuantityAdd.builder()
+                .id(1L)
+                .quantity(100L)
+                .build();
+
+        // when
+        productService.addQuantity(productQuantityAdd);
+
+
+        //then
     }
 
 

@@ -10,6 +10,7 @@ import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
+import com.example.hanghaeplus.service.product.request.ProductQuantityAdd;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,7 +32,6 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final OrderLineRepository orderLineRepository;
 
     public void save(ProductCreate productCreate) {
         Product product = Product.create(productCreate);
@@ -52,12 +52,16 @@ public class ProductService {
     }
 
     public ProductGetResponse getProduct(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
+        Product product = findById(productId);
         return ProductGetResponse.builder()
                 .productName(product.getName())
                 .productPrice(product.getPrice())
                 .productId(productId)
                 .quantity(product.getQuantity()).build();
+    }
+
+    private Product findById(Long productId) {
+        return productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
     }
 
     private Map<Long, Long> convertToProductIdQuantityMap(List<ProductRequestForOrder> products) {
@@ -69,20 +73,11 @@ public class ProductService {
         return productRepository.findAllByPessimisticLock(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
     }
 
-    @Cacheable("rank_product")
-    @Transactional(readOnly = true)
-    public List<OrderProductRankResponse> getRankProduct() {
-        log.info("상위 상품 조회");
-        LocalDate today = LocalDate.now();
-        return orderLineRepository.findTop3RankProductsInLast3Days(today.minusDays(3).atStartOfDay(), today.atStartOfDay());
 
+    public void addQuantity(ProductQuantityAdd command) {
+        Product product = findById(command.getId());
+        product.addStock(command.getQuantity());
+        productRepository.save(product);
     }
-
-    @Scheduled(cron = "0 0 0 * * *")
-    @CacheEvict("rank_product")
-    public void evictRankProduct(){
-
-    }
-
 
 }

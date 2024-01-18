@@ -24,6 +24,8 @@ public class ProductRankCacheServiceTest {
     private OrderLineRepository orderLineRepository;
 
     @Autowired
+    private OrderService orderService;
+    @Autowired
     private ProductService productService;
 
     @Test
@@ -32,7 +34,7 @@ public class ProductRankCacheServiceTest {
         // getRankProduct 메서드 3번 호출
         LocalDate today = LocalDate.now();
         for (int i = 0; i < 3; i++) {
-            productService.getRankProduct();
+            orderService.getRankProduct();
         }
 
         verify(orderLineRepository, times(1)).findTop3RankProductsInLast3Days(today.minusDays(3).atStartOfDay(), today.atStartOfDay());

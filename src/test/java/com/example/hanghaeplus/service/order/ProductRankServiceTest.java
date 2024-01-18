@@ -18,13 +18,13 @@ import static org.assertj.core.api.Assertions.*;
 public class ProductRankServiceTest {
 
     @Autowired
-    private ProductService productService;
+    private OrderService orderService;
 
     @DisplayName("최근 3일간 상위 상품 3개를 조회 한다.")
     @Test
     void findTop3ProductsInLast3Days(){
         // given   // when
-        List<OrderProductRankResponse> rankProduct = productService.getRankProduct();
+        List<OrderProductRankResponse> rankProduct = orderService.getRankProduct();
         //최근 3일 동안 product_id 3 당근 - 3번 , product_id 1 양파 - 2번  , product_id  2 감자 - 2번
 
         // 제일 많이 주문한 상위 상품

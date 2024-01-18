@@ -1,7 +1,9 @@
 package com.example.hanghaeplus.controller.product.request;
 
 import com.example.hanghaeplus.service.product.request.ProductQuantityAdd;
+import lombok.Getter;
 
+@Getter
 public class ProductQuantityRequest {
 
     private Long id;

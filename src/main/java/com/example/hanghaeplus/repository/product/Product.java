@@ -66,4 +66,8 @@ public class Product extends BaseEntity {
         }
         this.quantity -= quantity;
     }
+
+    public void addStock(Long quantity){
+        this.quantity += quantity;
+    }
 }
