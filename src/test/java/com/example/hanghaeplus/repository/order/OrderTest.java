@@ -3,10 +3,10 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.domain.order.Order;
+import com.example.hanghaeplus.domain.order.OrderLine;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.product.FakeProduct;
-import com.example.hanghaeplus.repository.product.ProductEntity;
 import com.example.hanghaeplus.service.user.request.UserCreate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

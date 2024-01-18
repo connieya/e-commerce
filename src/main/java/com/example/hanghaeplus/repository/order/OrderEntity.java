@@ -1,16 +1,12 @@
 package com.example.hanghaeplus.repository.order;
 
-import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.domain.order.Order;
-import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +31,7 @@ public class OrderEntity extends BaseEntity {
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderLine> orderLines;
+    private List<OrderLineEntity> orderLines;
 
 
     public static OrderEntity from(Order order) {
@@ -43,7 +39,7 @@ public class OrderEntity extends BaseEntity {
         orderEntity.user = UserEntity.from(order.getUser());
         orderEntity.totalPrice = order.getTotalPrice();
         orderEntity.discountPrice = order.getDiscountPrice();
-        orderEntity.orderLines = order.getOrderLines();
+        orderEntity.orderLines = order.getOrderLines().stream().map(OrderLineEntity::from).collect(Collectors.toList());
         return orderEntity;
     }
 
@@ -51,7 +47,7 @@ public class OrderEntity extends BaseEntity {
         return Order.builder()
                 .id(id)
                 .user(user.toDomain())
-                .orderLines(orderLines)
+                .orderLines(orderLines.stream().map(OrderLineEntity::toDomain).collect(Collectors.toList()))
                 .totalPrice(totalPrice)
                 .discountPrice(discountPrice)
                 .build();

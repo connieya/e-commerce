@@ -3,8 +3,7 @@ package com.example.hanghaeplus.domain.order;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.order.OrderEntity;
-import com.example.hanghaeplus.repository.order.OrderLine;
-import com.example.hanghaeplus.repository.user.UserEntity;
+import com.example.hanghaeplus.repository.order.OrderLineEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -64,13 +63,13 @@ public class Order {
 
     private List<OrderLine> getOrderProducts(List<ProductRequestForOrder> products) {
         return products.stream()
-                .map(product -> new OrderLine(OrderEntity.from(this), product.getProductId(), product.getQuantity(), product.getPrice()))
+                .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice()))
                 .collect(Collectors.toList());
     }
 
     private List<OrderLine> getOrderProducts(List<ProductRequestForOrder> products, LocalDateTime dateTime) {
         return products.stream()
-                .map(product -> new OrderLine(OrderEntity.from(this), product.getProductId(), product.getQuantity(), product.getPrice() ,dateTime,dateTime))
+                .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice() ,dateTime,dateTime))
                 .collect(Collectors.toList());
     }
 
