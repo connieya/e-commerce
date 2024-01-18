@@ -31,4 +31,9 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByIdPessimisticLock(Long id) {
         return userJpaRepository.findByIdPessimisticLock(id).map(UserEntity::toDomain);
     }
+
+    @Override
+    public void deleteAll() {
+        userJpaRepository.deleteAll();
+    }
 }

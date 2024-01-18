@@ -6,8 +6,6 @@ import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.repository.order.OrderLineRepository;
-import com.example.hanghaeplus.repository.product.ProductEntity;
-import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
@@ -43,8 +41,8 @@ public class ProductService {
     public void deduct(OrderCommand request) {
         List<ProductRequestForOrder> productRequests = request.getProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(productRequests);
-        List<ProductEntity> products = findProducts(productRequests);
-        for (ProductEntity product : products) {
+        List<Product> products = findAll(productRequests);
+        for (Product product : products) {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);
         }
@@ -52,21 +50,23 @@ public class ProductService {
 
     }
 
-    public ProductGetResponse getProduct(Long productId) {
-        ProductEntity product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
-        return ProductGetResponse.builder()
-                .productName(product.getName())
-                .productPrice(product.getPrice())
-                .productId(productId)
-                .quantity(product.getQuantity()).build();
+    public Product getProduct(Long productId) {
+        return findById(productId);
+    }
+
+    private Product findById(Long productId) {
+        return productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
     }
 
     private Map<Long, Long> convertToProductIdQuantityMap(List<ProductRequestForOrder> products) {
+        for (ProductRequestForOrder product : products) {
+            System.out.println("product = " + product.getProductId() + " =  " + product.getQuantity());
+        }
         return products.stream()
                 .collect(Collectors.toMap(ProductRequestForOrder::getProductId, ProductRequestForOrder::getQuantity));
     }
 
-    private List<ProductEntity> findProducts(List<ProductRequestForOrder> productRequests){
+    private List<Product> findAll(List<ProductRequestForOrder> productRequests){
         return productRepository.findAllByPessimisticLock(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
     }
 

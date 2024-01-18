@@ -2,11 +2,18 @@ package com.example.hanghaeplus.service.order;
 
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.domain.order.Order;
+import com.example.hanghaeplus.domain.product.Product;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.product.ProductEntity;
 import com.example.hanghaeplus.repository.product.ProductJpaRepository;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserJpaRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,10 +32,10 @@ class DataPlatformServiceTest {
 
 
     @Autowired
-    private UserJpaRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private ProductJpaRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     private OrderService orderService;
@@ -39,12 +46,39 @@ class DataPlatformServiceTest {
     @Test
     void dataPlatformThrow() {
         // given
-        UserEntity user = UserEntity.create("건희", 10000L);
-        UserEntity savedUser = userRepository.save(user);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(1000L)
+                .build();
+        User user = User.create(userCreate);
+        User savedUser = userRepository.save(user);
 
-        ProductEntity productOnion = ProductEntity.create("양파", 1000L, 5L);
-        ProductEntity productPotato = ProductEntity.create("감자", 2000L, 15L);
-        ProductEntity productCarrot = ProductEntity.create("당근", 3000L, 20L);
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(5L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate.builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(15L)
+                .build();
+
+
+        ProductCreate productCreateCarrot = ProductCreate.builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(20L)
+                .build();
+
+
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
@@ -64,10 +98,10 @@ class DataPlatformServiceTest {
                 .build();
         Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(OrderEntity.class));
         // when
-        OrderEntity order = orderService.create(orderPostRequest.toCommand());
-        UserEntity findUser = userRepository.findByName("건희").get();
+        Order order = orderService.create(orderPostRequest.toCommand());
+        User findUser = userRepository.findByName("건희").get();
         //then
         assertThat(order).isNull();
-        assertThat(findUser.getCurrentPoint()).isEqualTo(10000L);
+        assertThat(findUser.getPoint()).isEqualTo(10000L);
     }
 }

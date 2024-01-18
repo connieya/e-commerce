@@ -4,6 +4,7 @@ import com.example.hanghaeplus.controller.product.response.OrderProductRankRespo
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
 import com.example.hanghaeplus.common.result.ResultResponse;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.service.product.ProductService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,8 @@ public class ProductController {
     @ApiOperation("상품 조회 API")
     @GetMapping("/{productId}")
     public ResponseEntity<ResultResponse> getProduct(@PathVariable(name = "productId") Long productId) {
-        ProductGetResponse product = productService.getProduct(productId);
-        return ResponseEntity.ok(ResultResponse.of(PRODUCT_GET_SUCCESS ,product));
+        Product product = productService.getProduct(productId);
+        return ResponseEntity.ok(ResultResponse.of(PRODUCT_GET_SUCCESS ,product.toResponse()));
     }
 
     @ApiOperation("상위 상품 조회 API")

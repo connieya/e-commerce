@@ -1,42 +1,45 @@
 package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
+import com.example.hanghaeplus.domain.product.Product;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
 
-@DataJpaTest
+@SpringBootTest
 class ProductRepositoryTest {
 
     @Autowired
-    private ProductJpaRepository productRepository;
+    private ProductRepository productRepository;
 
     @AfterEach
     void tearDown() {
-        productRepository.deleteAllInBatch();
+//        productRepository.deleteAllInBatch();
     }
 
 
-    ProductEntity savedProduct;
+    Product savedProduct;
 
     @BeforeEach
     void before() {
-        ProductPostRequest productRequest = ProductPostRequest
+        ProductCreate productCreate = ProductCreate
                 .builder()
                 .name("아이 패드")
                 .price(500000L)
                 .quantity(130L)
                 .build();
 
-        ProductEntity product = ProductEntity.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
+        Product product = Product.create(productCreate);
         savedProduct = productRepository.save(product);
     }
 
@@ -44,22 +47,22 @@ class ProductRepositoryTest {
     @Test
     void registerProduct() {
         // given
-        ProductPostRequest productRequest = ProductPostRequest
+        ProductCreate productCreate = ProductCreate
                 .builder()
                 .name("아이폰 15")
                 .price(100000L)
                 .quantity(30L)
                 .build();
 
-        ProductEntity product = ProductEntity.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
+        Product product = Product.create(productCreate);
 
         // when
-        ProductEntity savedProduct = productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
         //then
-        assertThat(productRequest.getName()).isEqualTo(savedProduct.getName());
-        assertThat(productRequest.getPrice()).isEqualTo(savedProduct.getPrice());
-        assertThat(productRequest.getQuantity()).isEqualTo(savedProduct.getQuantity());
+        assertThat(productCreate.getName()).isEqualTo(savedProduct.getName());
+        assertThat(productCreate.getPrice()).isEqualTo(savedProduct.getPrice());
+        assertThat(productCreate.getQuantity()).isEqualTo(savedProduct.getQuantity());
     }
 
 
@@ -67,7 +70,7 @@ class ProductRepositoryTest {
     @Test
     void findProductById() {
         // given
-        ProductEntity product = productRepository.findById(savedProduct.getId()).get();
+        Product product = productRepository.findById(savedProduct.getId()).get();
         // when
 
         //then
@@ -82,7 +85,7 @@ class ProductRepositoryTest {
     void findAllByPessimisticLock(){
 
         //given
-        List<ProductEntity> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
+        List<Product> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));
         assertThat(products.get(0).getPrice()).isEqualTo(500000L);
         assertThat(products.get(0).getName()).isEqualTo("아이 패드");
         assertThat(products.get(0).getQuantity()).isEqualTo(130L);

@@ -2,9 +2,12 @@ package com.example.hanghaeplus.service.product;
 
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.repository.order.OrderLineRepository;
 import com.example.hanghaeplus.repository.product.ProductEntity;
 import com.example.hanghaeplus.repository.product.ProductJpaRepository;
+import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +26,7 @@ import static org.mockito.BDDMockito.*;
 class ProductServiceTest {
 
     @Mock
-    private ProductJpaRepository productRepository;
+    private ProductRepository productRepository;
     @Mock
     private OrderLineRepository orderProductRepository;
 
@@ -35,7 +38,13 @@ class ProductServiceTest {
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
         productService = new ProductService(productRepository,orderProductRepository);
-        productRepository.save(ProductEntity.create("아이패드",10000L,10L));
+        ProductCreate productCreate = ProductCreate
+                .builder()
+                .name("아이패드")
+                .price(10000L)
+                .quantity(10L)
+                .build();
+        productRepository.save(Product.create(productCreate));
 
     }
     @AfterEach
@@ -61,21 +70,28 @@ class ProductServiceTest {
     @Test
     void findByProductId(){
         Long productId = 1L;
-        ProductEntity mockProduct = ProductEntity.create("아이패드", 10000L, 10L);
+
+        ProductCreate productCreate = ProductCreate
+                .builder()
+                .name("아이패드")
+                .price(10000L)
+                .quantity(10L)
+                .build();
+        Product mockProduct = Product.create(productCreate);
 
         // Define the behavior of the mocked repository
         given(productRepository.findById(productId)).willReturn(Optional.of(mockProduct));
 
         // when
-        ProductGetResponse result = productService.getProduct(productId);
+        Product product = productService.getProduct(productId);
 
         // then
         verify(productRepository).findById(productId);
-        assertNotNull(result);
-        assertEquals(productId, result.getProductId());
-        assertEquals("아이패드", result.getProductName());
-        assertEquals(10000L, result.getProductPrice());
-        assertEquals(10L, result.getQuantity());
+        assertNotNull(product);
+//        assertEquals(productId, product.getId());
+        assertEquals("아이패드", product.getName());
+        assertEquals(10000L, product.getPrice());
+        assertEquals(10L, product.getQuantity());
     }
 
 

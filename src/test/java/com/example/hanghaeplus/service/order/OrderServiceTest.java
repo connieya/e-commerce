@@ -3,13 +3,20 @@ package com.example.hanghaeplus.service.order;
 import com.example.hanghaeplus.controller.coupon.request.CouponPostRequest;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.domain.order.Order;
+import com.example.hanghaeplus.domain.product.Product;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.coupon.Coupon;
 import com.example.hanghaeplus.repository.coupon.CouponRepository;
 import com.example.hanghaeplus.repository.order.OrderEntity;
 import com.example.hanghaeplus.repository.product.ProductEntity;
 import com.example.hanghaeplus.repository.product.ProductJpaRepository;
+import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.UserEntity;
 import com.example.hanghaeplus.repository.user.UserJpaRepository;
+import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,10 +37,10 @@ public class OrderServiceTest {
     private OrderService orderService;
 
     @Autowired
-    private UserJpaRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private ProductJpaRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -43,20 +50,49 @@ public class OrderServiceTest {
     @Test
     void deductQuantity() {
         // given
-        UserEntity user = UserEntity.create("건희", 1000000L);
-        UserEntity savedUser = userRepository.save(user);
-
-        ProductEntity product1 = ProductEntity.create("양파", 1000L, 5L);
-        ProductEntity product2 = ProductEntity.create("감자", 2000L, 15L);
-        ProductEntity product3 = ProductEntity.create("당금", 3000L, 20L);
-
-
-        productRepository.saveAll(List.of(product1, product2, product3));
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 8L, product2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 15L, product3.getPrice());
+        User user = User.create(userCreate);
+        User savedUser = userRepository.save(user);
+
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(5L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(15L)
+                .build();
+
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(20L)
+                .build();
+
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
+
+
+        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
+
+
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 8L, productPotato.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 15L, productCarrot.getPrice());
 
 
         List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
@@ -70,10 +106,10 @@ public class OrderServiceTest {
         // when
         orderService.create(orderPostRequest.toCommand());
 
-        List<ProductEntity> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
-        ProductEntity findProduct1 = products.get(0);
-        ProductEntity findProduct2 = products.get(1);
-        ProductEntity findProduct3 = products.get(2);
+        List<Product> products = productRepository.findAllById(List.of(productOnion.getId(), productPotato.getId(), productCarrot.getId()));
+        Product findProduct1 = products.get(0);
+        Product findProduct2 = products.get(1);
+        Product findProduct3 = products.get(2);
         //then
         assertThat(findProduct1.getQuantity()).isZero();
         assertThat(findProduct2.getQuantity()).isEqualTo(7L);
@@ -83,14 +119,43 @@ public class OrderServiceTest {
     @DisplayName("주문 한 상품의 총 가격을 구한다.")
     @Test
     void createOrder() {
-        UserEntity user = UserEntity.create("건희", 50000L);
-        UserEntity savedUser = userRepository.save(user);
 
-        ProductEntity productOnion = ProductEntity.create("양파", 1000L, 5L);
-        ProductEntity productPotato = ProductEntity.create("감자", 2000L, 1L);
-        ProductEntity productCarrot = ProductEntity.create("당근", 3000L, 5L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
 
-        List<ProductEntity> products = List.of(productOnion, productPotato, productCarrot);
+        User user = User.create(userCreate);
+        User savedUser = userRepository.save(user);
+
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(5L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(1L)
+                .build();
+
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(5L)
+                .build();
+
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
+
+        List<Product> products = List.of(productOnion, productPotato, productCarrot);
 
         productRepository.saveAll(products);
 
@@ -112,7 +177,7 @@ public class OrderServiceTest {
                 .build();
 
         // when
-        OrderEntity order = orderService.create(orderPostRequest.toCommand());
+        Order order = orderService.create(orderPostRequest.toCommand());
 
         //then
         assertThat(order.getTotalPrice()).isEqualTo(9000L);
@@ -122,21 +187,51 @@ public class OrderServiceTest {
     @Test
     void createOrder2() {
         // given
-        UserEntity user = UserEntity.create("건희", 50000L);
-        UserEntity savedUser = userRepository.save(user);
 
-        ProductEntity product1 = ProductEntity.create("양파", 1000L, 5L);
-        ProductEntity product2 = ProductEntity.create("감자", 2000L, 1L);
-        ProductEntity product3 = ProductEntity.create("당근", 3000L, 5L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
 
-        List<ProductEntity> products = List.of(product1, product2, product3);
+
+        User user = User.create(userCreate);
+        User savedUser = userRepository.save(user);
+
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(5L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(1L)
+                .build();
+
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(5L)
+                .build();
+
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
+
+        List<Product> products = List.of(productOnion, productPotato, productCarrot);
 
         productRepository.saveAll(products);
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L, product1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 1L, product2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 2L, product3.getPrice());
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 1L, productOnion.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 1L, productPotato.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
 
         List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
 
@@ -151,7 +246,7 @@ public class OrderServiceTest {
                 .couponCode(uuid.toString())
                 .build();
         // when
-        OrderEntity order = orderService.create(orderPostRequest.toCommand());
+        Order order = orderService.create(orderPostRequest.toCommand());
 
         //then
         assertThat(order.getTotalPrice()).isEqualTo(9000L);
@@ -162,21 +257,49 @@ public class OrderServiceTest {
     @DisplayName("주문 한 상품 가격 만큼 잔액을 차감 한다.")
     @Test
     void deductPoint() {
-        UserEntity user = UserEntity.create("건희", 50000L);
-        UserEntity savedUser = userRepository.save(user);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
 
-        ProductEntity product1 = ProductEntity.create("양파", 1000L, 5L);
-        ProductEntity product2 = ProductEntity.create("감자", 2000L, 1L);
-        ProductEntity product3 = ProductEntity.create("당금", 3000L, 5L);
+        User user = User.create(userCreate);
+        User savedUser = userRepository.save(user);
 
-        List<ProductEntity> products = List.of(product1, product2, product3);
+
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(5L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(1L)
+                .build();
+
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(5L)
+                .build();
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
+
+        List<Product> products = List.of(productOnion, productPotato, productCarrot);
 
         productRepository.saveAll(products);
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 1L, product1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 1L, product2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 2L, product3.getPrice());
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 1L, productOnion.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 1L, productPotato.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
 
         List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
 
@@ -189,38 +312,73 @@ public class OrderServiceTest {
         // when
         orderService.create(orderPostRequest.toCommand());
 
-        UserEntity findUser = userRepository.findById(savedUser.getId()).get();
-        Long totalPrice = product1.getPrice() * request1.getQuantity() + product2.getPrice() * request2.getQuantity() + product3.getPrice() * request3.getQuantity();
+        User findUser = userRepository.findById(savedUser.getId()).get();
+        Long totalPrice = productOnion.getPrice() * request1.getQuantity() + productPotato.getPrice() * request2.getQuantity() + productCarrot.getPrice() * request3.getQuantity();
 
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(50000L - totalPrice);
+        assertThat(findUser.getPoint()).isEqualTo(50000L - totalPrice);
     }
 
     @DisplayName("동시에 상품을 주문 하여도 주문한 수량 만큼 재고를 차감한다.")
     @Test
     void deductQuantityWithConcurrency() {
         // given
-        UserEntity user1 = UserEntity.create("건희", 100000000L);
-        UserEntity user2 = UserEntity.create("거니", 100000000L);
-        UserEntity savedUser1 = userRepository.save(user1);
-        UserEntity savedUser2 = userRepository.save(user2);
+        UserCreate userCreate1 = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
 
-        ProductEntity product1 = ProductEntity.create("양파", 1000L, 30L);
-        ProductEntity product2 = ProductEntity.create("감자", 2000L, 30L);
-        ProductEntity product3 = ProductEntity.create("당근", 3000L, 30L);
+        UserCreate userCreate2 = UserCreate
+                .builder()
+                .name("거니")
+                .point(10000000L)
+                .build();
+
+        User user1 = User.create(userCreate1);
+        User user2 = User.create(userCreate2);
+        User savedUser1 = userRepository.save(user1);
+        User savedUser2 = userRepository.save(user2);
+
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(30L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(30L)
+                .build();
+
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(30L)
+                .build();
 
 
-        productRepository.saveAll(List.of(product1, product2, product3));
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(product1.getId(), 5L, product1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(product2.getId(), 10L, product2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
 
 
-        ProductRequestForOrder request4 = ProductRequestForOrder.of(product1.getId(), 3L, product3.getPrice());
-        ProductRequestForOrder request5 = ProductRequestForOrder.of(product2.getId(), 5L, product3.getPrice());
-        ProductRequestForOrder request6 = ProductRequestForOrder.of(product3.getId(), 5L, product3.getPrice());
+        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
+        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 10L, productPotato.getPrice());
+        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+
+
+        ProductRequestForOrder request4 = ProductRequestForOrder.of(productOnion.getId(), 3L, productCarrot.getPrice());
+        ProductRequestForOrder request5 = ProductRequestForOrder.of(productPotato.getId(), 5L, productCarrot.getPrice());
+        ProductRequestForOrder request6 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
 
         List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
@@ -244,10 +402,10 @@ public class OrderServiceTest {
                 CompletableFuture.runAsync(() -> orderService.create(orderPostRequest2.toCommand()))
         ).join();
 
-        List<ProductEntity> products = productRepository.findAllById(List.of(product1.getId(), product2.getId(), product3.getId()));
-        ProductEntity findProduct1 = products.get(0);
-        ProductEntity findProduct2 = products.get(1);
-        ProductEntity findProduct3 = products.get(2);
+        List<Product> products = productRepository.findAllById(List.of(productOnion.getId(), productPotato.getId(), productCarrot.getId()));
+        Product findProduct1 = products.get(0);
+        Product findProduct2 = products.get(1);
+        Product findProduct3 = products.get(2);
         //then
         assertThat(findProduct1.getQuantity()).isEqualTo(30L - 5L - 3L);
         assertThat(findProduct2.getQuantity()).isEqualTo(30L - 10L - 5L);
@@ -259,14 +417,47 @@ public class OrderServiceTest {
     @Test
     void deductQuantityWithConcurrency2() {
         // given
-        UserEntity user1 = UserEntity.create("건희", 100000000L);
-        UserEntity user2 = UserEntity.create("거니", 100000000L);
-        UserEntity savedUser1 = userRepository.save(user1);
-        UserEntity savedUser2 = userRepository.save(user2);
+        UserCreate userCreate1 = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
 
-        ProductEntity productOnion = ProductEntity.create("양파", 1000L, 30L);
-        ProductEntity productPotato = ProductEntity.create("감자", 2000L, 30L);
-        ProductEntity productCarrot = ProductEntity.create("당근", 3000L, 30L);
+        UserCreate userCreate2 = UserCreate
+                .builder()
+                .name("거니")
+                .point(10000000L)
+                .build();
+
+        User user1 = User.create(userCreate1);
+        User user2 = User.create(userCreate2);
+        User savedUser1 = userRepository.save(user1);
+        User savedUser2 = userRepository.save(user2);
+
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(30L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(30L)
+                .build();
+
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(30L)
+                .build();
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
@@ -305,10 +496,10 @@ public class OrderServiceTest {
                 CompletableFuture.runAsync(() -> orderService.create(orderPostRequest2.toCommand()))
         ).join();
 
-        List<ProductEntity> products = productRepository.findAllById(List.of(productOnion.getId(), productPotato.getId(), productCarrot.getId()));
-        ProductEntity findProduct1 = products.get(0);
-        ProductEntity findProduct2 = products.get(1);
-        ProductEntity findProduct3 = products.get(2);
+        List<Product> products = productRepository.findAllById(List.of(productOnion.getId(), productPotato.getId(), productCarrot.getId()));
+        Product findProduct1 = products.get(0);
+        Product findProduct2 = products.get(1);
+        Product findProduct3 = products.get(2);
         //then
         assertThat(findProduct1.getQuantity()).isEqualTo(30L - 5L - 3L);
         assertThat(findProduct2.getQuantity()).isEqualTo(30L - 10L - 5L);
@@ -321,13 +512,48 @@ public class OrderServiceTest {
     @Test
     void deductPointWithConcurrency() {
         // given
-        UserEntity user = UserEntity.create("건희", 50000L);
-        UserEntity savedUser = userRepository.save(user);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(50000L)
+                .build();
 
-        ProductEntity productOnion = ProductEntity.create("양파", 1000L, 30L);
-        ProductEntity productPotato = ProductEntity.create("감자", 2000L, 30L);
-        ProductEntity productCarrot = ProductEntity.create("당근", 3000L, 30L);
-        ProductEntity productMushroom = ProductEntity.create("버섯", 5000L, 30L);
+
+        User user = User.create(userCreate);
+        User savedUser = userRepository.save(user);
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(30L)
+                .build();
+
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(30L)
+                .build();
+
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(30L)
+                .build();
+
+        ProductCreate productCreateMushroom = ProductCreate
+                .builder()
+                .name("버섯")
+                .price(5000L)
+                .quantity(30L)
+                .build();
+
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
+        Product productMushroom = Product.create(productCreateMushroom);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom));
@@ -368,9 +594,9 @@ public class OrderServiceTest {
         ).join();
 
 
-        UserEntity findUser = userRepository.findById(savedUser.getId()).get();
+        User findUser = userRepository.findById(savedUser.getId()).get();
 
         //then                현재 잔액 5000L  - (양파 2개 , 감자 2개)  / ( 당근 2개 , 버섯 2개)
-        assertThat(findUser.getCurrentPoint()).isEqualTo(50000L-6000L-16000L);
+        assertThat(findUser.getPoint()).isEqualTo(50000L-6000L-16000L);
     }
 }

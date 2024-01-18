@@ -32,10 +32,6 @@ public class ProductEntity extends BaseEntity {
         this.price = price;
     }
 
-    public boolean isLessThanQuantity(Long quantity) {
-        return this.quantity < quantity;
-    }
-
 
     public static ProductEntity from(Product product){
         ProductEntity productEntity = new ProductEntity();
@@ -56,10 +52,5 @@ public class ProductEntity extends BaseEntity {
 
 
 
-    public void deductQuantity(Long quantity) {
-        if (isLessThanQuantity(quantity)){
-            throw new OrderException.InsufficientStockException(INSUFFICIENT_STOCK);
-        }
-        this.quantity -= quantity;
-    }
+
 }

@@ -20,14 +20,4 @@ public class ProductGetResponse {
         this.productPrice = productPrice;
         this.quantity = quantity;
     }
-
-    public static ProductGetResponse of(Long productId , String productName , Long productPrice , Long quantity){
-        return ProductGetResponse
-                .builder()
-                .productId(productId)
-                .productName(productName)
-                .productPrice(productPrice)
-                .quantity(quantity)
-                .build();
-    }
 }

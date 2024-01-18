@@ -13,4 +13,6 @@ public interface UserRepository {
     Optional<User> findById(Long id);
 
     Optional<User> findByIdPessimisticLock(Long id);
+
+    void deleteAll();
 }

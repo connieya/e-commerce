@@ -3,6 +3,7 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.domain.order.Order;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.repository.product.FakeProduct;
 import com.example.hanghaeplus.repository.product.ProductEntity;
@@ -25,8 +26,8 @@ public class OrderTest {
     @Test
     void getTotalPoint() {
         // given
-        ProductEntity mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
-        ProductEntity mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
+        Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
+        Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
         UserCreate userCreate = UserCreate.builder()
                 .name("건희")
                 .point(10000L)
@@ -44,8 +45,8 @@ public class OrderTest {
     @Test
     void getTotalPointAndDiscountPoint() {
         // given
-        ProductEntity mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
-        ProductEntity mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
+        Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
+        Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
 
         UserCreate userCreate = UserCreate.builder()
                 .name("건희")
@@ -65,9 +66,9 @@ public class OrderTest {
     @Test
     void getOrderProducts() {
         // given
-        ProductEntity mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
-        ProductEntity mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
-        ProductEntity mockProduct3 = FakeProduct.create(3L,"감자", 5000L, 5L);
+        Product mockProduct1 = FakeProduct.create(1L,"양파", 3000L, 2L);
+        Product mockProduct2 = FakeProduct.create(2L,"당근", 2000L, 3L);
+        Product mockProduct3 = FakeProduct.create(3L,"감자", 5000L, 5L);
 
         UserCreate userCreate = UserCreate.builder()
                 .name("건희")
