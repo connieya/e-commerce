@@ -2,6 +2,7 @@ package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import com.example.hanghaeplus.service.order.OrderException;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,12 +52,12 @@ public class Product extends BaseEntity {
     }
 
 
-    public static Product create(String name, Long price , Long quantity){
+    public static Product create(ProductCreate productCreate){
         return Product
                 .builder()
-                .name(name)
-                .price(price)
-                .quantity(quantity).build();
+                .name(productCreate.getName())
+                .price(productCreate.getPrice())
+                .quantity(productCreate.getQuantity()).build();
     }
 
     public void deductQuantity(Long quantity) {

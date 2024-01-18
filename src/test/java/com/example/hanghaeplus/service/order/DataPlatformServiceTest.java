@@ -7,6 +7,7 @@ import com.example.hanghaeplus.repository.product.Product;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import com.example.hanghaeplus.service.user.request.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -48,10 +49,29 @@ class DataPlatformServiceTest {
 
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(5L)
+                .build();
 
-        Product productOnion = Product.create("양파", 1000L, 5L);
-        Product productPotato = Product.create("감자", 2000L, 15L);
-        Product productCarrot = Product.create("당근", 3000L, 20L);
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(15L)
+                .build();
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(20L)
+                .build();
+
+        Product productOnion = Product.create(productCreateOnion);
+        Product productPotato = Product.create(productCreatePotato);
+        Product productCarrot = Product.create(productCreateCarrot);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));

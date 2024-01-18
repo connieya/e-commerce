@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,14 +30,13 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void before() {
-        ProductPostRequest productRequest = ProductPostRequest
-                .builder()
-                .productName("아이 패드")
+        ProductCreate productCreate = ProductCreate.builder()
+                .name("아이 패드")
                 .price(500000L)
                 .quantity(130L)
                 .build();
 
-        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
+        Product product = Product.create(productCreate);
         savedProduct = productRepository.save(product);
     }
 
@@ -44,22 +44,22 @@ class ProductRepositoryTest {
     @Test
     void registerProduct() {
         // given
-        ProductPostRequest productRequest = ProductPostRequest
-                .builder()
-                .productName("아이폰 15")
+        ProductCreate productCreate = ProductCreate.builder()
+                .name("아이폰 15")
                 .price(100000L)
                 .quantity(30L)
                 .build();
 
-        Product product = Product.create(productRequest.getName(), productRequest.getPrice(),productRequest.getQuantity());
+
+        Product product = Product.create(productCreate);
 
         // when
         Product savedProduct = productRepository.save(product);
 
         //then
-        assertThat(productRequest.getName()).isEqualTo(savedProduct.getName());
-        assertThat(productRequest.getPrice()).isEqualTo(savedProduct.getPrice());
-        assertThat(productRequest.getQuantity()).isEqualTo(savedProduct.getQuantity());
+        assertThat(productCreate.getName()).isEqualTo(savedProduct.getName());
+        assertThat(productCreate.getPrice()).isEqualTo(savedProduct.getPrice());
+        assertThat(productCreate.getQuantity()).isEqualTo(savedProduct.getQuantity());
     }
 
 

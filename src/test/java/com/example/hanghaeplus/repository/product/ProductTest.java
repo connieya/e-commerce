@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.repository.product;
 
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,14 @@ class ProductTest {
     @Test
     void isQuantityLessThan(){
         // given
-        Product product = Product.create("아메리카노", 2000L, 10L);
+        ProductCreate productCreate = ProductCreate
+                .builder()
+                .name("아메리카노")
+                .price(2000L)
+                .quantity(10L)
+                .build();
+
+        Product product = Product.create(productCreate);
         Long orderQuantity = 11L;
 
         // when

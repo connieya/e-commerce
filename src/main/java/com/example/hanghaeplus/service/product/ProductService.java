@@ -34,7 +34,7 @@ public class ProductService {
     private final OrderLineRepository orderLineRepository;
 
     public void save(ProductCreate productCreate) {
-        Product product = Product.create(productCreate.getName(), productCreate.getPrice(), productCreate.getQuantity());
+        Product product = Product.create(productCreate);
         productRepository.save(product);
     }
 
