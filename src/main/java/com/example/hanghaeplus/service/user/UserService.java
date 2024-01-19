@@ -54,10 +54,9 @@ public class UserService {
             PointLine point = PointLine.create(user, userRecharge.getPoint());
             pointRepository.save(point);
             userRepository.save(user);
-
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
-            rechargePoint(userRecharge);
+//            rechargePoint(userRecharge);
         }
     }
 

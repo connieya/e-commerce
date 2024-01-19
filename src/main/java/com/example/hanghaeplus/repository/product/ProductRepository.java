@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @Lock(value = LockModeType.PESSIMISTIC_READ)
     @Query("SELECT p FROM Product p WHERE p.id IN :productIds ")
     List<Product> findAllByPessimisticLock(@Param("productIds") List<Long> productIds);
 

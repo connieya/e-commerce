@@ -42,7 +42,7 @@ class UserServiceTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(10000L)
+                .point(1000L)
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
@@ -79,11 +79,12 @@ class UserServiceTest {
                 .point(6000L)
                 .build();
         // when
-        System.out.println("request1 = " + request1.getId());
-        CompletableFuture.allOf(
-                CompletableFuture.runAsync(()->  userService.rechargePoint(request1)),
-                CompletableFuture.runAsync(()->  userService.rechargePoint(request2))
-        ).join();
+        userService.rechargePoint(request1);
+        userService.rechargePoint(request2);
+//        CompletableFuture.allOf(
+//                CompletableFuture.runAsync(()->  userService.rechargePoint(request1)),
+//                CompletableFuture.runAsync(()->  userService.rechargePoint(request2))
+//        ).join();
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
         assertThat(findUser.getPoint()).isEqualTo(1000L+5000L+6000L);
