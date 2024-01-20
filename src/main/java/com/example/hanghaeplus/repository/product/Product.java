@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
+import static com.example.hanghaeplus.service.order.OrderException.*;
 
 @Entity
 @Setter @Getter
@@ -34,6 +35,14 @@ public class Product extends BaseEntity {
     public boolean isLessThanQuantity(Long quantity) {
         return this.quantity < quantity;
     }
+
+    public void deductQuantity(Long quantity) {
+        if (isLessThanQuantity(quantity)){
+            throw new InsufficientStockException(INSUFFICIENT_STOCK);
+        }
+        this.quantity -= quantity;
+    }
+
 
 
     @Builder
@@ -60,12 +69,7 @@ public class Product extends BaseEntity {
                 .quantity(productCreate.getQuantity()).build();
     }
 
-    public void deductQuantity(Long quantity) {
-        if (isLessThanQuantity(quantity)){
-            throw new OrderException.InsufficientStockException(INSUFFICIENT_STOCK);
-        }
-        this.quantity -= quantity;
-    }
+
 
     public void addStock(Long quantity){
         this.quantity += quantity;

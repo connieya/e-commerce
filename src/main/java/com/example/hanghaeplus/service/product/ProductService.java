@@ -4,6 +4,7 @@ import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.repository.product.Product;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
@@ -25,12 +26,6 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 public class ProductService {
 
     private final ProductRepository productRepository;
-
-    public void save(ProductCreate productCreate) {
-        Product product = Product.create(productCreate);
-        productRepository.save(product);
-    }
-
     @Transactional
     public void deduct(OrderCommand request) {
         List<ProductRequestForOrder> productRequests = request.getProducts();
@@ -41,7 +36,11 @@ public class ProductService {
             product.deductQuantity(quantity);
         }
         productRepository.saveAll(products);
+    }
 
+    public void save(ProductCreate productCreate) {
+        Product product = Product.create(productCreate);
+        productRepository.save(product);
     }
 
     public ProductGetResponse getProduct(Long productId) {

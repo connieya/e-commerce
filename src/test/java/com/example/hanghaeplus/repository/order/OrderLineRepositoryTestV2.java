@@ -2,12 +2,8 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.order.FakeOrder;
-import com.example.hanghaeplus.repository.order.Order;
-import com.example.hanghaeplus.repository.order.OrderLineRepository;
-import com.example.hanghaeplus.repository.order.OrderRepository;
 import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
@@ -18,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -35,7 +30,7 @@ class OrderLineRepositoryTestV2 {
     private UserRepository userRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @Autowired
     private OrderLineRepository orderProductRepository;

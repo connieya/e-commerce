@@ -1,6 +1,5 @@
 package com.example.hanghaeplus.repository.product;
 
-import com.example.hanghaeplus.controller.product.request.ProductPostRequest;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 class ProductRepositoryTest {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @AfterEach
     void tearDown() {

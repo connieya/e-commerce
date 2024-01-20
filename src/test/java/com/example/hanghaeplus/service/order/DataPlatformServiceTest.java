@@ -4,7 +4,7 @@ import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.order.Order;
 import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
@@ -30,7 +30,7 @@ class DataPlatformServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @Autowired
     private OrderService orderService;

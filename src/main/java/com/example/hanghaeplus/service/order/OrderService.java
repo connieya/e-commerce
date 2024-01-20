@@ -38,11 +38,11 @@ public class OrderService {
     private final ApplicationEventPublisher publisher;
 
     @Transactional
-    public Order create(OrderCommand request) {
-        User user = userService.findByIdPessimisticLock(request.getUserId());
-        productService.deduct(request);
-        Integer rate = couponService.use(request.getCouponCode());
-        Order order = Order.create(user, request.getProducts() ,rate);
+    public Order create(OrderCommand orderCommand) {
+        User user = userService.findByIdPessimisticLock(orderCommand.getUserId());
+        productService.deduct(orderCommand);
+        Integer rate = couponService.use(orderCommand.getCouponCode());
+        Order order = Order.create(user, orderCommand.getProducts() ,rate);
         orderRepository.save(order);
         paymentService.execute(order, user);
         publisher.publishEvent(new OrderEvent(this, order));

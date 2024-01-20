@@ -3,7 +3,7 @@ package com.example.hanghaeplus.repository.order;
 import com.example.hanghaeplus.controller.order.request.OrderPostRequest;
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.product.response.OrderProductResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.repository.user.User;
@@ -28,7 +28,7 @@ class OrderLineRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @Autowired
     private OrderLineRepository orderLineRepository;
