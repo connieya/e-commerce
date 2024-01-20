@@ -9,6 +9,10 @@ public interface ProductRepository {
 
     List<Product> findAllByPessimisticLock(@Param("productIds") List<Long> productIds);
 
+    List<Product> findAll();
+
+    List<Product> findAllById(List<Long> ids);
+
     List<Product> findAllByPessimisticLock2(@Param("productIds") List<Long> productIds);
 
     Optional<Product> findByIdPessimisticLock(@Param("productId") Long productId);

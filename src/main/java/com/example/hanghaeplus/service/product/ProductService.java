@@ -9,6 +9,7 @@ import com.example.hanghaeplus.repository.product.ProductRepository;
 import com.example.hanghaeplus.service.order.request.OrderCommand;
 import com.example.hanghaeplus.service.product.request.ProductCreate;
 import com.example.hanghaeplus.service.product.request.ProductQuantityAdd;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 
 @Service
 @Slf4j
+@Builder
 @RequiredArgsConstructor
 public class ProductService {
 
@@ -52,7 +54,7 @@ public class ProductService {
                 .quantity(product.getQuantity()).build();
     }
 
-    private Product findById(Long productId) {
+    public Product findById(Long productId) {
         return productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
     }
 
@@ -62,7 +64,7 @@ public class ProductService {
     }
 
     private List<Product> findProducts(List<ProductRequestForOrder> productRequests){
-        return productRepository.findAllByPessimisticLock(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
+        return productRepository.findAllById(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
     }
 
 
