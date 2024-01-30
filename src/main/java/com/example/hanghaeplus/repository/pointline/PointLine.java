@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.repository.point;
+package com.example.hanghaeplus.repository.pointline;
 
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.common.BaseEntity;
@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
+import static com.example.hanghaeplus.repository.pointline.PointTransactionStatus.*;
 
 @Entity
-@Table(name = "points")
+@Table(name = "point_line")
 @Getter
 @NoArgsConstructor
-public class Point extends BaseEntity {
+public class PointLine extends BaseEntity {
 
 
     @Id
@@ -33,18 +33,18 @@ public class Point extends BaseEntity {
 
 
     @Builder
-    private Point(User user, Long point, PointTransactionStatus status) {
+    private PointLine(User user, Long point, PointTransactionStatus status) {
         this.user = user;
         this.point = point;
         this.status = status;
     }
 
-    public static Point create(User user, Long point){
-        return new Point(user,point, DEDUCT);
+    public static PointLine create(User user, Long point){
+        return new PointLine(user,point, DEDUCT);
     }
 
-    public static Point create(User user, Long point, PointTransactionStatus status){
-        return new Point(user,point, status);
+    public static PointLine create(User user, Long point, PointTransactionStatus status){
+        return new PointLine(user,point, status);
     }
 
     public void setUser(User user) {
@@ -57,7 +57,7 @@ public class Point extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Point point1 = (Point) o;
+        PointLine point1 = (PointLine) o;
         return Objects.equals(id, point1.id) && Objects.equals(user, point1.user) && Objects.equals(point, point1.point) && status == point1.status;
     }
 

@@ -15,6 +15,7 @@ public enum ResultCode {
     // product
     PRODUCT_GET_SUCCESS(200, "P001", "상품 조회에 성공하였습니다. "),
     PRODUCT_POST_SUCCESS(200, "P002", "상품 등록에 성공하였습니다. "),
+    PRODUCT_ADD_STOCK_SUCCESS(200, "P003", "상품 재고 추가에 성공하였습니다. "),
 
 
     // coupon

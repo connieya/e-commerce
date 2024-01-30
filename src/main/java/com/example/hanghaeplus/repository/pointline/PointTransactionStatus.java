@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.repository.point;
+package com.example.hanghaeplus.repository.pointline;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

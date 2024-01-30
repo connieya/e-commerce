@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.controller.user;
 
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
-import com.example.hanghaeplus.controller.user.request.UserRegisterRequest;
+import com.example.hanghaeplus.controller.user.request.UserCreateRequest;
 import com.example.hanghaeplus.common.result.ResultResponse;
 import com.example.hanghaeplus.service.user.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -21,15 +21,15 @@ public class UserController {
 
     @ApiOperation("유저 등록 API")
     @PostMapping
-    public ResponseEntity<ResultResponse> registerUser(@RequestBody UserRegisterRequest request) {
-        userService.registerUser(request);
+    public ResponseEntity<ResultResponse> save(@RequestBody UserCreateRequest request) {
+        userService.save(request.toCommand());
         return ResponseEntity.ok(ResultResponse.of(USER_POST_SUCCESS));
     }
 
     @ApiOperation("잔액 충전 API")
     @PostMapping("/point")
     public ResponseEntity<ResultResponse> recharge(@RequestBody UserRechargeRequest request){
-        userService.rechargePoint(request);
+        userService.rechargePoint(request.toCommand());
         return ResponseEntity.ok(ResultResponse.of(POINT_POST_SUCCESS));
     }
 

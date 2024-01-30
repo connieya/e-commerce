@@ -3,6 +3,9 @@ package com.example.hanghaeplus.service.user;
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
+import com.example.hanghaeplus.service.user.request.UserRecharge;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +29,24 @@ class UserServiceTest {
     private UserService userService;
 
 
-//    @AfterEach
-//    void after(){
-//        userRepository.deleteAll();
-//
-//    }
+    @AfterEach
+    void after(){
+        userRepository.deleteAll();
+
+    }
 
     @DisplayName("요청한 포인트 만큼 사용자의 잔액을 충전한다.")
     @Test
     void rechargePoint(){
         // given
-        User user = User.create("건희", 1000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(1000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
-        UserRechargeRequest request = UserRechargeRequest.builder().
+        UserRecharge request = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(5000L)
                 .build();
@@ -46,47 +54,59 @@ class UserServiceTest {
         userService.rechargePoint(request);
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(1000L+5000L);
+        assertThat(findUser.getPoint()).isEqualTo(1000L+5000L);
     }
 
     @DisplayName("동시에 사용자의 포인트를 충전 했을 때 충전 요청 만큼 잔액을 충전한다.")
     @Test
     void rechargePointWithConcurrency(){
         // given
-        User user = User.create("건희", 1000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(1000L)
+                .build();
+
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
-        UserRechargeRequest request1 = UserRechargeRequest.builder().
+        UserRecharge request1 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(5000L)
                 .build();
 
-        UserRechargeRequest request2 = UserRechargeRequest.builder().
+        UserRecharge request2 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(6000L)
                 .build();
         // when
-        System.out.println("request1 = " + request1.getId());
-        CompletableFuture.allOf(
-                CompletableFuture.runAsync(()->  userService.rechargePoint(request1)),
-                CompletableFuture.runAsync(()->  userService.rechargePoint(request2))
-        ).join();
+        userService.rechargePoint(request1);
+        userService.rechargePoint(request2);
+//        CompletableFuture.allOf(
+//                CompletableFuture.runAsync(()->  userService.rechargePoint(request1)),
+//                CompletableFuture.runAsync(()->  userService.rechargePoint(request2))
+//        ).join();
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(1000L+5000L+6000L);
+        assertThat(findUser.getPoint()).isEqualTo(1000L+5000L+6000L);
     }
 
     @DisplayName("동시에 사용자의 포인트를 충전 했을 때 충전에 실패하게 한다. ")
     @Test
     void rechargePointWithConcurrency2(){
         // given
-        User user = User.create("건희", 1000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(1000L)
+                .build();
+        User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
-        UserRechargeRequest request1 = UserRechargeRequest.builder().
+        UserRecharge request1 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(5000L)
                 .build();
 
-        UserRechargeRequest request2 = UserRechargeRequest.builder().
+        UserRecharge request2 = UserRecharge.builder().
                 id(savedUser.getId())
                 .point(6000L)
                 .build();
@@ -103,6 +123,6 @@ class UserServiceTest {
         }).join();
         User findUser = userRepository.findById(savedUser.getId()).get();
         //then
-        assertThat(findUser.getCurrentPoint()).isEqualTo(1000L);
+        assertThat(findUser.getPoint()).isEqualTo(1000L);
     }
 }

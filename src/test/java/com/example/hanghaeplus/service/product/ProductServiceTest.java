@@ -1,84 +1,65 @@
 package com.example.hanghaeplus.service.product;
 
-import com.example.hanghaeplus.controller.product.response.ProductGetResponse;
-import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.repository.order.OrderLineRepository;
+import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.repository.product.FakeProductRepository;
 import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.example.hanghaeplus.service.order.request.OrderCommand;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
-    @Mock
-    private ProductRepository productRepository;
-    @Mock
-    private OrderLineRepository orderProductRepository;
-
-    private AutoCloseable autoCloseable;
     private ProductService productService;
 
-
+    FakeProductRepository fakeProductRepository;
     @BeforeEach
     void setUp() {
-        autoCloseable = MockitoAnnotations.openMocks(this);
-        productService = new ProductService(productRepository,orderProductRepository);
-        productRepository.save(Product.create("아이패드",10000L,10L));
+         fakeProductRepository= new FakeProductRepository();
+
+        productService = ProductService
+                .builder()
+                .productRepository(fakeProductRepository)
+                .build();
+
+
+        Product americano = Product.create(ProductCreate.builder().name("아메리카노").price(2000L)
+                .quantity(30L)
+                .build());
+        Product latte = Product.create(ProductCreate.builder().name("라떼").price(3000L)
+                .quantity(30L)
+                .build());
+
+        fakeProductRepository.save(americano);
+        fakeProductRepository.save(latte);
 
     }
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
-    }
 
-
-
-    @DisplayName("존재 하지 않는 상품 id로 조회 했을 때 예외가 발생한다.")
+    @DisplayName("상품의 재고를 차감한다.")
     @Test
-    void findByProductIdException(){
-        Long nonExistingProductId = 999L;
-
+    void deductQuantity() {
         // given
-        given(productRepository.findById(nonExistingProductId)).willReturn(Optional.empty());
+        ProductRequestForOrder forOrder1 = ProductRequestForOrder.of(1L, 5L);
+        ProductRequestForOrder forOrder2 = ProductRequestForOrder.of(2L, 5L);
+        List<ProductRequestForOrder> forOrders = List.of(forOrder1, forOrder2);
+        OrderCommand orderCommand = OrderCommand.builder()
+                .products(forOrders)
+                .userId(1L)
+                .build();
 
-        // when and then
-        assertThrows(EntityNotFoundException.class, () -> productService.getProduct(nonExistingProductId));
-    }
+        productService.deduct(orderCommand);
 
-    @DisplayName("상품 id 를 통해 해당 상품을 조회 한다.")
-    @Test
-    void findByProductId(){
-        Long productId = 1L;
-        Product mockProduct = Product.create("아이패드", 10000L, 10L);
-
-        // Define the behavior of the mocked repository
-        given(productRepository.findById(productId)).willReturn(Optional.of(mockProduct));
-
-        // when
-        ProductGetResponse result = productService.getProduct(productId);
+        Product americano = productService.findById(1L);
+        Product latte = productService.findById(2L);
 
         // then
-        verify(productRepository).findById(productId);
-        assertNotNull(result);
-        assertEquals(productId, result.getProductId());
-        assertEquals("아이패드", result.getProductName());
-        assertEquals(10000L, result.getProductPrice());
-        assertEquals(10L, result.getQuantity());
+        assertThat(americano.getQuantity()).isEqualTo(25L);
+        assertThat(latte.getQuantity()).isEqualTo(25L);
     }
-
-
-
 
 }

@@ -2,6 +2,7 @@ package com.example.hanghaeplus.repository.product;
 
 import com.example.hanghaeplus.repository.common.BaseEntity;
 import com.example.hanghaeplus.service.order.OrderException;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
+import static com.example.hanghaeplus.service.order.OrderException.*;
 
 @Entity
 @Setter @Getter
@@ -34,6 +36,14 @@ public class Product extends BaseEntity {
         return this.quantity < quantity;
     }
 
+    public void deductQuantity(Long quantity) {
+        if (isLessThanQuantity(quantity)){
+            throw new InsufficientStockException(INSUFFICIENT_STOCK);
+        }
+        this.quantity -= quantity;
+    }
+
+
 
     @Builder
     private Product(Long id, String name, Long price, Long quantity) {
@@ -51,18 +61,17 @@ public class Product extends BaseEntity {
     }
 
 
-    public static Product create(String name, Long price , Long quantity){
+    public static Product create(ProductCreate productCreate){
         return Product
                 .builder()
-                .name(name)
-                .price(price)
-                .quantity(quantity).build();
+                .name(productCreate.getName())
+                .price(productCreate.getPrice())
+                .quantity(productCreate.getQuantity()).build();
     }
 
-    public void deductQuantity(Long quantity) {
-        if (isLessThanQuantity(quantity)){
-            throw new OrderException.InsufficientStockException(INSUFFICIENT_STOCK);
-        }
-        this.quantity -= quantity;
+
+
+    public void addStock(Long quantity){
+        this.quantity += quantity;
     }
 }

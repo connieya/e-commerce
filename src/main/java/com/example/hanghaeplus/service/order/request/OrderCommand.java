@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.service.order.request;
 
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
@@ -11,7 +12,8 @@ public class OrderCommand {
     private Long userId;
     private String couponCode;
 
-    public OrderCommand(List<ProductRequestForOrder> products, Long userId) {
+    @Builder
+    private OrderCommand(List<ProductRequestForOrder> products, Long userId) {
         this.products = products;
         this.userId = userId;
     }

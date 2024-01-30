@@ -2,21 +2,18 @@ package com.example.hanghaeplus.repository.order;
 
 import com.example.hanghaeplus.controller.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.controller.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.repository.order.FakeOrder;
-import com.example.hanghaeplus.repository.order.Order;
-import com.example.hanghaeplus.repository.order.OrderLineRepository;
-import com.example.hanghaeplus.repository.order.OrderRepository;
 import com.example.hanghaeplus.repository.product.Product;
-import com.example.hanghaeplus.repository.product.ProductRepository;
+import com.example.hanghaeplus.repository.product.ProductJpaRepository;
 import com.example.hanghaeplus.repository.user.User;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.product.request.ProductCreate;
+import com.example.hanghaeplus.service.user.request.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -33,7 +30,7 @@ class OrderLineRepositoryTestV2 {
     private UserRepository userRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductJpaRepository productRepository;
 
     @Autowired
     private OrderLineRepository orderProductRepository;
@@ -46,15 +43,52 @@ class OrderLineRepositoryTestV2 {
 
     @BeforeEach
     void setUp() {
-        User user = User.create("건희", 10000000L);
+        UserCreate userCreate = UserCreate
+                .builder()
+                .name("건희")
+                .point(10000000L)
+                .build();
+        User user = User.create(userCreate);
 
         userRepository.save(user);
 
-        productOnion = Product.create("양파", 1000L, 300L);
-        productPotato = Product.create("감자", 2000L, 300L);
-        productCarrot = Product.create("당근", 3000L, 300L);
-        productMushroom = Product.create("버섯", 5000L, 300L);
-        productSweetPotato = Product.create("고구마", 2000L, 300L);
+        ProductCreate productCreateOnion = ProductCreate
+                .builder()
+                .name("양파")
+                .price(1000L)
+                .quantity(300L)
+                .build();
+        ProductCreate productCreatePotato = ProductCreate
+                .builder()
+                .name("감자")
+                .price(2000L)
+                .quantity(300L)
+                .build();
+        ProductCreate productCreateCarrot = ProductCreate
+                .builder()
+                .name("당근")
+                .price(3000L)
+                .quantity(300L)
+                .build();
+        ProductCreate productCreateMushroom = ProductCreate
+                .builder()
+                .name("버섯")
+                .price(5000L)
+                .quantity(300L)
+                .build();
+        ProductCreate productCreateSweetPotato = ProductCreate
+                .builder()
+                .name("고구마")
+                .price(2000L)
+                .quantity(300L)
+                .build();
+
+
+        productOnion = Product.create(productCreateOnion);
+        productPotato = Product.create(productCreatePotato);
+        productCarrot = Product.create(productCreateCarrot);
+        productMushroom = Product.create(productCreateMushroom);
+        productSweetPotato = Product.create(productCreateSweetPotato);
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
 

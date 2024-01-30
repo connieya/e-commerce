@@ -1,15 +1,15 @@
 package com.example.hanghaeplus.service.user;
 
 import com.example.hanghaeplus.controller.user.request.UserRechargeRequest;
-import com.example.hanghaeplus.controller.user.request.UserRegisterRequest;
 import com.example.hanghaeplus.controller.user.response.UserPointResponse;
-import com.example.hanghaeplus.common.error.ErrorCode;
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.repository.point.Point;
+import com.example.hanghaeplus.repository.pointline.PointLine;
 import com.example.hanghaeplus.repository.user.User;
-import com.example.hanghaeplus.repository.point.PointRepository;
+import com.example.hanghaeplus.repository.pointline.PointLineRepository;
 import com.example.hanghaeplus.repository.user.UserRepository;
+import com.example.hanghaeplus.service.user.request.UserCreate;
+import com.example.hanghaeplus.service.user.request.UserRecharge;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
-import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
+import static com.example.hanghaeplus.repository.pointline.PointTransactionStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ import static com.example.hanghaeplus.repository.point.PointTransactionStatus.*;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PointRepository pointRepository;
+    private final PointLineRepository pointRepository;
 
     public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
@@ -37,27 +37,26 @@ public class UserService {
 
 
     @Transactional
-    public void registerUser(UserRegisterRequest request) {
-        if (userRepository.findByName(request.getName()).isPresent()) {
+    public void save(UserCreate userCreate) {
+        if (userRepository.findByName(userCreate.getName()).isPresent()) {
             throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
         }
         ;
-        User user = User.create(request.getName(), request.getPoint());
+        User user = User.create(userCreate);
         userRepository.save(user);
     }
 
     @Transactional
-    public void rechargePoint(UserRechargeRequest request) {
+    public void rechargePoint(UserRecharge userRecharge) {
         try {
-            User user = userRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-            user.rechargePoint(request.getPoint());
-            Point point = Point.create(user, request.getPoint(), RECHARGE);
+            User user = userRepository.findById(userRecharge.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+            user.rechargePoint(userRecharge.getPoint());
+            PointLine point = PointLine.create(user, userRecharge.getPoint());
             pointRepository.save(point);
             userRepository.save(user);
-
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
-            rechargePoint(request);
+//            rechargePoint(userRecharge);
         }
     }
 
