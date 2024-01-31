@@ -16,7 +16,7 @@ public class HelloController {
     @GetMapping("/")
     public String hello() {
         LOGGER.info("[{}]  Hello Controller ", MDC.get("traceId"));
-        LOGGER.error("error");
+        LOGGER.error("ERROR");
         return "hello world ";
     }
 

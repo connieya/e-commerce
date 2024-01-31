@@ -64,7 +64,7 @@ public class ProductService {
     }
 
     private List<Product> findProducts(List<ProductRequestForOrder> productRequests){
-        return productRepository.findAllById(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
+        return productRepository.findAllByPessimisticLock(productRequests.stream().map(ProductRequestForOrder::getProductId).collect(Collectors.toList()));
     }
 
 

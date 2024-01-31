@@ -11,6 +11,26 @@ import java.util.Optional;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductJpaRepository productJpaRepository;
+
+    @Override
+    public List<Product> findAllById(List<Long> ids) {
+        return productJpaRepository.findAllById(ids);
+    }
+    @Override
+    public List<Product> saveAll(List<Product> products) {
+        return productJpaRepository.saveAll(products);
+    }
+    @Override
+    public Product save(Product product) {
+        return productJpaRepository.save(product);
+    }
+
+    @Override
+    public Optional<Product> findById(Long id) {
+        return productJpaRepository.findById(id);
+    }
+
+
     @Override
     public List<Product> findAllByPessimisticLock(List<Long> productIds) {
 
@@ -22,10 +42,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productJpaRepository.findAll();
     }
 
-    @Override
-    public List<Product> findAllById(List<Long> ids) {
-        return productJpaRepository.findAllById(ids);
-    }
 
     @Override
     public List<Product> findAllByPessimisticLock2(List<Long> productIds) {
@@ -37,18 +53,8 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productJpaRepository.findByIdPessimisticLock(productId);
     }
 
-    @Override
-    public List<Product> saveAll(List<Product> products) {
-        return productJpaRepository.saveAll(products);
-    }
 
-    @Override
-    public Product save(Product product) {
-        return productJpaRepository.save(product);
-    }
 
-    @Override
-    public Optional<Product> findById(Long id) {
-        return productJpaRepository.findById(id);
-    }
+
+
 }

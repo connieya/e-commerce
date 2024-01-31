@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.hanghaeplus.repository.order.OrderStatus.*;
+
 
 @Entity
 @Table(name = "orders")
@@ -33,26 +35,31 @@ public class Order extends BaseEntity {
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderLine> product;
+    private List<OrderLine> orderLines;
 
+    @Embedded
+    private ShippingInfo shippingInfo;
+
+    private OrderStatus orderStatus;
 
     @Builder
     private Order(User user, List<ProductRequestForOrder> products) {
         this.user = user;
-        this.product = getOrderProducts(products);
+        this.orderLines = getOrderProducts(products);
         this.totalPrice = calculateTotalPrice(products);
+        this.orderStatus = PENDING;
     }
 
 
     public Order(User user, List<ProductRequestForOrder> products, LocalDateTime dateTime) {
         this.user = user;
-        this.product = getOrderProducts(products ,dateTime);
+        this.orderLines = getOrderProducts(products ,dateTime);
         this.totalPrice = calculateTotalPrice(products);
     }
     public Order(User user, List<ProductRequestForOrder> products, Integer rate) {
         Long totalPrice = calculateTotalPrice(products);
         this.user = user;
-        this.product = getOrderProducts(products);
+        this.orderLines = getOrderProducts(products);
         this.totalPrice = totalPrice;
         this.discountPrice = totalPrice * rate / 100;
     }

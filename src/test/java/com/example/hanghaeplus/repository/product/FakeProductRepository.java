@@ -13,11 +13,21 @@ public class FakeProductRepository implements ProductRepository {
     private final List<Product> data = new ArrayList<>();
 
     @Override
+    public List<Product> findAllById(List<Long> ids) {
+        return data.stream()
+                .filter(product -> ids.contains(product.getId()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Product> findById(Long id) {
+        return data.stream().filter(item -> item.getId().equals(id)).findAny();
+    }
+    @Override
     public List<Product> saveAll(List<Product> products) {
         data.addAll(products);
         return data;
     }
-
     @Override
     public Product save(Product product) {
         if (product == null || product.getId() == null) {
@@ -37,10 +47,7 @@ public class FakeProductRepository implements ProductRepository {
         }
     }
 
-    @Override
-    public Optional<Product> findById(Long id) {
-        return data.stream().filter(item -> item.getId().equals(id)).findAny();
-    }
+
     @Override
     public List<Product> findAllByPessimisticLock(List<Long> productIds) {
         return null;
@@ -51,12 +58,6 @@ public class FakeProductRepository implements ProductRepository {
         return data;
     }
 
-    @Override
-    public List<Product> findAllById(List<Long> ids) {
-        return data.stream()
-                .filter(product -> ids.contains(product.getId()))
-                .collect(Collectors.toList());
-    }
 
     @Override
     public List<Product> findAllByPessimisticLock2(List<Long> productIds) {
