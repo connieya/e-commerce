@@ -4,6 +4,7 @@ public enum OrderStatus {
     PENDING,
     PROCESSING,
     SHIPPED,
-    DELIVERED,
+    DELIVERING,
+    DELIVERY_COMPLETED,
     CANCELED
 }
