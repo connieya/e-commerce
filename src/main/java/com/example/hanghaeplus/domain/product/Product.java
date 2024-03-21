@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.infrastructure.product;
+package com.example.hanghaeplus.domain.product;
 
 import com.example.hanghaeplus.infrastructure.common.BaseEntity;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
@@ -6,13 +6,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
 import static com.example.hanghaeplus.application.order.OrderException.*;
 
 @Entity
-@Setter @Getter
+@Getter
 @NoArgsConstructor
 public class Product extends BaseEntity {
     @Id
@@ -66,6 +65,15 @@ public class Product extends BaseEntity {
                 .name(productCreate.getName())
                 .price(productCreate.getPrice())
                 .quantity(productCreate.getQuantity()).build();
+    }
+    public static Product create(Long id , String name , Long price , Long quantity){
+        return Product
+                .builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .quantity(quantity)
+                .build();
     }
 
 

@@ -2,15 +2,15 @@ package com.example.hanghaeplus.application.order;
 
 import com.example.hanghaeplus.presentation.coupon.request.CouponPostRequest;
 import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
-import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.domain.coupon.Coupon;
 import com.example.hanghaeplus.infrastructure.coupon.CouponRepository;
 import com.example.hanghaeplus.domain.order.Order;
-import com.example.hanghaeplus.infrastructure.product.Product;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
-import com.example.hanghaeplus.application.order.request.OrderCommand;
+import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import lombok.extern.slf4j.Slf4j;
@@ -82,12 +82,12 @@ public class OrderServiceTest {
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 8L, productPotato.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 15L, productCarrot.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 8L, productPotato.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 15L, productCarrot.getPrice());
 
 
-        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+        List<OrderProductRequest> requests = List.of(request1, request2, request3);
 
 
         OrderPostRequest orderPostRequest = OrderPostRequest.builder()
@@ -147,11 +147,11 @@ public class OrderServiceTest {
         productRepository.saveAll(products);
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 1L, productOnion.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 1L, productPotato.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 1L, productOnion.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 1L, productPotato.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 2L, productCarrot.getPrice());
 
-        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+        List<OrderProductRequest> requests = List.of(request1, request2, request3);
 
 
         // given
@@ -208,11 +208,11 @@ public class OrderServiceTest {
         productRepository.saveAll(products);
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 1L, productOnion.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 1L, productPotato.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 1L, productOnion.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 1L, productPotato.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 2L, productCarrot.getPrice());
 
-        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+        List<OrderProductRequest> requests = List.of(request1, request2, request3);
 
         CouponPostRequest couponPostRequest = CouponPostRequest.create("2099-12-31", 15);
         UUID uuid = UUID.randomUUID();
@@ -272,11 +272,11 @@ public class OrderServiceTest {
         productRepository.saveAll(products);
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 1L, productOnion.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 1L, productPotato.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 1L, productOnion.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 1L, productPotato.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 2L, productCarrot.getPrice());
 
-        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+        List<OrderProductRequest> requests = List.of(request1, request2, request3);
 
         // given
         OrderPostRequest orderPostRequest = OrderPostRequest.builder()
@@ -341,18 +341,18 @@ public class OrderServiceTest {
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 10L, productPotato.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 10L, productPotato.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
 
-        ProductRequestForOrder request4 = ProductRequestForOrder.of(productOnion.getId(), 3L, productCarrot.getPrice());
-        ProductRequestForOrder request5 = ProductRequestForOrder.of(productPotato.getId(), 5L, productCarrot.getPrice());
-        ProductRequestForOrder request6 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request4 = OrderProductRequest.of(productOnion.getId(), 3L, productCarrot.getPrice());
+        OrderProductRequest request5 = OrderProductRequest.of(productPotato.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request6 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
 
-        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
-        List<ProductRequestForOrder> requests2 = List.of(request4, request5, request6);
+        List<OrderProductRequest> requests1 = List.of(request1, request2, request3);
+        List<OrderProductRequest> requests2 = List.of(request4, request5, request6);
 
 
         OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
@@ -430,19 +430,19 @@ public class OrderServiceTest {
 
 
         // 양파 , 감자, 당근
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 10L, productPotato.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 10L, productPotato.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
 
         // 양파 ,김자 , 당근
-        ProductRequestForOrder request4 = ProductRequestForOrder.of(productOnion.getId(), 3L, productCarrot.getPrice());
-        ProductRequestForOrder request5 = ProductRequestForOrder.of(productPotato.getId(), 5L, productCarrot.getPrice());
-        ProductRequestForOrder request6 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request4 = OrderProductRequest.of(productOnion.getId(), 3L, productCarrot.getPrice());
+        OrderProductRequest request5 = OrderProductRequest.of(productPotato.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request6 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
 
-        List<ProductRequestForOrder> requests1 = List.of(request1, request2, request3);
-        List<ProductRequestForOrder> requests2 = List.of(request4, request5, request6);
+        List<OrderProductRequest> requests1 = List.of(request1, request2, request3);
+        List<OrderProductRequest> requests2 = List.of(request4, request5, request6);
 
 
         OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()
@@ -519,22 +519,22 @@ public class OrderServiceTest {
 
 
         // 양파 , 감자, 당근
-        ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
-        ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 5L, productPotato.getPrice());
-        ProductRequestForOrder request1_3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request1_1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request1_2 = OrderProductRequest.of(productPotato.getId(), 5L, productPotato.getPrice());
+        OrderProductRequest request1_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
 
         // 감자 , 당근 , 양파
-        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
-        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productPotato.getId(), 5L, productPotato.getPrice());
-        ProductRequestForOrder request2_3 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request2_1 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request2_2 = OrderProductRequest.of(productPotato.getId(), 5L, productPotato.getPrice());
+        OrderProductRequest request2_3 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
 
         // 감자
-        ProductRequestForOrder request3_1 = ProductRequestForOrder.of(productPotato.getId(), 5L, productPotato.getPrice());
+        OrderProductRequest request3_1 = OrderProductRequest.of(productPotato.getId(), 5L, productPotato.getPrice());
 
-        List<ProductRequestForOrder> requests1 = List.of(request1_1, request1_2, request1_3);
-        List<ProductRequestForOrder> requests2 = List.of(request2_1, request2_2, request2_3);
-        List<ProductRequestForOrder> requests3 = List.of(request3_1);
+        List<OrderProductRequest> requests1 = List.of(request1_1, request1_2, request1_3);
+        List<OrderProductRequest> requests2 = List.of(request2_1, request2_2, request2_3);
+        List<OrderProductRequest> requests3 = List.of(request3_1);
 
         OrderCommand orderCommand1 = OrderCommand.builder()
                 .userId(savedUser1.getId())
@@ -617,17 +617,17 @@ public class OrderServiceTest {
 
 
         // 양파 , 감자
-        ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 2L, productOnion.getPrice());
-        ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 2L, productPotato.getPrice());
+        OrderProductRequest request1_1 = OrderProductRequest.of(productOnion.getId(), 2L, productOnion.getPrice());
+        OrderProductRequest request1_2 = OrderProductRequest.of(productPotato.getId(), 2L, productPotato.getPrice());
 
 
         // 당근 ,버섯
-        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productCarrot.getId(), 2L, productCarrot.getPrice());
-        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productMushroom.getId(), 2L, productMushroom.getPrice());
+        OrderProductRequest request2_1 = OrderProductRequest.of(productCarrot.getId(), 2L, productCarrot.getPrice());
+        OrderProductRequest request2_2 = OrderProductRequest.of(productMushroom.getId(), 2L, productMushroom.getPrice());
 
 
-        List<ProductRequestForOrder> requests1 = List.of(request1_1, request1_2);
-        List<ProductRequestForOrder> requests2 = List.of(request2_1, request2_2);
+        List<OrderProductRequest> requests1 = List.of(request1_1, request1_2);
+        List<OrderProductRequest> requests2 = List.of(request2_1, request2_2);
 
 
         OrderPostRequest orderPostRequest1 = OrderPostRequest.builder()

@@ -3,9 +3,9 @@ package com.example.hanghaeplus.infrastructure.order;
 
 import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.domain.order.OrderLine;
-import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.infrastructure.product.FakeProduct;
-import com.example.hanghaeplus.infrastructure.product.Product;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import org.junit.jupiter.api.DisplayName;
@@ -37,8 +37,8 @@ public class OrderTest {
 
         User user = User.create(userCreate);
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
         Order order = Order.create(user, List.of(request1,request2));
         assertThat(order.getTotalPrice()).isEqualTo(7000L);
     }
@@ -57,8 +57,8 @@ public class OrderTest {
 
         User user = User.create(userCreate);
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
         Order order = Order.create(user, List.of(request1,request2),12);
         assertThat(order.getTotalPrice()).isEqualTo(7000L);
         assertThat(order.getDiscountPrice()).isEqualTo(840L);
@@ -80,9 +80,9 @@ public class OrderTest {
 
         User user = User.create(userCreate);
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(mockProduct3.getId(), 2L, mockProduct3.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(mockProduct1.getId(), 1L, mockProduct1.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(mockProduct2.getId(), 2L, mockProduct2.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(mockProduct3.getId(), 2L, mockProduct3.getPrice());
         Order order = Order.create(user, List.of(request1,request2 ,request3));
         List<OrderLine> orderLines = order.getOrderLines();
         assertThat(orderLines).hasSize(3)

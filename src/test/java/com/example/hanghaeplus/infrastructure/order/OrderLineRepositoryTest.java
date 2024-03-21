@@ -3,10 +3,10 @@ package com.example.hanghaeplus.infrastructure.order;
 import com.example.hanghaeplus.domain.order.OrderLine;
 import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
 import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
-import com.example.hanghaeplus.infrastructure.product.Product;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.infrastructure.product.response.OrderProductResponse;
-import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
 import com.example.hanghaeplus.application.order.OrderService;
@@ -102,33 +102,33 @@ class OrderLineRepositoryTest {
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
 
         // 주문 1
-        ProductRequestForOrder request1_1 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
-        ProductRequestForOrder request1_2 = ProductRequestForOrder.of(productPotato.getId(), 10L, productPotato.getPrice());
-        ProductRequestForOrder request1_3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request1_1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request1_2 = OrderProductRequest.of(productPotato.getId(), 10L, productPotato.getPrice());
+        OrderProductRequest request1_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
-        List<ProductRequestForOrder> requests1 = List.of(request1_1, request1_2, request1_3);
+        List<OrderProductRequest> requests1 = List.of(request1_1, request1_2, request1_3);
 
 
         // 주문 2
-        ProductRequestForOrder request2_1 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
-        ProductRequestForOrder request2_2 = ProductRequestForOrder.of(productPotato.getId(), 5L, productPotato.getPrice());
+        OrderProductRequest request2_1 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request2_2 = OrderProductRequest.of(productPotato.getId(), 5L, productPotato.getPrice());
 
-        List<ProductRequestForOrder> requests2 = List.of(request2_1, request2_2);
+        List<OrderProductRequest> requests2 = List.of(request2_1, request2_2);
 
 
         // 주문 3
-        ProductRequestForOrder request3_1 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
-        ProductRequestForOrder request3_2 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request3_1 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request3_2 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
 
-        List<ProductRequestForOrder> requests3 = List.of(request3_1, request3_2);
+        List<OrderProductRequest> requests3 = List.of(request3_1, request3_2);
 
         // 주문 4
-        ProductRequestForOrder request4_1 = ProductRequestForOrder.of(productMushroom.getId(), 5L, productMushroom.getPrice());
-        ProductRequestForOrder request4_2 = ProductRequestForOrder.of(productOnion.getId(), 5L, productOnion.getPrice());
-        ProductRequestForOrder request4_3 = ProductRequestForOrder.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductRequest request4_1 = OrderProductRequest.of(productMushroom.getId(), 5L, productMushroom.getPrice());
+        OrderProductRequest request4_2 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+        OrderProductRequest request4_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
 
 
-        List<ProductRequestForOrder> requests4 = List.of(request4_1, request4_2, request4_3);
+        List<OrderProductRequest> requests4 = List.of(request4_1, request4_2, request4_3);
 
 
         // when

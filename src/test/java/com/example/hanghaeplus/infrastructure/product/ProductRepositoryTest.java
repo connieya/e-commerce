@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.infrastructure.product;
 
 import com.example.hanghaeplus.application.product.request.ProductCreate;
+import com.example.hanghaeplus.domain.product.Product;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

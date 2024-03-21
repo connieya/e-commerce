@@ -1,9 +1,9 @@
 package com.example.hanghaeplus.application.product;
 
-import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.infrastructure.product.FakeProductRepository;
-import com.example.hanghaeplus.infrastructure.product.Product;
-import com.example.hanghaeplus.application.order.request.OrderCommand;
+import com.example.hanghaeplus.domain.product.Product;
+import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,9 +44,9 @@ class ProductServiceTest {
     @Test
     void deductQuantity() {
         // given
-        ProductRequestForOrder forOrder1 = ProductRequestForOrder.of(1L, 5L);
-        ProductRequestForOrder forOrder2 = ProductRequestForOrder.of(2L, 5L);
-        List<ProductRequestForOrder> forOrders = List.of(forOrder1, forOrder2);
+        OrderProductRequest forOrder1 = OrderProductRequest.of(1L, 5L);
+        OrderProductRequest forOrder2 = OrderProductRequest.of(2L, 5L);
+        List<OrderProductRequest> forOrders = List.of(forOrder1, forOrder2);
         OrderCommand orderCommand = OrderCommand.builder()
                 .products(forOrders)
                 .userId(1L)
@@ -54,8 +54,8 @@ class ProductServiceTest {
 
         productService.deduct(orderCommand);
 
-        Product americano = productService.findById(1L);
-        Product latte = productService.findById(2L);
+        Product americano = productService.findProduct(1L);
+        Product latte = productService.findProduct(2L);
 
         // then
         assertThat(americano.getQuantity()).isEqualTo(25L);

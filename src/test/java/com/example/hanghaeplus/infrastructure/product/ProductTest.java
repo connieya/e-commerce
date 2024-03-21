@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.infrastructure.product;
 
 import com.example.hanghaeplus.application.product.request.ProductCreate;
+import com.example.hanghaeplus.domain.product.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

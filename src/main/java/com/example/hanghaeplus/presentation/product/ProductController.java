@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.presentation.product;
 
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.presentation.product.request.ProductQuantityRequest;
 import com.example.hanghaeplus.presentation.product.response.ProductGetResponse;
 import com.example.hanghaeplus.presentation.product.request.ProductPostRequest;
@@ -37,8 +38,8 @@ public class ProductController {
     @ApiOperation("상품 조회 API")
     @GetMapping("/{productId}")
     public ResponseEntity<ResultResponse> getProduct(@PathVariable(name = "productId") Long productId) {
-        ProductGetResponse product = productService.getProduct(productId);
-        return ResponseEntity.ok(ResultResponse.of(PRODUCT_GET_SUCCESS ,product));
+        Product product = productService.getProduct(productId);
+        return ResponseEntity.ok(ResultResponse.of(PRODUCT_GET_SUCCESS ,ProductGetResponse.from(product)));
     }
 
 

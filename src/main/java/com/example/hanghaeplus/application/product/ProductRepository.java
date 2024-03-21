@@ -1,5 +1,6 @@
-package com.example.hanghaeplus.infrastructure.product;
+package com.example.hanghaeplus.application.product;
 
+import com.example.hanghaeplus.domain.product.Product;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;

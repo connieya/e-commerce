@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.presentation.order.request;
 
-import com.example.hanghaeplus.application.order.request.OrderCommand;
+import com.example.hanghaeplus.application.order.command.OrderCommand;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,24 +13,24 @@ import java.util.List;
 @Builder
 public class OrderPostRequest {
 
-    List<ProductRequestForOrder> products;
+    List<OrderProductRequest> products;
     private Long userId;
     private String couponCode;
 
     @Builder
-    private OrderPostRequest(List<ProductRequestForOrder> products, Long userId) {
+    private OrderPostRequest(List<OrderProductRequest> products, Long userId) {
         this.products = products;
         this.userId = userId;
     }
 
     @Builder
-    public OrderPostRequest(List<ProductRequestForOrder> products, Long userId, String couponCode) {
+    public OrderPostRequest(List<OrderProductRequest> products, Long userId, String couponCode) {
         this.products = products;
         this.userId = userId;
         this.couponCode = couponCode;
     }
 
-    public static OrderPostRequest of(Long userId , List<ProductRequestForOrder> requests){
+    public static OrderPostRequest of(Long userId , List<OrderProductRequest> requests){
         return OrderPostRequest
                 .builder()
                 .userId(userId)
@@ -38,7 +38,7 @@ public class OrderPostRequest {
                 .build();
     }
 
-    public static OrderPostRequest of(Long userId , List<ProductRequestForOrder> requests , String couponCode){
+    public static OrderPostRequest of(Long userId , List<OrderProductRequest> requests , String couponCode){
         return OrderPostRequest
                 .builder()
                 .userId(userId)

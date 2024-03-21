@@ -1,5 +1,8 @@
 package com.example.hanghaeplus.infrastructure.product;
 
+import com.example.hanghaeplus.application.product.ProductRepository;
+import com.example.hanghaeplus.domain.product.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

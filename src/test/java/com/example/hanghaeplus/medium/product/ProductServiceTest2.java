@@ -1,11 +1,12 @@
-package com.example.hanghaeplus.application.product;
+package com.example.hanghaeplus.medium.product;
 
-import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder;
-import com.example.hanghaeplus.infrastructure.product.Product;
+import com.example.hanghaeplus.application.product.ProductService;
+import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
-import com.example.hanghaeplus.application.order.request.OrderCommand;
+import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
 import com.example.hanghaeplus.application.user.UserService;
 import com.example.hanghaeplus.application.user.command.UserCreate;
@@ -71,10 +72,10 @@ class ProductServiceTest2 {
         Product 아메리카노 = productRepository.save(pr);
         Product 라떼 = productRepository.save(pr2);
 
-        ProductRequestForOrder forOrder1 = ProductRequestForOrder.of(아메리카노.getId(), 5L);
-        ProductRequestForOrder forOrder2 = ProductRequestForOrder.of(라떼.getId(), 5L);
+        OrderProductRequest forOrder1 = OrderProductRequest.of(아메리카노.getId(), 5L);
+        OrderProductRequest forOrder2 = OrderProductRequest.of(라떼.getId(), 5L);
 
-        List<ProductRequestForOrder> forOrders = List.of(forOrder1, forOrder2);
+        List<OrderProductRequest> forOrders = List.of(forOrder1, forOrder2);
 
 
         OrderCommand orderCommand = OrderCommand.builder()

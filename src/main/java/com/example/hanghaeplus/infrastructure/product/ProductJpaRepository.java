@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.infrastructure.product;
 
+import com.example.hanghaeplus.domain.product.Product;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;

@@ -6,7 +6,7 @@ import com.example.hanghaeplus.infrastructure.order.OrderLineRepository;
 import com.example.hanghaeplus.infrastructure.order.OrderRepository;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.application.coupon.CouponService;
-import com.example.hanghaeplus.application.order.request.OrderCommand;
+import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.payment.PaymentService;
 import com.example.hanghaeplus.application.product.ProductService;
 import com.example.hanghaeplus.application.user.UserService;
@@ -37,7 +37,7 @@ public class OrderService {
 
     @Transactional
     public Order create(OrderCommand orderCommand) {
-        User user = userService.findByIdPessimisticLock(orderCommand.getUserId());
+        User user = userService.findUser(orderCommand.getUserId());
         productService.deduct(orderCommand);
         Integer rate = couponService.use(orderCommand.getCouponCode());
         Order order = Order.create(user, orderCommand.getProducts() ,rate);

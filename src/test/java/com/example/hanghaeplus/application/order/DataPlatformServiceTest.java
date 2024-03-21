@@ -1,9 +1,9 @@
 package com.example.hanghaeplus.application.order;
 
 import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
-import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder;
+import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.domain.order.Order;
-import com.example.hanghaeplus.infrastructure.product.Product;
+import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
@@ -76,12 +76,12 @@ class DataPlatformServiceTest {
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
 
 
-        ProductRequestForOrder request1 = ProductRequestForOrder.of(productOnion.getId(), 1L, productOnion.getPrice());
-        ProductRequestForOrder request2 = ProductRequestForOrder.of(productPotato.getId(), 1L, productPotato.getPrice());
-        ProductRequestForOrder request3 = ProductRequestForOrder.of(productCarrot.getId(), 1L, productCarrot.getPrice());
+        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 1L, productOnion.getPrice());
+        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 1L, productPotato.getPrice());
+        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 1L, productCarrot.getPrice());
 
 
-        List<ProductRequestForOrder> requests = List.of(request1, request2, request3);
+        List<OrderProductRequest> requests = List.of(request1, request2, request3);
 
 
         OrderPostRequest orderPostRequest = OrderPostRequest.builder()

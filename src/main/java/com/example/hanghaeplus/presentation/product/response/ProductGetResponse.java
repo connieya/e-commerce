@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.presentation.product.response;
 
+import com.example.hanghaeplus.domain.product.Product;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,16 @@ public class ProductGetResponse {
         this.productName = productName;
         this.productPrice = productPrice;
         this.quantity = quantity;
+    }
+
+    public static ProductGetResponse from(Product product) {
+        return ProductGetResponse
+                .builder()
+                .productId(product.getId())
+                .productName(product.getName())
+                .productPrice(product.getPrice())
+                .quantity(product.getQuantity())
+                .build();
     }
 
     public static ProductGetResponse of(Long productId , String productName , Long productPrice , Long quantity){
