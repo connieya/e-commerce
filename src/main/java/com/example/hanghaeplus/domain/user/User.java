@@ -58,4 +58,14 @@ public class User extends BaseEntity {
                 .nickname(userCreate.getNickname())
                 .build();
     }
+
+    public static User create(Long id , String name , String nickname , String email){
+        return User
+                .builder()
+                .id(id)
+                .name(name)
+                .nickname(nickname)
+                .email(email)
+                .build();
+    }
 }

@@ -6,7 +6,6 @@ import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.infrastructure.pointline.PointLine;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.pointline.PointLineRepository;
-import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import com.example.hanghaeplus.application.user.command.UserRecharge;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +34,7 @@ public class UserService {
 
 
     @Transactional
-    public void save(UserCreate userCreate) {
+    public void register(UserCreate userCreate) {
         checkUserDuplicate(userCreate);
         User user = User.create(userCreate);
         userRepository.save(user);
