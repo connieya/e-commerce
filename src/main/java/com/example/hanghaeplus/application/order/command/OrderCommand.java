@@ -8,19 +8,22 @@ import java.util.List;
 
 @Getter
 public class OrderCommand {
-    List<OrderProductRequest> products;
+    List<OrderProductCommand> products;
     private Long userId;
     private String couponCode;
 
     @Builder
-    private OrderCommand(List<OrderProductRequest> products, Long userId) {
-        this.products = products;
-        this.userId = userId;
-    }
-
-    public OrderCommand(List<OrderProductRequest> products, Long userId, String couponCode) {
+    private OrderCommand(List<OrderProductCommand> products, Long userId, String couponCode) {
         this.products = products;
         this.userId = userId;
         this.couponCode = couponCode;
+    }
+
+    public static OrderCommand of(Long userId, String couponCode){
+        return OrderCommand.
+                builder()
+                .userId(userId)
+                .couponCode(couponCode)
+                .build();
     }
 }

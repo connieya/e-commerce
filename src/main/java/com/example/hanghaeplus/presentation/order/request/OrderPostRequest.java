@@ -49,6 +49,6 @@ public class OrderPostRequest {
 
 
     public OrderCommand toCommand(){
-        return new OrderCommand(products,userId,couponCode);
+        return OrderCommand.of(userId,couponCode);
     }
 }

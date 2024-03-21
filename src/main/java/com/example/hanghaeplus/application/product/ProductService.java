@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.application.product;
 
+import com.example.hanghaeplus.application.order.command.OrderProductCommand;
 import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.product.Product;
@@ -26,15 +27,14 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     @Transactional
-    public void deduct(OrderCommand request) {
-        List<OrderProductRequest> productRequests = request.getProducts();
-        Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(productRequests);
-        List<Product> products = findProducts(productRequests);
-        for (Product product : products) {
+    public void deduct(OrderCommand orderCommand) {
+        List<OrderProductCommand> orderProductCommand = orderCommand.getProducts();
+        Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(orderProductCommand);
+        List<Product> products = findProducts(orderProductCommand);
+        products.forEach(product-> {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);
-        }
-        productRepository.saveAll(products);
+        });
     }
 
     @Transactional
@@ -53,14 +53,14 @@ public class ProductService {
         return productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
     }
 
-    private Map<Long, Long> convertToProductIdQuantityMap(List<OrderProductRequest> products) {
+    private Map<Long, Long> convertToProductIdQuantityMap(List<OrderProductCommand> products) {
         return products.stream()
-                .collect(Collectors.toMap(OrderProductRequest::getProductId, OrderProductRequest::getQuantity));
+                .collect(Collectors.toMap(OrderProductCommand::getProductId, OrderProductCommand::getQuantity));
     }
 
     @Transactional(readOnly = true)
-    public List<Product> findProducts(List<OrderProductRequest> productRequests){
-        return productRepository.findAllByPessimisticLock(productRequests.stream().map(OrderProductRequest::getProductId).collect(Collectors.toList()));
+    public List<Product> findProducts(List<OrderProductCommand> orderProductCommands){
+        return productRepository.findAllByPessimisticLock(orderProductCommands.stream().map(OrderProductCommand::getProductId).collect(Collectors.toList()));
     }
 
 
