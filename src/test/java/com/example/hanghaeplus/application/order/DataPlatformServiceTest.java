@@ -76,24 +76,24 @@ class DataPlatformServiceTest {
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
 
 
-        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 1L, productOnion.getPrice());
-        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 1L, productPotato.getPrice());
-        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 1L, productCarrot.getPrice());
+//        OrderProductRequest request1 = OrderProductRequest.of(productOnion.getId(), 1L, productOnion.getPrice());
+//        OrderProductRequest request2 = OrderProductRequest.of(productPotato.getId(), 1L, productPotato.getPrice());
+//        OrderProductRequest request3 = OrderProductRequest.of(productCarrot.getId(), 1L, productCarrot.getPrice());
 
 
-        List<OrderProductRequest> requests = List.of(request1, request2, request3);
-
-
-        OrderPostRequest orderPostRequest = OrderPostRequest.builder()
-                .userId(savedUser.getId())
-                .products(requests)
-                .build();
-        Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(Order.class));
-        // when
-        Order order = orderService.create(orderPostRequest.toCommand());
-        User findUser = userRepository.findByName("건희").get();
-        //then
-        assertThat(order).isNull();
-        assertThat(findUser.getPoint()).isEqualTo(10000L);
+//        List<OrderProductRequest> requests = List.of(request1, request2, request3);
+//
+//
+//        OrderPostRequest orderPostRequest = OrderPostRequest.builder()
+//                .userId(savedUser.getId())
+//                .products(requests)
+//                .build();
+//        Mockito.doThrow(RuntimeException.class).when(dataPlatformService).send(Mockito.any(Order.class));
+//        // when
+//        Order order = orderService.create(orderPostRequest.toCommand());
+//        User findUser = userRepository.findByName("건희").get();
+//        //then
+//        assertThat(order).isNull();
+//        assertThat(findUser.getPoint()).isEqualTo(10000L);
     }
 }

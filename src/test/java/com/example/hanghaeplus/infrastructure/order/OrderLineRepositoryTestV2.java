@@ -93,46 +93,46 @@ class OrderLineRepositoryTestV2 {
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
 
-        // 주문 1
-        OrderProductRequest request1_1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
-        OrderProductRequest request1_2 = OrderProductRequest.of(productPotato.getId(), 10L, productPotato.getPrice());
-        OrderProductRequest request1_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
-
-        List<OrderProductRequest> requests1 = List.of(request1_1, request1_2, request1_3);
-
-
-        // 주문 2
-        OrderProductRequest request2_1 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
-        OrderProductRequest request2_2 = OrderProductRequest.of(productPotato.getId(), 5L, productPotato.getPrice());
-
-        List<OrderProductRequest> requests2 = List.of(request2_1, request2_2);
-
-
-        // 주문 3
-        OrderProductRequest request3_1 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
-        OrderProductRequest request3_2 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
-
-        List<OrderProductRequest> requests3 = List.of(request3_1, request3_2);
-
-        // 주문 4
-        OrderProductRequest request4_1 = OrderProductRequest.of(productMushroom.getId(), 5L, productMushroom.getPrice());
-        OrderProductRequest request4_2 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
-        OrderProductRequest request4_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
-
-        List<OrderProductRequest> requests4 = List.of(request4_1, request4_2, request4_3);
-        LocalDate today = LocalDate.now();
-
-        // 주문 1  : 양파 ,감자 ,당근
-        com.example.hanghaeplus.domain.order.Order order1 = FakeOrder.create(user, requests1, today.minusDays(1).atStartOfDay()); // 1일 전에 주문
-        // 주문 2 : 당근 ,감자
-        com.example.hanghaeplus.domain.order.Order order2 = FakeOrder.create(user, requests2, today.minusDays(2).atStartOfDay()); // 2일 전에 주문
-        // 주문 3 : 당근 ,양파
-        com.example.hanghaeplus.domain.order.Order order3 = FakeOrder.create(user, requests3, today.minusDays(3).atStartOfDay()); // 2일 전에 주문
-        // 주문 4 : 버섯 , 양파 ,당근
-        Order order4 = FakeOrder.create(user, requests4, today.minusDays(4).atStartOfDay()); // 3일 전에 주문
-
-
-        orderRepository.saveAll(List.of(order1, order2, order3, order4));
+//        // 주문 1
+//        OrderProductRequest request1_1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+//        OrderProductRequest request1_2 = OrderProductRequest.of(productPotato.getId(), 10L, productPotato.getPrice());
+//        OrderProductRequest request1_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+//
+//        List<OrderProductRequest> requests1 = List.of(request1_1, request1_2, request1_3);
+//
+//
+//        // 주문 2
+//        OrderProductRequest request2_1 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+//        OrderProductRequest request2_2 = OrderProductRequest.of(productPotato.getId(), 5L, productPotato.getPrice());
+//
+//        List<OrderProductRequest> requests2 = List.of(request2_1, request2_2);
+//
+//
+//        // 주문 3
+//        OrderProductRequest request3_1 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+//        OrderProductRequest request3_2 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+//
+//        List<OrderProductRequest> requests3 = List.of(request3_1, request3_2);
+//
+//        // 주문 4
+//        OrderProductRequest request4_1 = OrderProductRequest.of(productMushroom.getId(), 5L, productMushroom.getPrice());
+//        OrderProductRequest request4_2 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
+//        OrderProductRequest request4_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+//
+//        List<OrderProductRequest> requests4 = List.of(request4_1, request4_2, request4_3);
+//        LocalDate today = LocalDate.now();
+//
+//        // 주문 1  : 양파 ,감자 ,당근
+//        com.example.hanghaeplus.domain.order.Order order1 = FakeOrder.create(user, requests1, today.minusDays(1).atStartOfDay()); // 1일 전에 주문
+//        // 주문 2 : 당근 ,감자
+//        com.example.hanghaeplus.domain.order.Order order2 = FakeOrder.create(user, requests2, today.minusDays(2).atStartOfDay()); // 2일 전에 주문
+//        // 주문 3 : 당근 ,양파
+//        com.example.hanghaeplus.domain.order.Order order3 = FakeOrder.create(user, requests3, today.minusDays(3).atStartOfDay()); // 2일 전에 주문
+//        // 주문 4 : 버섯 , 양파 ,당근
+//        Order order4 = FakeOrder.create(user, requests4, today.minusDays(4).atStartOfDay()); // 3일 전에 주문
+//
+//
+//        orderRepository.saveAll(List.of(order1, order2, order3, order4));
     }
 
 

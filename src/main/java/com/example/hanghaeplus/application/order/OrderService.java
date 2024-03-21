@@ -40,7 +40,7 @@ public class OrderService {
         User user = userService.findUser(orderCommand.getUserId());
         productService.deduct(orderCommand);
         Integer rate = couponService.use(orderCommand.getCouponCode());
-        Order order = Order.create(user, orderCommand.getProducts() ,rate);
+        Order order = Order.create(user, orderCommand.getOrderProducts() ,rate);
         orderRepository.save(order);
         paymentService.execute(order, user);
         publisher.publishEvent(new OrderEvent(this, order));

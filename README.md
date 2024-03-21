@@ -8,6 +8,10 @@
 - Spring Data JPA
 - H2 Database
 - QueryDsl
+- Docker
+- Github Actions
+- AWS ECR (Elastic Container Registry)
+- AWS ECS (Elastic Container Service)
 
 ## 요구 사항
 
@@ -113,6 +117,12 @@ src
 
 - fixture 
   - 테스트 코드 작성 시 필요한 객체를 정의 한다. 
+- application
+  - Repository 클래스를 Mocking 하여 테스트 코드를 작성 한다.
+- domain
+  - 도메인 주요 비즈니스 로직에 대한 테스트 코드를 작성 한다.
+- presentation
+  - SpringTest 의 MockMvc 를 사용해 진행 한다.
 
 
 [//]: # (## 고민한 부분)

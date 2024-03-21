@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.domain.order;
 
+import com.example.hanghaeplus.application.order.command.OrderProductCommand;
 import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.infrastructure.order.ShippingInfo;
 import com.example.hanghaeplus.domain.user.User;
@@ -44,7 +45,7 @@ public class Order extends BaseEntity {
     private OrderStatus orderStatus;
 
     @Builder
-    private Order(User user, List<OrderProductRequest> products) {
+    private Order(User user, List<OrderProductCommand> products) {
         this.user = user;
         this.orderLines = getOrderProducts(products);
         this.totalPrice = calculateTotalPrice(products);
@@ -52,12 +53,12 @@ public class Order extends BaseEntity {
     }
 
 
-    public Order(User user, List<OrderProductRequest> products, LocalDateTime dateTime) {
+    public Order(User user, List<OrderProductCommand> products, LocalDateTime dateTime) {
         this.user = user;
         this.orderLines = getOrderProducts(products ,dateTime);
         this.totalPrice = calculateTotalPrice(products);
     }
-    public Order(User user, List<OrderProductRequest> products, Integer rate) {
+    public Order(User user, List<OrderProductCommand> products, Integer rate) {
         Long totalPrice = calculateTotalPrice(products);
         this.user = user;
         this.orderLines = getOrderProducts(products);
@@ -65,32 +66,32 @@ public class Order extends BaseEntity {
         this.discountPrice = totalPrice * rate / 100;
     }
 
-    private List<OrderLine> getOrderProducts(List<OrderProductRequest> products) {
+    private List<OrderLine> getOrderProducts(List<OrderProductCommand> products) {
         return products.stream()
                 .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice()))
                 .collect(Collectors.toList());
     }
 
-    private List<OrderLine> getOrderProducts(List<OrderProductRequest> products, LocalDateTime dateTime) {
+    private List<OrderLine> getOrderProducts(List<OrderProductCommand> products, LocalDateTime dateTime) {
         return products.stream()
                 .map(product -> new OrderLine(this, product.getProductId(), product.getQuantity(), product.getPrice() ,dateTime,dateTime))
                 .collect(Collectors.toList());
     }
 
-    private Long calculateTotalPrice(List<OrderProductRequest> products) {
+    private Long calculateTotalPrice(List<OrderProductCommand> products) {
         return products.stream()
                 .mapToLong(product -> product.getPrice() * product.getQuantity())
                 .sum();
     }
 
-    public static Order create(User user, List<OrderProductRequest> products) {
+    public static Order create(User user, List<OrderProductCommand> products) {
         return new Order(user, products);
     }
 
-    public static Order create(User user, List<OrderProductRequest> products, LocalDateTime localDateTime) {
+    public static Order create(User user, List<OrderProductCommand> products, LocalDateTime localDateTime) {
         return new Order(user, products , localDateTime);
     }
-    public static Order create(User user, List<OrderProductRequest> products , Integer rate) {
+    public static Order create(User user, List<OrderProductCommand> products , Integer rate) {
         return new Order(user, products,rate);
     }
 

@@ -1,7 +1,6 @@
 package com.example.hanghaeplus.application.product;
 
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
-import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
@@ -28,9 +27,9 @@ public class ProductService {
     private final ProductRepository productRepository;
     @Transactional
     public void deduct(OrderCommand orderCommand) {
-        List<OrderProductCommand> orderProductCommand = orderCommand.getProducts();
+        List<OrderProductCommand> orderProductCommand = orderCommand.getOrderProducts();
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(orderProductCommand);
-        List<Product> products = findProducts(orderProductCommand);
+        List<Product> products = findAllByOrderCommand(orderProductCommand);
         products.forEach(product-> {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);
@@ -59,7 +58,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<Product> findProducts(List<OrderProductCommand> orderProductCommands){
+    public List<Product> findAllByOrderCommand(List<OrderProductCommand> orderProductCommands){
         return productRepository.findAllByPessimisticLock(orderProductCommands.stream().map(OrderProductCommand::getProductId).collect(Collectors.toList()));
     }
 
