@@ -30,7 +30,6 @@ public class ProductController {
     @ApiOperation("재고 추가 API")
     @PostMapping("/quantity")
     public ResponseEntity<ResultResponse> addQuantity(@RequestBody ProductQuantityRequest productQuantityRequest) {
-        System.out.println("productQuantityRequest = " + productQuantityRequest.getId());
         productService.addQuantity(productQuantityRequest.toCommand());
         return ResponseEntity.ok(ResultResponse.of(PRODUCT_ADD_STOCK_SUCCESS));
     }

@@ -9,7 +9,7 @@ public enum ResultCode {
 
     // user
     USER_POST_SUCCESS(200, "U001", "유저 등록에 성공하였습니다. "),
-    POINT_GET_SUCCESS(200, "U002", "잔액 조회에 성공하였습니다. "),
+    POINT_GET_SUCCESS(200, "U002", "잔액 조회에 성공 하였습니다."),
     POINT_POST_SUCCESS(200, "U003", "잔액 충전에 성공하였습니다. "),
 
     // product

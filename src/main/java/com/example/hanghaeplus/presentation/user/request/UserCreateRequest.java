@@ -1,11 +1,11 @@
 package com.example.hanghaeplus.presentation.user.request;
 
 import com.example.hanghaeplus.application.user.command.UserCreate;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter @Getter
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserCreateRequest {
 

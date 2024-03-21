@@ -24,10 +24,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final PointLineRepository pointRepository;
 
+    @Transactional(readOnly = true)
     public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
     public User findByIdPessimisticLock(Long userId){
         return userRepository.findByIdPessimisticLock(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
     }
@@ -53,7 +55,7 @@ public class UserService {
     @Transactional
     public void rechargePoint(UserRecharge userRecharge) {
         try {
-            User user = userRepository.findById(userRecharge.getId()).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+            User user = findUser(userRecharge.getId());
             user.rechargePoint(userRecharge.getPoint());
             PointLine point = PointLine.create(user, userRecharge.getPoint());
             pointRepository.save(point);
@@ -63,7 +65,9 @@ public class UserService {
         }
     }
 
-    public UserPointResponse getPoint(Long id) {
-        return null;
+    @Transactional(readOnly = true)
+    public User findUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
     }
+
 }

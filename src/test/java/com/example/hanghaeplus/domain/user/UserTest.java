@@ -26,4 +26,15 @@ class UserTest {
         assertThat(user.getEmail()).isEqualTo("gunny6026@naver.com");
     }
 
+    @DisplayName("회원의 포인트를 충전 한다.")
+    @Test
+    void rechargePoint(){
+        // given
+        User user = User.create(2L, "건희", "geonhee", "geonhee@nate.com");
+        // when
+        user.rechargePoint(1000L);
+        //then
+        assertThat(user.getPoint()).isEqualTo(1000L);
+    }
+
 }
