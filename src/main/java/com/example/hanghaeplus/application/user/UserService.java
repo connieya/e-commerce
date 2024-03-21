@@ -6,9 +6,9 @@ import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.infrastructure.pointline.PointLine;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.pointline.PointLineRepository;
-import com.example.hanghaeplus.infrastructure.user.UserRepository;
-import com.example.hanghaeplus.application.user.request.UserCreate;
-import com.example.hanghaeplus.application.user.request.UserRecharge;
+import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
+import com.example.hanghaeplus.application.user.command.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserRecharge;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -36,12 +36,19 @@ public class UserService {
 
     @Transactional
     public void save(UserCreate userCreate) {
-        if (userRepository.findByName(userCreate.getName()).isPresent()) {
-            throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
-        }
-        ;
+        checkUserDuplicate(userCreate);
         User user = User.create(userCreate);
         userRepository.save(user);
+    }
+
+    private void checkUserDuplicate(UserCreate userCreate) {
+        if (userRepository.findByEmail(userCreate.getEmail()).isPresent()) {
+            throw new EntityAlreadyExistException(USER_EMAIL_ALREADY_EXIST);
+        }
+
+        if (userRepository.findByNickname(userCreate.getNickname()).isPresent()){
+            throw new EntityAlreadyExistException(USER_NICKNAME_ALREADY_EXIST);
+        }
     }
 
     @Transactional
@@ -54,7 +61,6 @@ public class UserService {
             userRepository.save(user);
         } catch (ObjectOptimisticLockingFailureException e) {
             log.info("낙관적 락");
-//            rechargePoint(userRecharge);
         }
     }
 

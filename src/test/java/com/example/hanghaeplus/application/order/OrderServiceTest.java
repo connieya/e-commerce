@@ -9,10 +9,10 @@ import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.infrastructure.product.Product;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
-import com.example.hanghaeplus.infrastructure.user.UserRepository;
+import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
 import com.example.hanghaeplus.application.order.request.OrderCommand;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
-import com.example.hanghaeplus.application.user.request.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
@@ -34,7 +34,7 @@ public class OrderServiceTest {
     private OrderService orderService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
 
     @Autowired
     private ProductJpaRepository productRepository;
@@ -51,7 +51,6 @@ public class OrderServiceTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(1000000L)
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
@@ -115,7 +114,6 @@ public class OrderServiceTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(10000L)
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
@@ -177,7 +175,6 @@ public class OrderServiceTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(10000L)
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);
@@ -242,7 +239,6 @@ public class OrderServiceTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(50000L)
                 .build();
 
         User user = User.create(userCreate);
@@ -306,13 +302,11 @@ public class OrderServiceTest {
         UserCreate userCreate1 = UserCreate
                 .builder()
                 .name("건희")
-                .point(100000000L)
                 .build();
 
         UserCreate userCreate2 = UserCreate
                 .builder()
                 .name("거니")
-                .point(100000000L)
                 .build();
 
         User user1 = User.create(userCreate1);
@@ -396,12 +390,10 @@ public class OrderServiceTest {
         UserCreate userCreate1 = UserCreate
                 .builder()
                 .name("건희")
-                .point(100000000L)
                 .build();
         UserCreate userCreate2 = UserCreate
                 .builder()
                 .name("거니")
-                .point(100000000L)
                 .build();
 
         User user1 = User.create(userCreate1);
@@ -487,12 +479,10 @@ public class OrderServiceTest {
         UserCreate userCreate1 = UserCreate
                 .builder()
                 .name("건희")
-                .point(100000000L)
                 .build();
         UserCreate userCreate2 = UserCreate
                 .builder()
                 .name("거니")
-                .point(100000000L)
                 .build();
 
         User user1 = User.create(userCreate1);
@@ -588,7 +578,6 @@ public class OrderServiceTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(50000L)
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);

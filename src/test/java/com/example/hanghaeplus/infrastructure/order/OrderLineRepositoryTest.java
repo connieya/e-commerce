@@ -8,10 +8,10 @@ import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.infrastructure.product.response.OrderProductResponse;
 import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.infrastructure.user.UserRepository;
+import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
 import com.example.hanghaeplus.application.order.OrderService;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
-import com.example.hanghaeplus.application.user.request.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.*;
 class OrderLineRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
     @Autowired
     private ProductJpaRepository productRepository;
 
@@ -55,7 +55,7 @@ class OrderLineRepositoryTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(100000000L)
+//                .point(100000000L)
                 .build();
         User user1 = User.create(userCreate);
         User savedUser1 = userRepository.save(user1);

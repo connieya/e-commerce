@@ -6,9 +6,9 @@ import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.infrastructure.product.Product;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.infrastructure.user.UserRepository;
+import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
-import com.example.hanghaeplus.application.user.request.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class DataPlatformServiceTest {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
 
     @Autowired
     private ProductJpaRepository productRepository;
@@ -44,7 +44,6 @@ class DataPlatformServiceTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(10000L)
                 .build();
 
         User user = User.create(userCreate);

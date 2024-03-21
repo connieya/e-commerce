@@ -7,7 +7,7 @@ import com.example.hanghaeplus.presentation.order.request.ProductRequestForOrder
 import com.example.hanghaeplus.infrastructure.product.FakeProduct;
 import com.example.hanghaeplus.infrastructure.product.Product;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.application.user.request.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserCreate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ public class OrderTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(10000L)
+//                .point(10000L)
                 .build();
 
 
@@ -52,7 +52,7 @@ public class OrderTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(10000L)
+//                .point(10000L)
                 .build();
 
         User user = User.create(userCreate);
@@ -75,7 +75,7 @@ public class OrderTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(10000L)
+//                .point(10000L)
                 .build();
 
         User user = User.create(userCreate);

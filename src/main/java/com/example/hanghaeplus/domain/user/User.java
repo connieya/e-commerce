@@ -2,7 +2,7 @@ package com.example.hanghaeplus.domain.user;
 
 import com.example.hanghaeplus.infrastructure.common.BaseEntity;
 import com.example.hanghaeplus.application.user.UserException;
-import com.example.hanghaeplus.application.user.request.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserCreate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,12 +31,12 @@ public class User extends BaseEntity {
 
 
     @Builder
-    private User(Long id, String name, String email, String nickname, Long point) {
+    private User(Long id, String name, String email, String nickname) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.nickname = nickname;
-        this.point = point;
+        this.point = 0L;
     }
 
     public void rechargePoint(Long point) {
@@ -56,7 +56,6 @@ public class User extends BaseEntity {
                 .name(userCreate.getName())
                 .email(userCreate.getEmail())
                 .nickname(userCreate.getNickname())
-                .point(userCreate.getPoint())
                 .build();
     }
 }

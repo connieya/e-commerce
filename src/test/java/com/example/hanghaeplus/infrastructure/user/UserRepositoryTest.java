@@ -2,7 +2,7 @@ package com.example.hanghaeplus.infrastructure.user;
 
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.application.user.request.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class UserRepositoryTest {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
 
     @AfterEach
     void tearDown() {
@@ -34,7 +34,7 @@ class UserRepositoryTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(5000L)
+//                .point(5000L)
                 .build();
 
         User user = User.create(userCreate);
@@ -48,7 +48,7 @@ class UserRepositoryTest {
         UserCreate userCreate = UserCreate
                 .builder()
                 .name("건희")
-                .point(5000L)
+//                .point(5000L)
                 .build();
         User user = User.create(userCreate);
         User savedUser = userRepository.save(user);

@@ -9,7 +9,7 @@ public class FakeUser {
                 .builder()
                 .id(id)
                 .name(name)
-                .point(point)
+//                .point(point)
                 .build();
     }
 }

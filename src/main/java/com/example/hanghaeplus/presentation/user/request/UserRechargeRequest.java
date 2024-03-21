@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.presentation.user.request;
 
-import com.example.hanghaeplus.application.user.request.UserRecharge;
+import com.example.hanghaeplus.application.user.command.UserRecharge;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
