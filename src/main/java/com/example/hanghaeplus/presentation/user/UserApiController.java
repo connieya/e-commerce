@@ -15,8 +15,8 @@ import static com.example.hanghaeplus.common.result.ResultCode.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/api/user")
+public class UserApiController {
 
     private final UserService userService;
 

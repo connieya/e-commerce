@@ -2,7 +2,6 @@ package com.example.hanghaeplus.presentation.user;
 
 
 import com.example.hanghaeplus.application.user.UserService;
-import com.example.hanghaeplus.fixture.UserFixture;
 import com.example.hanghaeplus.presentation.user.request.UserCreateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -22,8 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(UserApiController.class)
+class UserApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,7 +45,7 @@ class UserControllerTest {
                         .register(userCreateRequest.toCommand());
         // when , then
         mockMvc.perform(
-                post("/user")
+                post("/api/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userCreateRequest))
                 )
@@ -63,7 +62,7 @@ class UserControllerTest {
                 .willReturn(CONY);
         // when , then
         mockMvc.perform(
-                get("/user/1")
+                get("/api/user/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", equalTo("U002")))

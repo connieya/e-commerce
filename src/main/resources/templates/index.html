@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>홈 </title>
+    <link th:href="@{/css/bootstrap.min.css}" href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-btn {
+            margin: 5px;
+            width: 150px;
+            border-radius: 5px;
+        }
+        .center-div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5 center-div">
+    <div>
+        <button class="btn btn-primary custom-btn" th:onclick="|location.href='/user/recharge/point'|">포인트 충전</button>
+    </div>
+    <div>
+        <button class="btn btn-primary custom-btn" th:onclick="|location.href='/user/add'|">회원 등록</button>
+        <button class="btn btn-primary custom-btn" th:onclick="|location.href='/user/list'|">회원 목록</button>
+    </div>
+    <div>
+        <button class="btn btn-success custom-btn" th:onclick="|location.href='/user/add'|">주문 등록</button>
+        <button class="btn btn-success custom-btn" th:onclick="|location.href='/user/add'|">주문 목록</button>
+    </div>
+    <div>
+        <button class="btn btn-info custom-btn" th:onclick="|location.href='/user/add'|">쿠폰 등록</button>
+        <button class="btn btn-info custom-btn" th:onclick="|location.href='/user/add'|">쿠폰 목록</button>
+    </div>
+</div>
+</body>
+</html>

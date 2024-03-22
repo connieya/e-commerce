@@ -14,6 +14,8 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
 
 @Service
@@ -37,6 +39,11 @@ public class UserService {
 
     @Transactional
     public void register(UserCreate userCreate) {
+        System.out.println("userCreate.getEmail() = " + userCreate.getEmail());
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            System.out.println("user.getEmail() = " + user.getEmail());
+        }
         checkUserDuplicate(userCreate);
         User user = User.create(userCreate);
         userRepository.save(user);
@@ -70,4 +77,8 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
+    public List<User> findAll() {
+       return userRepository.findAll();
+    }
 }

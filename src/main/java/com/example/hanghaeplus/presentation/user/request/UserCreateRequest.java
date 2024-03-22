@@ -3,7 +3,7 @@ package com.example.hanghaeplus.presentation.user.request;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import lombok.*;
 
-@Getter
+@Getter @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

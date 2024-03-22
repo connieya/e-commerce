@@ -18,4 +18,13 @@ public class OrderProductCommand {
                 .quantity(quantity)
                 .build();
     }
+
+    public static OrderProductCommand of(Long productId, Long quantity, Long price) {
+        return OrderProductCommand
+                .builder()
+                .productId(productId)
+                .quantity(quantity)
+                .price(price)
+                .build();
+    }
 }

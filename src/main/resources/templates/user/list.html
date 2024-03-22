@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 목록</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>회원 목록</h2>
+<div>
+    <button class="btn btn-primary" th:onclick="|location.href='/'|">돌아가기</button>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>회원 아이디</th>
+        <th>이름</th>
+        <th>닉네임</th>
+        <th>이메일</th>
+        <th>현재 포인트</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the user list -->
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.userId}">User ID</td>
+        <td th:text="${user.name}">Name</td>
+        <td th:text="${user.nickname}">Nickname</td>
+        <td th:text="${user.email}">Email</td>
+        <td th:text="${user.point}">Point</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
