@@ -1,11 +1,10 @@
 package com.example.hanghaeplus.application.user;
 
-import com.example.hanghaeplus.presentation.user.response.UserPointResponse;
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
-import com.example.hanghaeplus.infrastructure.pointline.PointLine;
+import com.example.hanghaeplus.domain.point.PointLine;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.infrastructure.pointline.PointLineRepository;
+import com.example.hanghaeplus.infrastructure.point.PointLineJpaRepository;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import com.example.hanghaeplus.application.user.command.UserRecharge;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PointLineRepository pointRepository;
+    private final PointLineJpaRepository pointRepository;
 
     @Transactional(readOnly = true)
     public User findById(Long userId) {

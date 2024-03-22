@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.infrastructure.pointline;
+package com.example.hanghaeplus.domain.point;
 
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.common.BaseEntity;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-import static com.example.hanghaeplus.infrastructure.pointline.PointTransactionStatus.*;
+import static com.example.hanghaeplus.domain.point.PointTransactionType.*;
 
 @Entity
 @Table(name = "point_line")
@@ -29,11 +29,11 @@ public class PointLine extends BaseEntity {
     private Long point;
 
     @Enumerated(EnumType.STRING)
-    private PointTransactionStatus status;
+    private PointTransactionType status;
 
 
     @Builder
-    private PointLine(User user, Long point, PointTransactionStatus status) {
+    private PointLine(User user, Long point, PointTransactionType status) {
         this.user = user;
         this.point = point;
         this.status = status;
@@ -43,7 +43,7 @@ public class PointLine extends BaseEntity {
         return new PointLine(user,point, DEDUCT);
     }
 
-    public static PointLine create(User user, Long point, PointTransactionStatus status){
+    public static PointLine create(User user, Long point, PointTransactionType status){
         return new PointLine(user,point, status);
     }
 

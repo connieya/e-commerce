@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.hanghaeplus.common.result.ResultCode.POINT_POST_SUCCESS;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -47,5 +49,13 @@ public class UserFormController {
         model.addAttribute("pointForm", new UserRechargeRequest());
         return "user/point";
     }
+
+    @PostMapping("/recharge/point")
+    public String recharge(@ModelAttribute UserRechargeRequest request){
+        userService.rechargePoint(request.toCommand());
+        return "redirect:/";
+    }
+
+
 
 }

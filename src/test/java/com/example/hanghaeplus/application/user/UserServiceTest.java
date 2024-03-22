@@ -1,7 +1,9 @@
 package com.example.hanghaeplus.application.user;
 
 import com.example.hanghaeplus.application.user.command.UserCreate;
+import com.example.hanghaeplus.application.user.command.UserRecharge;
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
+import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,6 +63,26 @@ class UserServiceTest {
         assertThatThrownBy(
                 ()-> userService.register(userCreate)
         ).isInstanceOf(EntityAlreadyExistException.class);
+
+    }
+
+    @DisplayName("포인트 잔액을 충전 할 회원이 존재 하지 않으면 예외가 발생 한다.")
+    @Test
+    void recharge_exceptionWithNotFoundUser(){
+        // given
+        given(userRepository.findById(1000L))
+                .willReturn(Optional.empty());
+        // when , then
+        UserRecharge userRecharge = UserRecharge
+                .builder()
+                .id(1000L)
+                .point(500000L)
+                .build();
+        assertThatThrownBy(
+                ()->
+                userService.rechargePoint(userRecharge)
+        ).isInstanceOf(EntityNotFoundException.class);
+
 
     }
 

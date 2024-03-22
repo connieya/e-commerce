@@ -1,11 +1,11 @@
-package com.example.hanghaeplus.infrastructure.pointline;
+package com.example.hanghaeplus.domain.point;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum PointTransactionStatus {
+public enum PointTransactionType {
     RECHARGE("충전"),
     DEDUCT("차감");
 

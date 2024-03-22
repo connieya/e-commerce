@@ -6,13 +6,16 @@
 - Sprig Boot 3.2.0
 - Spring Web
 - Spring Data JPA
+- MySQL
 - H2 Database
 - QueryDsl
 - Docker
 - Github Actions
 - AWS ECR (Elastic Container Registry)
 - AWS ECS (Elastic Container Service)
-
+- Mockito
+- Thymeleaf
+- 
 ## 요구 사항
 
 - 상품 주문에 필요한 메뉴 정보들을 구성하고 조회가 가능해야 한다.
