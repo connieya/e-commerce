@@ -6,10 +6,15 @@ import com.example.hanghaeplus.presentation.user.request.UserCreateRequest;
 import com.example.hanghaeplus.common.result.ResultResponse;
 import com.example.hanghaeplus.application.user.UserService;
 import com.example.hanghaeplus.presentation.user.response.UserPointResponse;
+import com.example.hanghaeplus.presentation.user.response.UserResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.hanghaeplus.common.result.ResultCode.*;
 
@@ -25,6 +30,14 @@ public class UserApiController {
     public ResponseEntity<ResultResponse> register(@RequestBody UserCreateRequest request) {
         userService.register(request.toCommand());
         return ResponseEntity.ok(ResultResponse.of(USER_POST_SUCCESS));
+    }
+
+
+    @ApiOperation("회원 목록 조회 API")
+    @GetMapping("/list")
+    public ResponseEntity<ResultResponse> list(){
+        List<User> users = userService.findAll();
+        return ResponseEntity.ok(ResultResponse.of(USER_LIST_GET_SUCCESS,users.stream().map(UserResponse::from).collect(Collectors.toList())));
     }
 
     @ApiOperation("잔액 충전 API")

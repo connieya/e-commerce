@@ -10,4 +10,11 @@ public class UserFixture {
             ,"cony"
             ,"gunny6026@naver.com"
     );
+
+    public static final User HONG = User.create(
+            2L
+            ,"홍길동"
+            ,"hong"
+            ,"hong@gmail.com"
+    );
 }

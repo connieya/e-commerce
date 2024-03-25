@@ -29,27 +29,26 @@ public class PointLine extends BaseEntity {
     private Long point;
 
     @Enumerated(EnumType.STRING)
-    private PointTransactionType status;
+    private PointTransactionType pointTransaction;
 
 
     @Builder
-    private PointLine(User user, Long point, PointTransactionType status) {
+    private PointLine(User user, Long point, PointTransactionType pointTransaction) {
         this.user = user;
         this.point = point;
-        this.status = status;
+        this.pointTransaction = pointTransaction;
     }
 
-    public static PointLine create(User user, Long point){
-        return new PointLine(user,point, DEDUCT);
+    public static PointLine create(User user, Long point) {
+        return new PointLine(user, point, RECHARGE);
     }
 
-    public static PointLine create(User user, Long point, PointTransactionType status){
-        return new PointLine(user,point, status);
+    public static PointLine create(User user, Long point, PointTransactionType pointTransaction) {
+        return new PointLine(user, point, pointTransaction);
     }
 
     public void setUser(User user) {
-
-        this.user = user;
+            this.user = user;
     }
 
 
@@ -58,12 +57,12 @@ public class PointLine extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PointLine point1 = (PointLine) o;
-        return Objects.equals(id, point1.id) && Objects.equals(user, point1.user) && Objects.equals(point, point1.point) && status == point1.status;
+        return Objects.equals(id, point1.id) && Objects.equals(user, point1.user) && Objects.equals(point, point1.point) && pointTransaction == point1.pointTransaction;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, point, status);
+        return Objects.hash(id, user, point, pointTransaction);
     }
 }
 

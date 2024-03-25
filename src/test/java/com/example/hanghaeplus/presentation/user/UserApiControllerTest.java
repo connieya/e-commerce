@@ -12,6 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static com.example.hanghaeplus.fixture.UserFixture.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
@@ -70,6 +72,30 @@ class UserApiControllerTest {
                 .andExpect(jsonPath("$.message",equalTo("잔액 조회에 성공 하였습니다.")))
                 .andExpect(jsonPath("$.data.userId",equalTo(1)))
                 .andExpect(jsonPath("$.data.point",equalTo(0)));
+
+    }
+
+    @DisplayName("회원 목록 조회")
+    @Test
+    void findAll() throws Exception {
+        // given
+        given(userService.findAll())
+                .willReturn(List.of(CONY,HONG));
+        // when ,then
+        mockMvc.perform(
+                get("/api/user/list")
+
+        ).andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", equalTo("U004")))
+                .andExpect(jsonPath("$.status",equalTo(200)))
+                .andExpect(jsonPath("$.message",equalTo("회원 목록 조회에 성공 하였습니다. ")))
+                .andExpect(jsonPath("$.data[0].userId",equalTo(1)))
+                .andExpect(jsonPath("$.data[0].name",equalTo("박건희")))
+                .andExpect(jsonPath("$.data[0].nickname",equalTo("cony")))
+                .andExpect(jsonPath("$.data[0].email",equalTo("gunny6026@naver.com")))
+                .andExpect(jsonPath("$.data[0].point",equalTo(0)));
+
+
 
     }
 
