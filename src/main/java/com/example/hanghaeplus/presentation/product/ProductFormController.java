@@ -1,12 +1,10 @@
 package com.example.hanghaeplus.presentation.product;
 
 import com.example.hanghaeplus.application.product.ProductService;
-import com.example.hanghaeplus.application.product.response.ProductResponse;
+import com.example.hanghaeplus.application.product.result.ProductResponse;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.presentation.product.request.ProductPostRequest;
-import com.example.hanghaeplus.presentation.product.request.ProductQuantityRequest;
 import lombok.RequiredArgsConstructor;
-import org.codehaus.janino.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,4 +43,16 @@ public class ProductFormController {
         model.addAttribute("productId", productId);
         return "product/quantity";
     }
+
+    @GetMapping("/category")
+    public String categoryForm() {
+        return "product/category";
+    }
+
+    @GetMapping("/category/list")
+    public String categoryList(Model model){
+        model.addAttribute("productCategory", productService.getProductCategoryList());
+        return "product/category-list";
+    }
+
 }

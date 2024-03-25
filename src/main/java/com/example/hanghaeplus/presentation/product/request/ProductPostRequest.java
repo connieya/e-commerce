@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.presentation.product.request;
 
-import com.example.hanghaeplus.application.product.request.ProductCreate;
+import com.example.hanghaeplus.application.product.command.ProductCreate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.application.product.response;
+package com.example.hanghaeplus.application.product.result;
 
 import com.example.hanghaeplus.domain.product.Product;
 import lombok.Builder;

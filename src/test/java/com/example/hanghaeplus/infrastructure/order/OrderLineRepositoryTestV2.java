@@ -1,13 +1,11 @@
 package com.example.hanghaeplus.infrastructure.order;
 
-import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
-import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
-import com.example.hanghaeplus.application.product.request.ProductCreate;
+import com.example.hanghaeplus.application.product.command.ProductCreate;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

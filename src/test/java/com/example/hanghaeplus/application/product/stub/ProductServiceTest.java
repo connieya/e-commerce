@@ -5,7 +5,7 @@ import com.example.hanghaeplus.application.product.ProductService;
 import com.example.hanghaeplus.infrastructure.product.FakeProductRepository;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
-import com.example.hanghaeplus.application.product.request.ProductCreate;
+import com.example.hanghaeplus.application.product.command.ProductCreate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

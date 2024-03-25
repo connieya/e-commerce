@@ -1,18 +1,11 @@
 package com.example.hanghaeplus.application.order;
 
-import com.example.hanghaeplus.application.order.command.OrderProductCommand;
-import com.example.hanghaeplus.presentation.coupon.request.CouponPostRequest;
-import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
-import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
-import com.example.hanghaeplus.domain.coupon.Coupon;
 import com.example.hanghaeplus.infrastructure.coupon.CouponRepository;
-import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
-import com.example.hanghaeplus.application.order.command.OrderCommand;
-import com.example.hanghaeplus.application.product.request.ProductCreate;
+import com.example.hanghaeplus.application.product.command.ProductCreate;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-
-import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Slf4j

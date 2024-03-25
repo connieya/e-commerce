@@ -2,7 +2,7 @@ package com.example.hanghaeplus.application.product;
 
 import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
-import com.example.hanghaeplus.application.product.request.ProductQuantityAdd;
+import com.example.hanghaeplus.application.product.command.ProductQuantityAdd;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.product.Product;
 import org.assertj.core.groups.Tuple;

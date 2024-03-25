@@ -1,11 +1,13 @@
 package com.example.hanghaeplus.application.product;
 
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
+import com.example.hanghaeplus.application.product.command.ProductCategoryAdd;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
-import com.example.hanghaeplus.application.product.request.ProductCreate;
-import com.example.hanghaeplus.application.product.request.ProductQuantityAdd;
+import com.example.hanghaeplus.application.product.command.ProductCreate;
+import com.example.hanghaeplus.application.product.command.ProductQuantityAdd;
+import com.example.hanghaeplus.domain.product.ProductCategory;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ import static com.example.hanghaeplus.common.error.ErrorCode.*;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
     @Transactional
     public void deduct(OrderCommand orderCommand) {
         List<OrderProductCommand> orderProductCommand = orderCommand.getOrderProducts();
@@ -73,5 +76,15 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Transactional
+    public void registerCategory(ProductCategoryAdd productCategoryAdd) {
+        ProductCategory productCategory = new ProductCategory(productCategoryAdd.getName());
+        productCategoryRepository.save(productCategory);
+    }
+
+    public List<ProductCategory> getProductCategoryList() {
+        return productCategoryRepository.findAll();
     }
 }

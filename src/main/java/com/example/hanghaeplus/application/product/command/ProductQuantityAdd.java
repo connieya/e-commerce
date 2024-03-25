@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.application.product.request;
+package com.example.hanghaeplus.application.product.command;
 
 import lombok.Builder;
 import lombok.Getter;

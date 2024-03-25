@@ -1,7 +1,7 @@
 package com.example.hanghaeplus.domain.product;
 
 import com.example.hanghaeplus.infrastructure.common.BaseEntity;
-import com.example.hanghaeplus.application.product.request.ProductCreate;
+import com.example.hanghaeplus.application.product.command.ProductCreate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +23,9 @@ public class Product extends BaseEntity {
     private Long price;
 
     private Long quantity;
+
+    @OneToOne
+    private ProductCategory productCategory;
 
 
     public Product(String name, Long price) {
