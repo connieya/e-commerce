@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 목록</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>상품 목록</h2>
+    <div>
+        <button class="btn btn-primary" th:onclick="|location.href='/'|">돌아가기</button>
+    </div>
+    <table class="table table-bordered mt-4">
+        <thead>
+        <tr>
+            <th>상품 ID</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>재고</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over the product list -->
+        <tr th:each="product : ${products}">
+            <td th:text="${product.productId}">Product ID</td>
+            <td>
+            <a th:href="@{|/product/add/quantity/${product.productId}|}">
+                <span th:text="${product.name}"></span>
+            </a>
+            </td>
+            <td th:text="${product.price}">Price</td>
+            <td th:text="${product.quantity}">Quantity</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

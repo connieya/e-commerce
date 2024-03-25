@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.infrastructure.product;
+package com.example.hanghaeplus.domain.product;
 
 import com.example.hanghaeplus.application.product.request.ProductCreate;
 import com.example.hanghaeplus.domain.product.Product;

@@ -16,7 +16,7 @@ import static com.example.hanghaeplus.common.result.ResultCode.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/product")
-public class ProductController {
+public class ProductApiController {
 
     private final ProductService productService;
 

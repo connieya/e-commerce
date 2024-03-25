@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.infrastructure.product;
 
+import com.example.hanghaeplus.application.product.ProductRepository;
 import com.example.hanghaeplus.application.product.request.ProductCreate;
 import com.example.hanghaeplus.domain.product.Product;
 import org.junit.jupiter.api.AfterEach;
@@ -7,7 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -15,16 +19,13 @@ import static org.assertj.core.api.Assertions.*;
 
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE,
+        connection = EmbeddedDatabaseConnection.H2
+)
 class ProductRepositoryTest {
 
     @Autowired
     private ProductJpaRepository productRepository;
-
-    @AfterEach
-    void tearDown() {
-        productRepository.deleteAllInBatch();
-    }
-
 
     Product savedProduct;
 
@@ -79,7 +80,7 @@ class ProductRepositoryTest {
 
     @DisplayName("상품 Id 를 통해 상품 정보를 조회한다.")
     @Test
-    void findAllByPessimisticLock(){
+    void findAllByPessimisticLock() {
 
         //given
         List<Product> products = productRepository.findAllByPessimisticLock(List.of(savedProduct.getId()));

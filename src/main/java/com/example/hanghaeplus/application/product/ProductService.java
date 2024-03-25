@@ -70,4 +70,8 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    @Transactional(readOnly = true)
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
 }

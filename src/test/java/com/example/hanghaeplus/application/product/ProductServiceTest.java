@@ -2,6 +2,7 @@ package com.example.hanghaeplus.application.product;
 
 import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
+import com.example.hanghaeplus.application.product.request.ProductQuantityAdd;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.product.Product;
 import org.assertj.core.groups.Tuple;
@@ -111,6 +112,25 @@ class ProductServiceTest {
         assertThat(product1.getQuantity()).isEqualTo(90L);
         assertThat(product2.getQuantity()).isEqualTo(95L);
         assertThat(product3.getQuantity()).isEqualTo(85L);
+    }
+
+    @DisplayName("재고를 추가한다.")
+    @Test
+    void addQuantity(){
+        // given
+        Product product = Product.create(100L, "충전기", 1000L, 50L);
+        given(productRepository.findById(100L))
+                .willReturn(Optional.of(product));
+        // when
+        productService.addQuantity(
+                ProductQuantityAdd
+                        .builder()
+                        .id(100L)
+                        .quantity(50L)
+                        .build()
+        );
+        //then
+        assertThat(product.getQuantity()).isEqualTo(100L);
     }
 
 }

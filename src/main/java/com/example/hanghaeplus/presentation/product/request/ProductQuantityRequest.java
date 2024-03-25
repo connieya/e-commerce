@@ -1,6 +1,8 @@
 package com.example.hanghaeplus.presentation.product.request;
 
 import com.example.hanghaeplus.application.product.request.ProductQuantityAdd;
+import com.example.hanghaeplus.domain.product.Product;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -15,4 +17,5 @@ public class ProductQuantityRequest {
                 .quantity(quantity)
                 .build();
     }
+
 }
