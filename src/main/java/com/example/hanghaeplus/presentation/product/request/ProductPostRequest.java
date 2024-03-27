@@ -9,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductPostRequest {
 
+    private Long categoryId;
     private String name;
     private Long price;
     private Long quantity;
@@ -17,6 +18,7 @@ public class ProductPostRequest {
     public ProductCreate toCommand() {
         return ProductCreate
                 .builder()
+                .categoryId(categoryId)
                 .name(name)
                 .price(price)
                 .quantity(quantity)

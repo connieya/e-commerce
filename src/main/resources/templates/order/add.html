@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 등록</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>주문 등록</h2>
+
+    <!-- 사용자 아이디 입력 폼 -->
+    <div class="form-group">
+        <label for="userId">사용자 아이디:</label>
+        <input type="text" class="form-control" id="userId" name="userId" required>
+    </div>
+    <!-- 상품 목록 -->
+    <div class="mt-4">
+        <h4>상품 목록</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>상품 ID</th>
+                <th>상품명</th>
+                <th>주문 수량</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterate over the product list -->
+            <tr th:each="product : ${productList}">
+                <td><input type="checkbox" name="selectedProducts" th:value="${product.productId}"></td>
+                <td th:text="${product.productId}">Product ID</td>
+                <td th:text="${product.name}">Name</td>
+                <td><input type="number" class="form-control" name="orderQuantities" min="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 주문 버튼 -->
+    <button type="button" id="submitOrder" class="btn btn-primary">주문</button>
+    <button type="button" class="btn btn-secondary ml-2" th:onclick="|location.href='/'|">돌아가기</button>
+
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.getElementById('submitOrder').addEventListener('click', function () {
+
+        console.log("주문 클릭")
+
+        const userId = document.getElementById('userId').value;
+        const products = [];
+        const productCheckboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+        const orderQuantities =  document.querySelectorAll('input[name="orderQuantities"]');
+        console.log("상품 체크")
+        console.log("상품 주문  수량", orderQuantities)
+        productCheckboxes.forEach(function (checkbox, index) {
+            const productId = checkbox.value;
+            const quantity = orderQuantities[index].value;
+            console.log("checkbox ", checkbox)
+            products.push({productId: productId, quantity: quantity});
+        });
+
+        console.log("products => ",products)
+        // POST 요청 보내기
+        fetch('/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: userId,
+                products: products
+            })
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('서버 응답 오류');
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                console.log('주문이 성공적으로 등록되었습니다.');
+                // 필요한 작업을 수행하세요.
+            })
+            .catch(function (error) {
+                console.error('주문 요청 중 오류 발생:', error);
+            });
+    });
+</script>
+
+</body>
+</html>

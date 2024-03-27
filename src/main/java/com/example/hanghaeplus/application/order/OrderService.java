@@ -32,7 +32,6 @@ public class OrderService {
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final OrderLineRepository orderLineRepository;
-    private final PaymentService paymentService;
     private final ApplicationEventPublisher publisher;
 
     @Transactional
@@ -42,7 +41,6 @@ public class OrderService {
         Integer rate = couponService.use(orderCommand.getCouponCode());
         Order order = Order.create(user, orderCommand.getOrderProducts() ,rate);
         orderRepository.save(order);
-        paymentService.execute(order, user);
         publisher.publishEvent(new OrderEvent(this, order));
         return order;
     }

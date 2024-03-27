@@ -2,6 +2,7 @@ package com.example.hanghaeplus.domain.coupon;
 
 import com.example.hanghaeplus.infrastructure.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,12 +27,25 @@ public class Coupon extends BaseEntity {
     private LocalDateTime expirationPeriod;
     private CouponState couponState;
 
-    public Coupon(String code, Integer rate, LocalDateTime expirationPeriod, CouponState couponState) {
+    @Builder
+    private Coupon(Long id, String code, Integer rate, LocalDateTime expirationPeriod, CouponState couponState) {
+        this.id = id;
         this.code = code;
         this.rate = rate;
         this.expirationPeriod = expirationPeriod;
         this.couponState = couponState;
     }
+
+    public static Coupon create(String code , Integer rate, LocalDateTime expirationPeriod){
+        return Coupon
+                .builder()
+                .code(code)
+                .rate(rate)
+                .expirationPeriod(expirationPeriod)
+                .couponState(UNUSED)
+                .build();
+    }
+
 
     public void verify(LocalDateTime today) {
         if (couponState != UNUSED || today.isAfter(expirationPeriod) ){

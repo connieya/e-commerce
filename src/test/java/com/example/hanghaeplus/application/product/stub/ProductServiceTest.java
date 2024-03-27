@@ -2,6 +2,7 @@ package com.example.hanghaeplus.application.product.stub;
 
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
 import com.example.hanghaeplus.application.product.ProductService;
+import com.example.hanghaeplus.fixture.ProductCategoryFixture;
 import com.example.hanghaeplus.infrastructure.product.FakeProductRepository;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProductServiceTest {
@@ -30,12 +32,24 @@ class ProductServiceTest {
                 .build();
 
 
-        Product americano = Product.create(ProductCreate.builder().name("아메리카노").price(2000L)
-                .quantity(30L)
-                .build());
-        Product latte = Product.create(ProductCreate.builder().name("라떼").price(3000L)
-                .quantity(30L)
-                .build());
+        Product americano = Product.create(
+                ProductCreate
+                        .builder()
+                        .name("아메리카노")
+                        .price(2000L)
+                        .quantity(30L)
+                        .build()
+                , FOOD
+        );
+        Product latte = Product.create(
+                ProductCreate
+                        .builder()
+                        .name("라떼")
+                        .price(3000L)
+                        .quantity(30L)
+                    .build()
+                ,FOOD
+        );
 
         fakeProductRepository.save(americano);
         fakeProductRepository.save(latte);

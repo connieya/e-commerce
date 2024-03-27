@@ -3,6 +3,7 @@ package com.example.hanghaeplus.presentation.product;
 import com.example.hanghaeplus.application.product.ProductService;
 import com.example.hanghaeplus.application.product.result.ProductResponse;
 import com.example.hanghaeplus.domain.product.Product;
+import com.example.hanghaeplus.domain.product.ProductCategory;
 import com.example.hanghaeplus.presentation.product.request.ProductPostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class ProductFormController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute ProductPostRequest productPostRequest) {
-        productService.save(productPostRequest.toCommand());
+        productService.register(productPostRequest.toCommand());
         return "redirect:/";
     }
 
@@ -49,9 +50,13 @@ public class ProductFormController {
         return "product/category";
     }
 
+    @ModelAttribute("categoryList")
+    public List<ProductCategory> categoryList(){
+        return productService.getProductCategoryList();
+    }
+
     @GetMapping("/category/list")
-    public String categoryList(Model model){
-        model.addAttribute("productCategory", productService.getProductCategoryList());
+    public String categoryListForm(){
         return "product/category-list";
     }
 

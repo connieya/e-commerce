@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.infrastructure.order;
 
 import com.example.hanghaeplus.domain.order.OrderLine;
+import com.example.hanghaeplus.fixture.ProductCategoryFixture;
 import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
 import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.domain.product.Product;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -92,11 +94,11 @@ class OrderLineRepositoryTest {
                 .build();
 
 
-        productOnion = Product.create(productCreateOnion);
-        productPotato = Product.create(productCreatePotato);
-        productCarrot = Product.create(productCreateCarrot);
-        productMushroom = Product.create(productCreateMushroom);
-        productSweetPotato = Product.create(productCreateSweetPotato);
+        productOnion = Product.create(productCreateOnion, FOOD);
+        productPotato = Product.create(productCreatePotato,FOOD);
+        productCarrot = Product.create(productCreateCarrot,FOOD);
+        productMushroom = Product.create(productCreateMushroom,FOOD);
+        productSweetPotato = Product.create(productCreateSweetPotato,FOOD);
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
 

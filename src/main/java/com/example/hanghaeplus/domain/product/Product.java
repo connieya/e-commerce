@@ -24,7 +24,7 @@ public class Product extends BaseEntity {
 
     private Long quantity;
 
-    @OneToOne
+    @ManyToOne
     private ProductCategory productCategory;
 
 
@@ -38,38 +38,33 @@ public class Product extends BaseEntity {
     }
 
     public void deductQuantity(Long quantity) {
-        if (isLessThanQuantity(quantity)){
+        if (isLessThanQuantity(quantity)) {
             throw new InsufficientStockException(INSUFFICIENT_STOCK);
         }
         this.quantity -= quantity;
     }
 
 
-
     @Builder
-    private Product(Long id, String name, Long price, Long quantity) {
+    private Product(Long id, String name, Long price, Long quantity, ProductCategory productCategory) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.productCategory = productCategory;
     }
 
-    @Builder
-    private Product(String name, Long price, Long quantity) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-
-    public static Product create(ProductCreate productCreate){
+    public static Product create(ProductCreate productCreate, ProductCategory productCategory) {
         return Product
                 .builder()
                 .name(productCreate.getName())
                 .price(productCreate.getPrice())
-                .quantity(productCreate.getQuantity()).build();
+                .quantity(productCreate.getQuantity())
+                .productCategory(productCategory)
+                .build();
     }
-    public static Product create(Long id , String name , Long price , Long quantity){
+
+    public static Product create(Long id, String name, Long price, Long quantity) {
         return Product
                 .builder()
                 .id(id)
@@ -80,8 +75,8 @@ public class Product extends BaseEntity {
     }
 
 
-
-    public void addStock(Long quantity){
+    public void addStock(Long quantity) {
         this.quantity += quantity;
     }
+
 }

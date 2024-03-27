@@ -23,6 +23,7 @@ public enum ErrorCode {
 
     // Product
     PRODUCT_NOT_FOUND(400, "P001", "존재 하지 않는 상품입니다."),
+    PRODUCT_CATEGORY_NOT_FOUND(400, "P002", "존재 하지 않는 상품 카테고리 입니다."),
 
     // Coupon
     COUPON_NOT_EXIST(400, "C001", "유효하지 않은 할인 쿠폰입니다."),

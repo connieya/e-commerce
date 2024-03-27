@@ -27,7 +27,7 @@ class CouponServiceTest {
         UUID uuid = UUID.randomUUID();
 
         // when
-        Coupon coupon = couponPostRequest.toDomain(uuid);
+        Coupon coupon = couponPostRequest.toDomain(uuid.toString());
         couponService.save(coupon);
         Coupon findCoupon = couponRepository.findByCode(uuid.toString());
         //then

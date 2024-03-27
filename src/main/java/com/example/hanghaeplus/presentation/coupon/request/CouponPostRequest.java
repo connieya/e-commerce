@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-import static com.example.hanghaeplus.domain.coupon.CouponState.*;
 
 @Setter
 @Getter
@@ -20,11 +19,11 @@ public class CouponPostRequest {
     private String expirationPeriod;
     private Integer rate;
 
-    public Coupon toDomain(UUID uuid) {
+    public Coupon toDomain(String code ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(expirationPeriod, formatter);
         LocalDateTime localDateTime = localDate.atStartOfDay();
-        return new Coupon(uuid.toString(), rate, localDateTime, UNUSED);
+        return Coupon.create(code,rate,localDateTime);
     }
 
     private CouponPostRequest(String expirationPeriod, Integer rate) {
