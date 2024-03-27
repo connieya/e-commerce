@@ -1,13 +1,13 @@
 package com.example.hanghaeplus.application.order;
 
+import com.example.hanghaeplus.application.order.event.OrderEvent;
+import com.example.hanghaeplus.infrastructure.order.OrderJpaRepository;
 import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.infrastructure.order.OrderLineRepository;
-import com.example.hanghaeplus.infrastructure.order.OrderRepository;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.application.coupon.CouponService;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
-import com.example.hanghaeplus.application.payment.PaymentService;
 import com.example.hanghaeplus.application.product.ProductService;
 import com.example.hanghaeplus.application.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -38,7 +39,7 @@ public class OrderService {
     public Order create(OrderCommand orderCommand) {
         User user = userService.findUser(orderCommand.getUserId());
         productService.deduct(orderCommand);
-        Integer rate = couponService.use(orderCommand.getCouponCode());
+        Integer rate = couponService.use(orderCommand.getCouponCode(), LocalDateTime.now());
         Order order = Order.create(user, orderCommand.getOrderProducts() ,rate);
         orderRepository.save(order);
         publisher.publishEvent(new OrderEvent(this, order));

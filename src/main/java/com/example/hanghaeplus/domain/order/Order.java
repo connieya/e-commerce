@@ -1,8 +1,6 @@
 package com.example.hanghaeplus.domain.order;
 
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
-import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
-import com.example.hanghaeplus.infrastructure.order.ShippingInfo;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.common.BaseEntity;
 import jakarta.persistence.*;

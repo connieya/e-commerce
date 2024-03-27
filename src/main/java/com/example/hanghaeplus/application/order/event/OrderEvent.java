@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.application.order;
+package com.example.hanghaeplus.application.order.event;
 
 import com.example.hanghaeplus.domain.order.Order;
 import org.springframework.context.ApplicationEvent;

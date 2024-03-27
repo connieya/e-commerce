@@ -14,6 +14,7 @@ import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.example.hanghaeplus.common.result.ResultCode.*;
@@ -39,7 +40,7 @@ public class CouponController {
     public ResponseEntity<ResultResponse> findByCode(@RequestParam("code") String code) {
         String traceId = MDC.get("traceId");
         LOGGER.info("[{}] CouponController", traceId);
-        Coupon coupon = couponService.findByCode(code);
+        Coupon coupon = couponService.findByCode(code, LocalDateTime.now());
         return ResponseEntity.ok(ResultResponse.of(COUPON_GET_SUCCESS, coupon));
     }
 }

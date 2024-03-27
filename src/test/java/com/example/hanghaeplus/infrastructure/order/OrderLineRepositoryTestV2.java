@@ -1,6 +1,5 @@
 package com.example.hanghaeplus.infrastructure.order;
 
-import com.example.hanghaeplus.fixture.ProductCategoryFixture;
 import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
@@ -25,7 +24,7 @@ class OrderLineRepositoryTestV2 {
 
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderJpaRepository orderRepository;
 
     @Autowired
     private UserJpaRepository userRepository;

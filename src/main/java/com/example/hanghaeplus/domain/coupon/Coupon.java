@@ -46,6 +46,17 @@ public class Coupon extends BaseEntity {
                 .build();
     }
 
+    public static Coupon create(Long id , String code ,Integer rate , LocalDateTime expirationPeriod){
+        return Coupon
+                .builder()
+                .id(id)
+                .code(code)
+                .rate(rate)
+                .expirationPeriod(expirationPeriod)
+                .couponState(UNUSED)
+                .build();
+    }
+
 
     public void verify(LocalDateTime today) {
         if (couponState != UNUSED || today.isAfter(expirationPeriod) ){

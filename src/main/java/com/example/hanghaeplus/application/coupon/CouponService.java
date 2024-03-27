@@ -11,6 +11,7 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
 
@@ -29,19 +30,25 @@ public class CouponService {
         couponRepository.save(coupon);
     }
 
-    public Coupon findByCode(String code) {
-        Coupon coupon = couponRepository.findByCode(code);
+
+    public Coupon findCode(String code) {
+        return couponRepository.findByCode(code)
+                .orElseThrow(()->new EntityNotFoundException(COUPON_NOT_EXIST));
+    }
+
+    public Coupon findByCode(String code, LocalDateTime today) {
+        Coupon coupon = findCode(code);
         if (coupon == null){
             throw new EntityNotFoundException(COUPON_NOT_EXIST);
         }
-        coupon.verify(LocalDate.now().atStartOfDay());
+        coupon.verify(today);
         return coupon;
     }
 
-    public Integer use(String couponCode) {
-        Coupon coupon = couponRepository.findByCode(couponCode);
+    public Integer use(String couponCode , LocalDateTime today) {
+        Coupon coupon = findCode(couponCode);
         if (coupon == null) return 0;
-        coupon.verify(LocalDate.now().atStartOfDay());
+        coupon.verify(today);
         coupon.use();
         return coupon.getRate();
     }

@@ -29,7 +29,7 @@ class CouponRepositoryTest {
         // when
         couponRepository.save(coupon);
 
-        Coupon findCoupon = couponRepository.findByCode("aaa-bbb");
+        Coupon findCoupon = couponRepository.findByCode("aaa-bbb").get();
 
         //then
         assertThat(findCoupon.getCode()).isEqualTo("aaa-bbb");

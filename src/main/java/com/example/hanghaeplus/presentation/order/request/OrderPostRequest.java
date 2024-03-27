@@ -10,21 +10,16 @@ import java.util.List;
 
 @Setter @Getter
 @NoArgsConstructor
-@Builder
+
 public class OrderPostRequest {
 
     List<OrderProductRequest> products;
     private Long userId;
     private String couponCode;
 
-    @Builder
-    private OrderPostRequest(List<OrderProductRequest> products, Long userId) {
-        this.products = products;
-        this.userId = userId;
-    }
 
     @Builder
-    public OrderPostRequest(List<OrderProductRequest> products, Long userId, String couponCode) {
+    private OrderPostRequest(List<OrderProductRequest> products, Long userId, String couponCode) {
         this.products = products;
         this.userId = userId;
         this.couponCode = couponCode;
