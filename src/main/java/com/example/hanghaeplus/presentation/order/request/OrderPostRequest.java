@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter @Getter
 @NoArgsConstructor
-
 public class OrderPostRequest {
 
     List<OrderProductRequest> products;
@@ -44,6 +44,13 @@ public class OrderPostRequest {
 
 
     public OrderCommand toCommand(){
-        return OrderCommand.of(userId,couponCode);
+        return OrderCommand.of(
+                userId
+                ,couponCode
+                ,products
+                        .stream()
+                        .map(OrderProductRequest::from)
+                        .collect(Collectors.toList())
+        );
     }
 }

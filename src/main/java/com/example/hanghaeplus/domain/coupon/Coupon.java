@@ -25,6 +25,8 @@ public class Coupon extends BaseEntity {
     private String code;
     private Integer rate;
     private LocalDateTime expirationPeriod;
+
+    @Enumerated(EnumType.STRING)
     private CouponState couponState;
 
     @Builder

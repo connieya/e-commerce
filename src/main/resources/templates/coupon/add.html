@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>쿠폰 등록</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>쿠폰 등록</h2>
+    <form th:action="@{/coupon/register}" method="post" th:object="${couponForm}">
+        <div class="form-group">
+            <label for="expirationPeriod">만료일:</label>
+            <input type="text" class="form-control" id="expirationPeriod" th:field="*{expirationPeriod}" required>
+        </div>
+        <div class="form-group">
+            <label for="rate">할인율:</label>
+            <input type="number" class="form-control" id="rate" th:field="*{rate}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">등록</button>
+        <button type="button" class="btn btn-secondary" th:onclick="|location.href='/'|">취소</button>
+    </form>
+</div>
+</body>
+</html>

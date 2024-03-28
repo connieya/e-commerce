@@ -3,16 +3,16 @@ package com.example.hanghaeplus.presentation.coupon.request;
 import com.example.hanghaeplus.domain.coupon.Coupon;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 
-@Setter
-@Getter
+@Setter @Getter
+@NoArgsConstructor
 public class CouponPostRequest {
 
     @JsonFormat(pattern = "yyyy-MM-dd")

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -46,8 +47,8 @@ public class CouponService {
     }
 
     public Integer use(String couponCode , LocalDateTime today) {
+        if (StringUtils.isEmpty(couponCode)) return 0;
         Coupon coupon = findCode(couponCode);
-        if (coupon == null) return 0;
         coupon.verify(today);
         coupon.use();
         return coupon.getRate();

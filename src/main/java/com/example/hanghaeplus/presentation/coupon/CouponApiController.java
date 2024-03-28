@@ -23,7 +23,7 @@ import static com.example.hanghaeplus.common.result.ResultCode.*;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/coupon")
-public class CouponController {
+public class CouponApiController {
 
     private final CouponService couponService;
     private final Logger LOGGER = LoggerFactory.getLogger(LogFilter.class);

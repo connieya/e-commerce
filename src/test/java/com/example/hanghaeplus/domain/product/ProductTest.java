@@ -1,7 +1,6 @@
 package com.example.hanghaeplus.domain.product;
 
 import com.example.hanghaeplus.application.product.command.ProductCreate;
-import com.example.hanghaeplus.fixture.ProductCategoryFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

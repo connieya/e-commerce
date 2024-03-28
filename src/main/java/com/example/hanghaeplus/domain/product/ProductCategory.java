@@ -30,4 +30,8 @@ public class ProductCategory {
     public static ProductCategory of(Long id , String name){
         return new ProductCategory(id,name);
     }
+
+    public static ProductCategory of(String name){
+        return new ProductCategory(null,name);
+    }
 }

@@ -17,7 +17,6 @@ import static com.example.hanghaeplus.domain.point.PointTransactionType.*;
 @NoArgsConstructor
 public class PointLine extends BaseEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "point_id")
