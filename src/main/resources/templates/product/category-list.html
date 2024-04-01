@@ -37,7 +37,7 @@
         </thead>
         <tbody>
         <!-- Iterate over the category list -->
-        <tr th:each="category : ${productCategory}">
+        <tr th:each="category : ${categoryList}">
             <td th:text="${category.id}">Category ID</td>
             <td th:text="${category.name}">Category Name</td>
         </tr>

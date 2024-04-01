@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.application.order;
+package com.example.hanghaeplus.application.order.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.infrastructure.order;
+package com.example.hanghaeplus.domain.order;
 
 import jakarta.persistence.Embeddable;
 

@@ -40,8 +40,10 @@ public class ProductService {
     }
 
     @Transactional
-    public void save(ProductCreate productCreate) {
-        Product product = Product.create(productCreate);
+    public void register(ProductCreate productCreate) {
+        ProductCategory productCategory = productCategoryRepository.findById(productCreate.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
+        Product product = Product.create(productCreate,productCategory);
         productRepository.save(product);
     }
 
