@@ -22,6 +22,7 @@ public class User extends BaseEntity {
     private Long id;
     private String name;
     private String email;
+    private String password;
     private String nickname;
     private Long point;
 
@@ -31,11 +32,12 @@ public class User extends BaseEntity {
 
 
     @Builder
-    private User(Long id, String name, String email, String nickname) {
+    private User(Long id, String name, String email, String nickname, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.nickname = nickname;
+        this.password = password;
         this.point = 0L;
     }
 
@@ -56,6 +58,16 @@ public class User extends BaseEntity {
                 .name(userCreate.getName())
                 .email(userCreate.getEmail())
                 .nickname(userCreate.getNickname())
+                .build();
+    }
+
+    public static User create(String name , String nickname , String email, String password){
+        return User
+                .builder()
+                .name(name)
+                .nickname(nickname)
+                .email(email)
+                .password(password)
                 .build();
     }
 

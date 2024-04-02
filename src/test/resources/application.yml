@@ -6,3 +6,10 @@ spring:
     active: test
   thymeleaf:
     prefix: classpath:/templates/
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  h2:
+    console:
+      enabled: true

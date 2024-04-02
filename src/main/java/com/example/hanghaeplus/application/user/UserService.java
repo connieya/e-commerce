@@ -7,6 +7,7 @@ import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.point.PointLineJpaRepository;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import com.example.hanghaeplus.application.user.command.UserRecharge;
+import com.example.hanghaeplus.infrastructure.user.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -24,6 +25,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PointLineJpaRepository pointRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public User findById(Long userId) {
@@ -38,14 +40,15 @@ public class UserService {
 
     @Transactional
     public void register(UserCreate userCreate) {
-        System.out.println("userCreate.getEmail() = " + userCreate.getEmail());
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            System.out.println("user.getEmail() = " + user.getEmail());
-        }
         checkUserDuplicate(userCreate);
-        User user = User.create(userCreate);
-        userRepository.save(user);
+        userRepository.save(
+                User.create(
+                        userCreate.getName(),
+                        userCreate.getNickname(),
+                        userCreate.getEmail(),
+                        passwordEncoder.encode(userCreate.getPassword())
+                )
+        );
     }
 
     private void checkUserDuplicate(UserCreate userCreate) {

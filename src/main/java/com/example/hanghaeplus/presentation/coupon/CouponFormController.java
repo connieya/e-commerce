@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.presentation;
+package com.example.hanghaeplus.presentation.coupon;
 
 import com.example.hanghaeplus.application.coupon.CouponService;
 import com.example.hanghaeplus.presentation.coupon.request.CouponPostRequest;

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 로그인 버튼을 오른쪽 상단에 위치시키기 위한 스타일 */
+        header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+        }
+
+        .custom-btn {
+            margin-left: 10px; /* 버튼 사이 간격 조절 */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <button class="btn btn-primary custom-btn" th:onclick="|location.href='/login'|">로그인</button>
+    </nav>
+</header>
+</body>
+</html>

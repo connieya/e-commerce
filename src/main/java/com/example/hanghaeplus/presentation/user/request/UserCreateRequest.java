@@ -11,12 +11,14 @@ public class UserCreateRequest {
 
     private String name;
     private String email;
+    private String password;
     private String nickname;
 
     public UserCreate toCommand() {
         return UserCreate.builder()
                 .email(email)
                 .nickname(nickname)
+                .password(password)
                 .name(name)
                 .build();
     }
