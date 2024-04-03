@@ -71,13 +71,14 @@ public class User extends BaseEntity {
                 .build();
     }
 
-    public static User create(Long id , String name , String nickname , String email){
+    public static User create(Long id , String name , String nickname , String email , String password){
         return User
                 .builder()
                 .id(id)
                 .name(name)
                 .nickname(nickname)
                 .email(email)
+                .password(password)
                 .build();
     }
 }

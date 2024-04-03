@@ -20,6 +20,7 @@ public enum ErrorCode {
     USER_EMAIL_ALREADY_EXIST(400, "U002", "이미 존재 하는 이메일 입니다."),
     USER_NICKNAME_ALREADY_EXIST(400, "U003", "이미 존재 하는 닉네임 입니다."),
     INSUFFICIENT_POINT(400,"U004","잔액이 부족 합니다"),
+    INVALID_PASSWORD(400,"U005","비밀번호가 일치하지 않습니다."),
 
     // Product
     PRODUCT_NOT_FOUND(400, "P001", "존재 하지 않는 상품입니다."),

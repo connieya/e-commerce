@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-4">로그인</h2>
+            <div class="form-group">
+                <label for="email">이메일:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="button" class="btn btn-primary" id="loginBtn">로그인</button>
+            <!-- "로그인" 버튼을 일반 버튼으로 설정하고 id를 부여 -->
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // "로그인" 버튼 클릭 시 실행되는 함수
+        document.getElementById('loginBtn').addEventListener('click', function () {
+            // 입력된 이메일과 비밀번호 가져오기
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            // POST 요청을 보낼 API 경로
+            var apiUrl = 'http://localhost:8080/api/user/login';
+
+            // 요청 본문 데이터 설정
+            var data = JSON.stringify({ email: email, password: password });
+
+            // fetch API를 사용하여 POST 요청 보내기
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('네트워크 응답이 실패하였습니다.');
+                })
+                .then(data => {
+                    // 요청이 성공했을 때 실행되는 부분
+                    console.log('로그인 성공:', data);
+                    // 여기에 로그인 성공 시 실행할 작업 추가
+                })
+                .catch(error => {
+                    // 요청이 실패했을 때 실행되는 부분
+                    console.error('로그인 실패:', error.message);
+                    // 여기에 로그인 실패 시 실행할 작업 추가
+                });
+        });
+    });
+</script>
+</body>
+</html>

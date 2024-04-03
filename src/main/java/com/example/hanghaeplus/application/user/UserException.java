@@ -5,8 +5,15 @@ import com.example.hanghaeplus.common.error.exception.BusinessException;
 
 public class UserException {
 
-    public static class InsufficientPointsException  extends BusinessException {
+    public static class InsufficientPointsException extends BusinessException {
         public InsufficientPointsException(ErrorCode errorCode) {
+            super(errorCode);
+        }
+    }
+
+    public static class InValidPasswordException extends BusinessException {
+
+        public InValidPasswordException(ErrorCode errorCode) {
             super(errorCode);
         }
     }

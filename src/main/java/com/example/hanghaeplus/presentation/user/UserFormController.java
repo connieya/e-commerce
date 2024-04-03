@@ -56,6 +56,11 @@ public class UserFormController {
         return "redirect:/";
     }
 
+    @GetMapping("/login")
+    public String loginForm(){
+        return "user/login";
+    }
+
 
 
 }

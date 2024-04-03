@@ -1,13 +1,16 @@
 package com.example.hanghaeplus.application.user;
 
+import com.example.hanghaeplus.common.auth.JwtProvider;
 import com.example.hanghaeplus.common.error.exception.EntityAlreadyExistException;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.point.PointLine;
 import com.example.hanghaeplus.domain.user.User;
+import com.example.hanghaeplus.domain.user.UserTokens;
 import com.example.hanghaeplus.infrastructure.point.PointLineJpaRepository;
 import com.example.hanghaeplus.application.user.command.UserCreate;
 import com.example.hanghaeplus.application.user.command.UserRecharge;
 import com.example.hanghaeplus.infrastructure.user.PasswordEncoder;
+import com.example.hanghaeplus.presentation.user.request.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.example.hanghaeplus.application.user.UserException.*;
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
 
 @Service
@@ -26,17 +30,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PointLineJpaRepository pointRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Transactional(readOnly = true)
-    public User findById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
-    }
-
-    @Transactional(readOnly = true)
-    public User findByIdPessimisticLock(Long userId){
-        return userRepository.findByIdPessimisticLock(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
-    }
-
+    private final JwtProvider jwtProvider;
 
     @Transactional
     public void register(UserCreate userCreate) {
@@ -50,6 +44,30 @@ public class UserService {
                 )
         );
     }
+
+    public UserTokens login(LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+        if (!passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())){
+            throw new InValidPasswordException(INVALID_PASSWORD);
+        }
+        return jwtProvider.generateToken(user.getEmail());
+    }
+
+
+    @Transactional(readOnly = true)
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public User findByIdPessimisticLock(Long userId){
+        return userRepository.findByIdPessimisticLock(userId).orElseThrow(()-> new EntityNotFoundException(USER_NOT_FOUND));
+    }
+
+
+
+
 
     private void checkUserDuplicate(UserCreate userCreate) {
         if (userRepository.findByEmail(userCreate.getEmail()).isPresent()) {
@@ -83,4 +101,6 @@ public class UserService {
     public List<User> findAll() {
        return userRepository.findAll();
     }
+
+
 }

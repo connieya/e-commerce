@@ -30,7 +30,7 @@ class UserTest {
     @Test
     void rechargePoint(){
         // given
-        User user = User.create(2L, "건희", "geonhee", "geonhee@nate.com");
+        User user = User.create(2L, "건희", "geonhee", "geonhee@nate.com","1234");
         // when
         user.rechargePoint(1000L);
         //then
