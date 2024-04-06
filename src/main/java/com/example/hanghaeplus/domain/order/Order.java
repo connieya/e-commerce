@@ -37,8 +37,8 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderLine> orderLines;
 
-    @Embedded
-    private ShippingInfo shippingInfo;
+//    @Embedded
+//    private ShippingInfo shippingInfo;
 
     private OrderStatus orderStatus;
 

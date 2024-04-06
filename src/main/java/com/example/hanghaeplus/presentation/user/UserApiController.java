@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.presentation.user;
 
 import com.example.hanghaeplus.domain.user.User;
+import com.example.hanghaeplus.domain.user.UserTokens;
 import com.example.hanghaeplus.presentation.user.request.LoginRequest;
 import com.example.hanghaeplus.presentation.user.request.UserRechargeRequest;
 import com.example.hanghaeplus.presentation.user.request.UserCreateRequest;
@@ -9,8 +10,11 @@ import com.example.hanghaeplus.application.user.UserService;
 import com.example.hanghaeplus.presentation.user.response.UserPointResponse;
 import com.example.hanghaeplus.presentation.user.response.UserResponse;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,21 +23,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.hanghaeplus.common.result.ResultCode.*;
+import static org.springframework.http.HttpHeaders.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
 @Slf4j
 public class UserApiController {
-
+    private static final int COOKIE_AGE_SECONDS = 604800;
     private final UserService userService;
 
     @ApiOperation("로그인")
     @PostMapping("/login")
-    public ResponseEntity<ResultResponse> login(@RequestBody LoginRequest loginRequest) {
-        log.info("email = {}  , password = {} ",loginRequest.getEmail(), loginRequest.getPassword());
-        userService.login(loginRequest);
-        return null;
+    public ResponseEntity<ResultResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse
+            response) {
+        log.info("email = {}  , password = {} ", loginRequest.getEmail(), loginRequest.getPassword());
+        UserTokens tokens = userService.login(loginRequest);
+        final ResponseCookie cookie = ResponseCookie.from("refresh-token", tokens.getRefreshToken())
+                .maxAge(COOKIE_AGE_SECONDS)
+                .sameSite("None")
+                .secure(true)
+                .httpOnly(true)
+                .path("/")
+                .build();
+        response.addHeader(SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok(ResultResponse.of(USER_LIST_GET_SUCCESS, tokens));
     }
 
     @ApiOperation("유저 등록 API")

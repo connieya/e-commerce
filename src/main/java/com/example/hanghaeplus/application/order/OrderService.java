@@ -1,6 +1,7 @@
 package com.example.hanghaeplus.application.order;
 
 import com.example.hanghaeplus.application.order.event.OrderEvent;
+import com.example.hanghaeplus.domain.order.OrderLine;
 import com.example.hanghaeplus.infrastructure.order.OrderJpaRepository;
 import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.domain.order.Order;
@@ -40,10 +41,20 @@ public class OrderService {
         User user = userService.findUser(orderCommand.getUserId());
         productService.deduct(orderCommand);
         Integer rate = couponService.use(orderCommand.getCouponCode(), LocalDateTime.now());
-        Order order = Order.create(user, orderCommand.getOrderProducts() ,rate);
+        Order order = Order.create(user, orderCommand.getOrderProducts(), rate);
         orderRepository.save(order);
         publisher.publishEvent(new OrderEvent(this, order));
         return order;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Order> getOrderList(){
+        return orderRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderLine> getOrderLineList() {
+        return orderLineRepository.findAll();
     }
 
     @Cacheable("rank_product")
@@ -57,7 +68,7 @@ public class OrderService {
 
     @Scheduled(cron = "0 0 0 * * *")
     @CacheEvict("rank_product")
-    public void evictRankProduct(){
+    public void evictRankProduct() {
 
     }
 }

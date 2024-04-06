@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 목록</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>주문 목록</h2>
+    <div>
+        <button class="btn btn-primary" th:onclick="|location.href='/'|">돌아가기</button>
+    </div>
+    <table class="table table-bordered mt-4">
+        <thead>
+        <tr>
+            <th>주문 ID</th>
+            <th>사용자 ID</th>
+            <th>사용자 이름</th>
+            <th>총 가격</th>
+            <th>할인 가격</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over the order list -->
+        <tr th:each="order : ${orderList}">
+            <td th:text="${order.id}">주문 ID</td>
+            <td th:text="${order.userId}">사용자 ID</td>
+            <td th:text="${order.userName}">사용자 이름</td>
+            <td th:text="${order.totalPrice}">총 가격</td>
+            <td th:text="${order.discountPrice}">할인 가격</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

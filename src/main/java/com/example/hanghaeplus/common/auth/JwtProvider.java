@@ -17,13 +17,11 @@ import java.util.Date;
 public class JwtProvider {
 
     private final SecretKey secretKey;
-    private final Long accessExpirationTime;
-    private final Long refreshExpirationTime;
+    private final Long accessExpirationTime = 60L *30L;
+    private final Long refreshExpirationTime = 60 * 60 ^ 24 * 14L;
 
-    public JwtProvider(@Value("${security.jwt.secret-key}") final String secretKey, @Value("${security.jwt.access-expiration-time") final Long accessExpirationTime, @Value("${security.jwt.refresh-expiration-time}") final Long refreshExpirationTime) {
+    public JwtProvider(@Value("${security.jwt.secret-key}") final String secretKey) {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        this.accessExpirationTime = accessExpirationTime;
-        this.refreshExpirationTime = refreshExpirationTime;
     }
 
     public UserTokens generateToken(final String subject) {
@@ -34,11 +32,12 @@ public class JwtProvider {
 
     private String createToken(final String subject , final  Long validityInMilliseconds){
         final Date now = new Date();
-        final  Date validity = new Date(now.getTime() + validityInMilliseconds);
+        final Date validity = new Date(now.getTime() + validityInMilliseconds);
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE,Header.JWT_TYPE)
                 .setSubject(subject)
                 .setIssuedAt(now)
+                .setExpiration(validity)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }

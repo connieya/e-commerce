@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.example.hanghaeplus.common.error.ErrorCode.*;
 
@@ -22,9 +23,8 @@ public class CouponService {
     private final Logger LOGGER = LoggerFactory.getLogger(LogFilter.class);
     private final CouponRepository couponRepository;
 
-    public void findAll() {
-        String traceId = MDC.get("traceId");
-        LOGGER.info("[{}] CouponService", traceId);
+    public List<Coupon> findAll() {
+        return couponRepository.findAll();
     }
 
     public void save(Coupon coupon) {

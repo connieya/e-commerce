@@ -9,4 +9,6 @@ public interface OrderRepository {
     Order save(Order order);
 
     List<Order> saveAll(List<Order> orders);
+
+    List<Order> findAll();
 }

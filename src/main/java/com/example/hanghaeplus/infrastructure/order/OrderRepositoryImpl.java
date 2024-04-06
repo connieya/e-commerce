@@ -22,4 +22,9 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<Order> saveAll(List<Order> orders) {
         return orderJpaRepository.saveAll(orders);
     }
+
+    @Override
+    public List<Order> findAll() {
+        return orderJpaRepository.findAll();
+    }
 }

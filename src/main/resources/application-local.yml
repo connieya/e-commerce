@@ -38,7 +38,6 @@ spring:
 security:
   jwt:
     secret-key: 7YG066aw7L2U65Oc7JmAIO2FjOyKpO2KuOy9lOuTnOulvCDsgqzrnpHtlZjripQgMuuFhOywqCDrsLHsl5Trk5wg6rCc67Cc7J6QIOuwleqxtO2drCDsnoXri4jri6Qu
-    access-expiration-time : 60 * 30
-    refresh-expiration-time : 60 * 60 * 24 * 14
+
 
 

@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.domain.order;
 
+import com.example.hanghaeplus.infrastructure.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
-public class OrderLine {
+public class OrderLine extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
