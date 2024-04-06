@@ -62,6 +62,7 @@ public class Order extends BaseEntity {
         this.orderLines = getOrderProducts(products);
         this.totalPrice = totalPrice;
         this.discountPrice = totalPrice * rate / 100;
+        this.user.deductPoints(totalPrice-discountPrice);
     }
 
     private List<OrderLine> getOrderProducts(List<OrderProductCommand> products) {

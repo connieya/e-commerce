@@ -7,6 +7,7 @@ import com.example.hanghaeplus.domain.order.OrderLine;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.application.user.command.UserCreate;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,12 +15,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderTest {
-
 
     @DisplayName("주문한 상품 들의 총 가격을 구한다.")
     @Test
@@ -56,6 +57,7 @@ public class OrderTest {
                 .build();
 
         User user = User.create(userCreate);
+        user.rechargePoint(10000L);
 
         OrderProductCommand orderProductCommand1 = OrderProductCommand.of(onion.getId(), 1L, onion.getPrice());
         OrderProductCommand orderProductCommand2 = OrderProductCommand.of(carrot.getId(), 2L, carrot.getPrice());
@@ -93,5 +95,22 @@ public class OrderTest {
                         tuple(2L,2L,2000L),
                         tuple(3L,2L,5000L)
                 );
+    }
+
+    @Test
+    @DisplayName("주문을 한 뒤 유저의 포인트를 차감한다.")
+    void deductUserPointAfterOrder() {
+        // given
+        User user = User.create(1L, "박건희", "pgh", "gunny6026@naver.com", "1234");
+        user.rechargePoint(50000L);
+
+        List<OrderProductCommand> orderProductCommands = List.of(
+                OrderProductCommand.of(1L, 3L, 5000L),
+                OrderProductCommand.of(2L, 2L, 2000L)
+        );
+        // when
+        Order.create(user, orderProductCommands, 10);
+        // then
+        assertThat(user.getPoint()).isEqualTo(32900L);
     }
 }

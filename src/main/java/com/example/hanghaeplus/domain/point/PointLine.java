@@ -19,7 +19,7 @@ public class PointLine extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "point_id")
+    @Column(name = "point_line_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

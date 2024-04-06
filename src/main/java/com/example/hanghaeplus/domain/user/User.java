@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.domain.user;
 
+import com.example.hanghaeplus.domain.point.PointLine;
 import com.example.hanghaeplus.infrastructure.common.BaseEntity;
 import com.example.hanghaeplus.application.user.UserException;
 import com.example.hanghaeplus.application.user.command.UserCreate;
