@@ -156,15 +156,18 @@ src
        ├──example
           ├──hanghaeplus
             ├─ application
+            ├──common
+              ├── builder
+              ├── fixture
             ├──domain
-            ├──fixture
             ├──infrastructure
             ├──medium
             ├──presentation
 ```
 
-- fixture 
-  - 테스트 코드 작성 시 필요한 객체를 정의 한다. 
+- common
+  - builder : 테스드 데이터를 생성 한다.
+  - fixture : 테스트 코드 작성 시 필요한 객체를 정의 한다. 
 - application
   - Repository 클래스를 Mocking 하여 테스트 코드를 작성 한다.
 - domain

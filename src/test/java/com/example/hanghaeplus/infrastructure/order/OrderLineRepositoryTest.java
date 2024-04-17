@@ -1,154 +1,96 @@
 package com.example.hanghaeplus.infrastructure.order;
 
-import com.example.hanghaeplus.application.product.ProductCategoryRepository;
+import com.example.hanghaeplus.application.order.command.OrderCommand;
+import com.example.hanghaeplus.application.order.command.OrderProductCommand;
+import com.example.hanghaeplus.common.RepositoryTest;
 import com.example.hanghaeplus.domain.order.OrderLine;
 import com.example.hanghaeplus.domain.product.ProductCategory;
-import com.example.hanghaeplus.fixture.ProductCategoryFixture;
-import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
-import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
+import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
 import com.example.hanghaeplus.domain.product.Product;
-import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.infrastructure.product.response.OrderProductResponse;
-import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
 import com.example.hanghaeplus.application.order.OrderService;
-import com.example.hanghaeplus.application.product.command.ProductCreate;
-import com.example.hanghaeplus.application.user.command.UserCreate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
+import static com.example.hanghaeplus.common.fixture.ProductCategoryFixture.*;
+import static com.example.hanghaeplus.common.fixture.UserFixture.*;
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
-class OrderLineRepositoryTest {
 
-    @Autowired
-    private UserJpaRepository userRepository;
-
-    @Autowired
-    private ProductJpaRepository productRepository;
-
-    @Autowired
-    private OrderLineRepository orderLineRepository;
-
-    @Autowired
-    private ProductCategoryRepository productCategoryRepository;
+class OrderLineRepositoryTest extends RepositoryTest {
 
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private OrderLineRepository orderLineRepository;
 
-    Product productOnion;
-    Product productPotato;
-    Product productCarrot;
-    Product productMushroom;
-    Product productSweetPotato;
 
-    OrderPostRequest orderPostRequest1;
-    OrderPostRequest orderPostRequest2;
-    OrderPostRequest orderPostRequest3;
-    OrderPostRequest orderPostRequest4;
+    Product ONION;
+    Product POTATO;
+    Product CARROT;
+    Product MUSHROOM;
+    Product SWEET_POTATO;
 
     @BeforeEach
     void setUp() {
 
-        UserCreate userCreate = UserCreate
-                .builder()
-                .name("건희")
-                .build();
-        User user = User.create(userCreate);
-        userRepository.save(user);
+        User user = testFixtureBuilder.buildUser(CONY());
 
-        ProductCreate productCreateOnion = ProductCreate
-                .builder()
-                .name("양파")
-                .price(1000L)
-                .quantity(300L)
-                .build();
 
-        ProductCreate productCreatePotato = ProductCreate
-                .builder()
-                .name("감자")
-                .price(2000L)
-                .quantity(300L)
-                .build();
-        ProductCreate productCreateCarrot = ProductCreate
-                .builder()
-                .name("당근")
-                .price(3000L)
-                .quantity(300L)
-                .build();
-        ProductCreate productCreateMushroom = ProductCreate
-                .builder()
-                .name("버섯")
-                .price(5000L)
-                .quantity(300L)
-                .build();
-        ProductCreate productCreateSweetPotato = ProductCreate
-                .builder()
-                .name("고구마")
-                .price(2000L)
-                .quantity(300L)
-                .build();
+        ProductCategory FOOD = testFixtureBuilder.buildProductCategory(FOOD());
 
-        ProductCategory food = ProductCategory.of("식품");
 
-        productCategoryRepository.save(food);
+        ONION = Product.of("양파", 1000L, 300L, FOOD);
+        POTATO = Product.of("감자", 2000L, 300L, FOOD);
+        CARROT = Product.of("당근", 3000L, 300L, FOOD);
+        MUSHROOM = Product.of("버섯", 5000L, 300L, FOOD);
+        SWEET_POTATO = Product.of("고구마", 2000L, 300L, FOOD);
 
-        productOnion = Product.create(productCreateOnion, food);
-        productPotato = Product.create(productCreatePotato, food);
-        productCarrot = Product.create(productCreateCarrot, food);
-        productMushroom = Product.create(productCreateMushroom, food);
-        productSweetPotato = Product.create(productCreateSweetPotato, food);
-
-        productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom, productSweetPotato));
+        testFixtureBuilder.buildProducts(List.of(ONION, POTATO, CARROT, MUSHROOM, SWEET_POTATO));
 
         // 주문 1
-        OrderProductRequest request1_1 = OrderProductRequest.of(productOnion.getId(), 5L, productOnion.getPrice());
-        OrderProductRequest request1_2 = OrderProductRequest.of(productPotato.getId(), 10L, productPotato.getPrice());
-        OrderProductRequest request1_3 = OrderProductRequest.of(productCarrot.getId(), 5L, productCarrot.getPrice());
+        OrderProductCommand request1_1 = OrderProductCommand.of(ONION.getId(), 5L);
+        OrderProductCommand request1_2 = OrderProductCommand.of(POTATO.getId(), 10L);
+        OrderProductCommand request1_3 = OrderProductCommand.of(CARROT.getId(), 5L);
 
-        List<OrderProductRequest> requests1 = List.of(request1_1, request1_2, request1_3);
+        List<OrderProductCommand> requests1 = List.of(request1_1, request1_2, request1_3);
 
 
         // 주문 2
-        OrderProductRequest request2_1 = OrderProductRequest.of(productCarrot.getId(), 5L,productCarrot.getPrice());
-        OrderProductRequest request2_2 = OrderProductRequest.of(productPotato.getId(), 5L,productPotato.getPrice());
+        OrderProductCommand request2_1 = OrderProductCommand.of(CARROT.getId(), 5L);
+        OrderProductCommand request2_2 = OrderProductCommand.of(POTATO.getId(), 5L);
 
-        List<OrderProductRequest> requests2 = List.of(request2_1, request2_2);
+        List<OrderProductCommand> requests2 = List.of(request2_1, request2_2);
 
 
         // 주문 3
-        OrderProductRequest request3_1 = OrderProductRequest.of(productCarrot.getId(), 5L , productCarrot.getPrice());
-        OrderProductRequest request3_2 = OrderProductRequest.of(productOnion.getId(), 5L , productOnion.getPrice());
+        OrderProductCommand request3_1 = OrderProductCommand.of(CARROT.getId(), 5L);
+        OrderProductCommand request3_2 = OrderProductCommand.of(ONION.getId(), 5L);
 
-        List<OrderProductRequest> requests3 = List.of(request3_1, request3_2);
+        List<OrderProductCommand> requests3 = List.of(request3_1, request3_2);
 
         // 주문 4
-        OrderProductRequest request4_1 = OrderProductRequest.of(productMushroom.getId(), 5L, productMushroom.getPrice());
-        OrderProductRequest request4_2 = OrderProductRequest.of(productOnion.getId(), 5L ,productOnion.getPrice());
-        OrderProductRequest request4_3 = OrderProductRequest.of(productCarrot.getId(), 5L , productCarrot.getPrice());
+        OrderProductCommand request4_1 = OrderProductCommand.of(MUSHROOM.getId(), 5L);
+        OrderProductCommand request4_2 = OrderProductCommand.of(ONION.getId(), 5L);
+        OrderProductCommand request4_3 = OrderProductCommand.of(CARROT.getId(), 5L);
 
-        List<OrderProductRequest> requests4 = List.of(request4_1, request4_2, request4_3);
+        List<OrderProductCommand> requests4 = List.of(request4_1, request4_2, request4_3);
 
 
         // when
-        orderPostRequest1 = OrderPostRequest.of(user.getId(), requests1);
-        orderPostRequest2 = OrderPostRequest.of(user.getId(), requests2);
-        orderPostRequest3 = OrderPostRequest.of(user.getId(), requests3);
-        orderPostRequest4 = OrderPostRequest.of(user.getId(), requests4);
+        OrderCommand orderCommand1 = OrderCommand.of(user.getId(), "", requests1);
+        OrderCommand orderCommand2 = OrderCommand.of(user.getId(), "", requests2);
+        OrderCommand orderCommand3 = OrderCommand.of(user.getId(), "", requests3);
+        OrderCommand orderCommand4 = OrderCommand.of(user.getId(), "", requests4);
 
-        orderService.create(orderPostRequest1.toCommand());
-        orderService.create(orderPostRequest2.toCommand());
-        orderService.create(orderPostRequest3.toCommand());
-        orderService.create(orderPostRequest4.toCommand());
+        orderService.create(orderCommand1);
+        orderService.create(orderCommand2);
+        orderService.create(orderCommand3);
+        orderService.create(orderCommand4);
     }
 
 
@@ -201,9 +143,9 @@ class OrderLineRepositoryTest {
         List<Long> top3ProductIds = orderLineRepository.findTop3ProductIdsByCount();
 
         //then
-        assertThat(top3ProductIds.get(0)).isEqualTo(productCarrot.getId());
-        assertThat(top3ProductIds.get(1)).isEqualTo(productOnion.getId());
-        assertThat(top3ProductIds.get(2)).isEqualTo(productPotato.getId());
+        assertThat(top3ProductIds.get(0)).isEqualTo(CARROT.getId());
+        assertThat(top3ProductIds.get(1)).isEqualTo(ONION.getId());
+        assertThat(top3ProductIds.get(2)).isEqualTo(POTATO.getId());
 
     }
 

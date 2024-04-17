@@ -47,7 +47,7 @@ public class ProductService {
         ProductCategory productCategory = productCategoryRepository.findById(productCreate.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
 
-        Product product = Product.create(productCreate,productCategory);
+        Product product = Product.of(productCreate,productCategory);
 
         productRepository.save(product);
     }

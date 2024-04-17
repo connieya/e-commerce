@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
+import static com.example.hanghaeplus.common.fixture.ProductCategoryFixture.*;
 
 @SpringBootTest
 @Slf4j
@@ -67,9 +67,9 @@ public class OrderServiceTest {
                 .quantity(20L)
                 .build();
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato, FOOD);
-        Product productCarrot = Product.create(productCreateCarrot, FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato, FOOD);
+        Product productCarrot = Product.of(productCreateCarrot, FOOD);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
@@ -131,9 +131,9 @@ public class OrderServiceTest {
                 .build();
 
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato, FOOD);
-        Product productCarrot = Product.create(productCreateCarrot, FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato, FOOD);
+        Product productCarrot = Product.of(productCreateCarrot, FOOD);
 
         List<Product> products = List.of(productOnion, productPotato, productCarrot);
 
@@ -192,9 +192,9 @@ public class OrderServiceTest {
                 .build();
 
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato, FOOD);
-        Product productCarrot = Product.create(productCreateCarrot, FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato, FOOD);
+        Product productCarrot = Product.of(productCreateCarrot, FOOD);
 
         List<Product> products = List.of(productOnion, productPotato, productCarrot);
 
@@ -256,9 +256,9 @@ public class OrderServiceTest {
                 .quantity(5L)
                 .build();
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato, FOOD);
-        Product productCarrot = Product.create(productCreateCarrot, FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato, FOOD);
+        Product productCarrot = Product.of(productCreateCarrot, FOOD);
 
         List<Product> products = List.of(productOnion, productPotato, productCarrot);
 
@@ -326,9 +326,9 @@ public class OrderServiceTest {
                 .build();
 
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato, FOOD);
-        Product productCarrot = Product.create(productCreateCarrot, FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato, FOOD);
+        Product productCarrot = Product.of(productCreateCarrot, FOOD);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
@@ -414,9 +414,9 @@ public class OrderServiceTest {
                 .build();
 
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato, FOOD);
-        Product productCarrot = Product.create(productCreateCarrot, FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato, FOOD);
+        Product productCarrot = Product.of(productCreateCarrot, FOOD);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));
@@ -600,10 +600,10 @@ public class OrderServiceTest {
                 .quantity(30L)
                 .build();
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato, FOOD);
-        Product productCarrot = Product.create(productCreateCarrot, FOOD);
-        Product productMushroom = Product.create(productCreateMushroom, FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato, FOOD);
+        Product productCarrot = Product.of(productCreateCarrot, FOOD);
+        Product productMushroom = Product.of(productCreateMushroom, FOOD);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot, productMushroom));

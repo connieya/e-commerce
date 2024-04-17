@@ -18,12 +18,12 @@ public class OrderCommand {
         this.couponCode = couponCode;
     }
 
-    public static OrderCommand of(Long userId, String couponCode, List<OrderProductCommand> orderProducts){
+    public static OrderCommand of(Long userId, String couponCode, List<OrderProductCommand> orderProductCommands){
         return OrderCommand.
                 builder()
                 .userId(userId)
                 .couponCode(couponCode)
-                .orderProducts(orderProducts)
+                .orderProducts(orderProductCommands)
                 .build();
     }
 }

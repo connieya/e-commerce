@@ -1,7 +1,6 @@
 package com.example.hanghaeplus.application.order;
 
 import com.example.hanghaeplus.domain.product.Product;
-import com.example.hanghaeplus.fixture.ProductCategoryFixture;
 import com.example.hanghaeplus.infrastructure.product.ProductJpaRepository;
 import com.example.hanghaeplus.domain.user.User;
 import com.example.hanghaeplus.infrastructure.user.UserJpaRepository;
@@ -16,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
+import static com.example.hanghaeplus.common.fixture.ProductCategoryFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -66,9 +65,9 @@ class DataPlatformServiceTest {
                 .quantity(20L)
                 .build();
 
-        Product productOnion = Product.create(productCreateOnion, FOOD);
-        Product productPotato = Product.create(productCreatePotato,FOOD);
-        Product productCarrot = Product.create(productCreateCarrot,FOOD);
+        Product productOnion = Product.of(productCreateOnion, FOOD);
+        Product productPotato = Product.of(productCreatePotato,FOOD);
+        Product productCarrot = Product.of(productCreateCarrot,FOOD);
 
 
         productRepository.saveAll(List.of(productOnion, productPotato, productCarrot));

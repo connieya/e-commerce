@@ -6,10 +6,7 @@ import com.example.hanghaeplus.application.product.ProductRepository;
 import com.example.hanghaeplus.application.user.UserService;
 import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.domain.product.Product;
-import com.example.hanghaeplus.fixture.CouponFixture;
-import com.example.hanghaeplus.fixture.UserFixture;
 import com.example.hanghaeplus.infrastructure.coupon.CouponRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,10 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.example.hanghaeplus.fixture.CouponFixture.*;
-import static com.example.hanghaeplus.fixture.UserFixture.*;
+import static com.example.hanghaeplus.common.fixture.CouponFixture.*;
+import static com.example.hanghaeplus.common.fixture.UserFixture.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,7 +47,7 @@ class OrderServiceTest {
         given(couponRepository.findByCode("aaaa-bbbb-cccc"))
                 .willReturn(Optional.of(COUPON_1));
 
-        Product product = Product.create(1L, "감자", 5000L, 50L);
+        Product product = Product.of(1L, "감자", 5000L, 50L);
         OrderProductCommand orderProductCommand = OrderProductCommand.of(1L, 10L);
         List<OrderProductCommand> orderProducts = List.of(orderProductCommand);
 

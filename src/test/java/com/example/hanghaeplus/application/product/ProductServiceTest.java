@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.hanghaeplus.fixture.ProductFixture.*;
+import static com.example.hanghaeplus.common.fixture.ProductFixture.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
@@ -48,7 +48,7 @@ class ProductServiceTest {
     void findProduct() {
         // given
         given(productRepository.findById(1L))
-                .willReturn(Optional.of(PRODUCT_1));
+                .willReturn(Optional.of(CLEAN_CODE_BOOK));
         // when , then
         Product product = productService.findProduct(1L);
 
@@ -64,13 +64,13 @@ class ProductServiceTest {
     void findAllByOrderCommand() {
         // given
         List<OrderProductCommand> orderProductCommands = List.of(
-                OrderProductCommand.of(PRODUCT_2.getId(), 10L)
-                , OrderProductCommand.of(PRODUCT_3.getId(), 5L)
-                , OrderProductCommand.of(PRODUCT_4.getId(), 15L)
+                OrderProductCommand.of(OOP_BOOK.getId(), 10L)
+                , OrderProductCommand.of(TDD_BOOK.getId(), 5L)
+                , OrderProductCommand.of(CLEAN_ARCHITECTURE_BOOK.getId(), 15L)
 
         );
         given(productRepository.findAllByPessimisticLock(List.of(2L, 3L, 4L)))
-                .willReturn(List.of(PRODUCT_2, PRODUCT_3, PRODUCT_4));
+                .willReturn(List.of(OOP_BOOK, TDD_BOOK, CLEAN_ARCHITECTURE_BOOK));
         // when
         List<Product> products = productService.findAllByOrderCommand(orderProductCommands);
 
@@ -88,9 +88,9 @@ class ProductServiceTest {
     @Test
     void deduct() {
         // given
-        Product product1 = Product.create(1L, "휴지", 5000L, 100L);
-        Product product2 = Product.create(2L, "스팸", 3000L, 100L);
-        Product product3 = Product.create(3L, "마우스", 14000L, 100L);
+        Product product1 = Product.of(1L, "휴지", 5000L, 100L);
+        Product product2 = Product.of(2L, "스팸", 3000L, 100L);
+        Product product3 = Product.of(3L, "마우스", 14000L, 100L);
         List<OrderProductCommand> orderProductCommands = List.of(
                 OrderProductCommand.of(1L, 10L)
                 , OrderProductCommand.of(2L, 5L)
@@ -118,7 +118,7 @@ class ProductServiceTest {
     @Test
     void addQuantity(){
         // given
-        Product product = Product.create(100L, "충전기", 1000L, 50L);
+        Product product = Product.of(100L, "충전기", 1000L, 50L);
         given(productRepository.findById(100L))
                 .willReturn(Optional.of(product));
         // when

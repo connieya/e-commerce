@@ -1,9 +1,13 @@
-package com.example.hanghaeplus.fixture;
+package com.example.hanghaeplus.common.fixture;
 
 import com.example.hanghaeplus.domain.user.User;
 
 public class UserFixture {
 
+
+    /*
+       Entity
+    * */
     public static final User CONY = User.create(
             1L
             ,"박건희"
@@ -27,4 +31,10 @@ public class UserFixture {
             ,"lee@gmail.com"
             ,"1234"
     );
+
+    public static User CONY() {
+        return User.create("건희","cony","gunny6026@naver.com","1234");
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.fixture;
+package com.example.hanghaeplus.common.fixture;
 
 import com.example.hanghaeplus.domain.coupon.Coupon;
 

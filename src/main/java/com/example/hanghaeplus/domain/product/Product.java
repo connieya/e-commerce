@@ -54,7 +54,7 @@ public class Product extends BaseEntity {
         this.productCategory = productCategory;
     }
 
-    public static Product create(ProductCreate productCreate, ProductCategory productCategory) {
+    public static Product of(ProductCreate productCreate, ProductCategory productCategory) {
         return Product
                 .builder()
                 .name(productCreate.getName())
@@ -64,13 +64,33 @@ public class Product extends BaseEntity {
                 .build();
     }
 
-    public static Product create(Long id, String name, Long price, Long quantity) {
+    public static Product of(Long id, String name, Long price, Long quantity) {
         return Product
                 .builder()
                 .id(id)
                 .name(name)
                 .price(price)
                 .quantity(quantity)
+                .build();
+    }
+
+    public static Product of(String name, Long price, Long quantity) {
+        return Product
+                .builder()
+                .name(name)
+                .price(price)
+                .quantity(quantity)
+                .build();
+    }
+
+
+    public static Product of(String name, Long price, Long quantity ,ProductCategory productCategory) {
+        return Product
+                .builder()
+                .name(name)
+                .price(price)
+                .quantity(quantity)
+                .productCategory(productCategory)
                 .build();
     }
 

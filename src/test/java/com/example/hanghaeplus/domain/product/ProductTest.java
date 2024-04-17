@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.example.hanghaeplus.application.order.OrderException.*;
-import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
+import static com.example.hanghaeplus.common.fixture.ProductCategoryFixture.*;
 import static org.assertj.core.api.Assertions.*;
 
 class ProductTest {
@@ -21,7 +21,7 @@ class ProductTest {
                 .quantity(10L)
                 .build();
 
-        Product product = Product.create(productCreate, FOOD);
+        Product product = Product.of(productCreate, FOOD);
         Long orderQuantity = 11L;
 
         // when
@@ -41,7 +41,7 @@ class ProductTest {
                 .quantity(10L)
                 .price(2000L)
                 .build();
-        Product product = Product.create(productCreate,FOOD);
+        Product product = Product.of(productCreate,FOOD);
         Long orderQuantity = 5L;
         // when
         product.deductQuantity(orderQuantity);
@@ -59,7 +59,7 @@ class ProductTest {
                 .quantity(10L)
                 .price(2000L)
                 .build();
-        Product product = Product.create(productCreate,FOOD);
+        Product product = Product.of(productCreate,FOOD);
         Long orderQuantity = 11L;
         // when
         //then

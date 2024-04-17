@@ -2,7 +2,6 @@ package com.example.hanghaeplus.infrastructure.product;
 
 import com.example.hanghaeplus.application.product.command.ProductCreate;
 import com.example.hanghaeplus.domain.product.Product;
-import com.example.hanghaeplus.fixture.ProductCategoryFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
+import static com.example.hanghaeplus.common.fixture.ProductCategoryFixture.*;
 import static org.assertj.core.api.Assertions.*;
 
 
@@ -36,7 +35,7 @@ class ProductRepositoryTest {
                 .quantity(130L)
                 .build();
 
-        Product product = Product.create(productCreate, FOOD);
+        Product product = Product.of(productCreate, FOOD);
         savedProduct = productRepository.save(product);
     }
 
@@ -51,7 +50,7 @@ class ProductRepositoryTest {
                 .build();
 
 
-        Product product = Product.create(productCreate,FOOD);
+        Product product = Product.of(productCreate,FOOD);
 
         // when
         Product savedProduct = productRepository.save(product);

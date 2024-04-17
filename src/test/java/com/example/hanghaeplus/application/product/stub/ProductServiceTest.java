@@ -2,7 +2,6 @@ package com.example.hanghaeplus.application.product.stub;
 
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
 import com.example.hanghaeplus.application.product.ProductService;
-import com.example.hanghaeplus.fixture.ProductCategoryFixture;
 import com.example.hanghaeplus.infrastructure.product.FakeProductRepository;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.example.hanghaeplus.fixture.ProductCategoryFixture.*;
+import static com.example.hanghaeplus.common.fixture.ProductCategoryFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProductServiceTest {
@@ -32,7 +31,7 @@ class ProductServiceTest {
                 .build();
 
 
-        Product americano = Product.create(
+        Product americano = Product.of(
                 ProductCreate
                         .builder()
                         .name("아메리카노")
@@ -41,7 +40,7 @@ class ProductServiceTest {
                         .build()
                 , FOOD
         );
-        Product latte = Product.create(
+        Product latte = Product.of(
                 ProductCreate
                         .builder()
                         .name("라떼")
