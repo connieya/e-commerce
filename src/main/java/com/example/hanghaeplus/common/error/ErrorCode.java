@@ -34,8 +34,8 @@ public enum ErrorCode {
     // Order
     INSUFFICIENT_STOCK(400,"O001" , "재고가 부족한 상품이 있습니다."),
     DEDUCT_FAIL(400,"O002","차감할 재고 수량이 없습니다."),
-
-    ORDER_FAIL(400,"O002" , "주문에 실패 했습니다.");
+    INVALID_ORDER_QUANTITY(400,"O003","주문 수량은 최소 1개 이상 이어야 합니다."),
+    ORDER_FAIL(400,"O004" , "주문에 실패 했습니다.");
 
     private final int status;
     private final String code;

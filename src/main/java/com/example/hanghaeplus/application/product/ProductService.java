@@ -31,8 +31,11 @@ public class ProductService {
     @Transactional
     public void deduct(OrderCommand orderCommand) {
         List<OrderProductCommand> orderProductCommand = orderCommand.getOrderProducts();
+
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(orderProductCommand);
+
         List<Product> products = findAllByOrderCommand(orderProductCommand);
+
         products.forEach(product-> {
             Long quantity = productIdQuntitiyMap.get(product.getId());
             product.deductQuantity(quantity);
@@ -43,7 +46,9 @@ public class ProductService {
     public void register(ProductCreate productCreate) {
         ProductCategory productCategory = productCategoryRepository.findById(productCreate.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException(PRODUCT_NOT_FOUND));
+
         Product product = Product.create(productCreate,productCategory);
+
         productRepository.save(product);
     }
 
@@ -60,6 +65,11 @@ public class ProductService {
     private Map<Long, Long> convertToProductIdQuantityMap(List<OrderProductCommand> products) {
         return products.stream()
                 .collect(Collectors.toMap(OrderProductCommand::getProductId, OrderProductCommand::getQuantity));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Product> findAllById(List<Long> productIds) {
+        return productRepository.findAllByPessimisticLock(productIds);
     }
 
     @Transactional(readOnly = true)

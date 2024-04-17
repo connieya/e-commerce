@@ -1,4 +1,4 @@
-package com.example.hanghaeplus.application.order.medium;
+package com.example.hanghaeplus.medium.order;
 
 import com.example.hanghaeplus.application.order.OrderService;
 import com.example.hanghaeplus.infrastructure.coupon.CouponRepository;

@@ -9,4 +9,11 @@ public class OrderException {
             super(errorCode);
         }
     }
+
+    public static class OrderInformationMissingException extends BusinessException {
+
+        public OrderInformationMissingException(ErrorCode errorCode) {
+            super(errorCode);
+        }
+    }
 }

@@ -67,8 +67,6 @@ public class UserService {
 
 
 
-
-
     private void checkUserDuplicate(UserCreate userCreate) {
         if (userRepository.findByEmail(userCreate.getEmail()).isPresent()) {
             throw new EntityAlreadyExistException(USER_EMAIL_ALREADY_EXIST);
