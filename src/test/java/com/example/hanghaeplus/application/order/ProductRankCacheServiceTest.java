@@ -16,7 +16,7 @@ public class ProductRankCacheServiceTest {
 
 
     @MockBean
-    private OrderLineJpaRepository orderLineRepository;
+    private OrderLineRepository orderLineRepository;
 
 
     @Autowired

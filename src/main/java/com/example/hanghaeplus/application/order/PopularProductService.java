@@ -1,7 +1,6 @@
 package com.example.hanghaeplus.application.order;
 
-import com.example.hanghaeplus.infrastructure.order.OrderLineJpaRepository;
-import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.domain.order.PopularProduct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,12 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class PopularProductService {
-    private final OrderLineJpaRepository orderLineRepository;
+    private final OrderLineRepository orderLineRepository;
 
 
     @Cacheable("rank_product")
     @Transactional(readOnly = true)
-    public List<OrderProductRankResponse> getPopularProduct() {
+    public List<PopularProduct> getPopularProduct() {
         log.info("상위 상품 조회");
         LocalDate today = LocalDate.now();
         return orderLineRepository.findPopularProduct(today.minusDays(3).atStartOfDay(), today.atStartOfDay());

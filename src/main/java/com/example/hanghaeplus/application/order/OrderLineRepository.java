@@ -2,8 +2,9 @@ package com.example.hanghaeplus.application.order;
 
 import com.example.hanghaeplus.domain.order.OrderLine;
 import com.example.hanghaeplus.infrastructure.product.response.OrderProductResponse;
-import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.domain.order.PopularProduct;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderLineRepository {
@@ -11,6 +12,8 @@ public interface OrderLineRepository {
 
     List<OrderProductResponse> findByOrderId(Long orderId);
 
-    List<OrderProductRankResponse> findPopularProduct();
+    List<PopularProduct> findPopularProduct();
+
+    List<PopularProduct> findPopularProduct(LocalDateTime startDate , LocalDateTime endDate);
 
 }

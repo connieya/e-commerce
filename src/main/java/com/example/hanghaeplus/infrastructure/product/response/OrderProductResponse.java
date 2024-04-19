@@ -1,5 +1,8 @@
 package com.example.hanghaeplus.infrastructure.product.response;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class OrderProductResponse {
 
     private Long productId;

@@ -1,6 +1,6 @@
 package com.example.hanghaeplus.application.order;
 
-import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.domain.order.PopularProduct;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +13,20 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Sql("/sql/product-rank-service-data.sql")
-public class ProductRankServiceTest {
+public class ProductProductServiceTest {
 
     @Autowired
-    private PopularProductService orderSerpopularProductService;
+    private PopularProductService popularProductService;
 
     @DisplayName("최근 3일간 상위 상품 3개를 조회 한다.")
     @Test
-    void findTop3ProductsInLast3Days(){
+    void findPopularProduct(){
         // given   // when
-        List<OrderProductRankResponse> rankProduct = orderSerpopularProductService.getPopularProduct();
+        List<PopularProduct> rankProduct = popularProductService.getPopularProduct();
         //최근 3일 동안 product_id 3 당근 - 3번 , product_id 1 양파 - 2번  , product_id  2 감자 - 2번
 
         // 제일 많이 주문한 상위 상품
-        OrderProductRankResponse orderProductRankResponse = rankProduct.get(0);
+        PopularProduct orderProductRankResponse = rankProduct.get(0);
 
         //then
         assertThat(orderProductRankResponse.getName()).isEqualTo("당근");

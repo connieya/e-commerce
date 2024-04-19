@@ -7,7 +7,7 @@ import com.example.hanghaeplus.common.RepositoryTest;
 import com.example.hanghaeplus.domain.order.OrderLine;
 import com.example.hanghaeplus.domain.product.ProductCategory;
 import com.example.hanghaeplus.domain.user.User;
-import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.domain.order.PopularProduct;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.infrastructure.product.response.OrderProductResponse;
 import com.example.hanghaeplus.application.order.OrderService;
@@ -143,7 +143,7 @@ class OrderLineRepositoryTest extends RepositoryTest {
     void findTop3RankProductsByCount() {
         // given , when
         // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
-        List<OrderProductRankResponse> top3RankProductsByCount = orderLineRepository.findPopularProduct();
+        List<PopularProduct> top3RankProductsByCount = orderLineRepository.findPopularProduct();
 
         //then
         assertThat(top3RankProductsByCount.get(0).getName()).isEqualTo("당근");

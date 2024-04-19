@@ -33,6 +33,8 @@ out/
 
 /src/main/resources/*.yml
 
+src/main/generated/**
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

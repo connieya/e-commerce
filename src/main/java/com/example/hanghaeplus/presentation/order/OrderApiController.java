@@ -4,9 +4,8 @@ import com.example.hanghaeplus.application.order.PopularProductService;
 import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
 import com.example.hanghaeplus.common.result.ResultCode;
 import com.example.hanghaeplus.common.result.ResultResponse;
-import com.example.hanghaeplus.presentation.order.request.OrderProductRequest;
 import com.example.hanghaeplus.presentation.order.response.OrderPostResponse;
-import com.example.hanghaeplus.presentation.product.response.OrderProductRankResponse;
+import com.example.hanghaeplus.domain.order.PopularProduct;
 import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.application.order.OrderService;
 import io.swagger.annotations.ApiOperation;
@@ -36,7 +35,7 @@ public class OrderApiController {
 
     @ApiOperation("상위 상품 조회 API")
     @GetMapping("/rank")
-    public List<OrderProductRankResponse> getTopProduct(){
+    public List<PopularProduct> getTopProduct(){
         return popularProductService.getPopularProduct();
     }
 
