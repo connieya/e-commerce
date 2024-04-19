@@ -6,10 +6,16 @@ import java.time.LocalDateTime;
 
 public class CouponFixture {
 
-    public static Coupon COUPON_1 = Coupon.create(
-            1L,
-            "aaaa-bbbb-cccc"
-            ,10
-            , LocalDateTime.of(2099,12,31,0,0)
+
+
+
+    /*
+    *  Entity
+    * */
+    public static Coupon TEN_PERCENT_DISCOUNT_COUPON = Coupon.create(
+             "aaaa-bbbb-cccc"
+            , 10
+            , LocalDateTime.of(2099, 12, 31, 0, 0)
     );
+
 }

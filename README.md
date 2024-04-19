@@ -15,7 +15,8 @@
 - AWS ECS (Elastic Container Service)
 - Mockito
 - Thymeleaf
-- 
+
+
 ## 요구 사항
 
 - 상품 주문에 필요한 메뉴 정보 들을 구성 하고 조회가 가능 해야 한다.
