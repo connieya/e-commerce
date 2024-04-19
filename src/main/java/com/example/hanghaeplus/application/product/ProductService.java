@@ -29,12 +29,10 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     @Transactional
-    public void deduct(OrderCommand orderCommand) {
+    public void deduct(OrderCommand orderCommand , List<Product> products) {
         List<OrderProductCommand> orderProductCommand = orderCommand.getOrderProducts();
 
         Map<Long, Long> productIdQuntitiyMap = convertToProductIdQuantityMap(orderProductCommand);
-
-        List<Product> products = findAllByOrderCommand(orderProductCommand);
 
         products.forEach(product-> {
             Long quantity = productIdQuntitiyMap.get(product.getId());

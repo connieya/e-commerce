@@ -3,7 +3,7 @@ package com.example.hanghaeplus.common.builder;
 import com.example.hanghaeplus.application.product.ProductCategoryRepository;
 import com.example.hanghaeplus.application.product.ProductRepository;
 import com.example.hanghaeplus.application.user.UserRepository;
-import com.example.hanghaeplus.infrastructure.order.OrderLineRepository;
+import com.example.hanghaeplus.infrastructure.order.OrderLineJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class BuilderSupporter {
     private ProductRepository productRepository;
 
     @Autowired
-    private OrderLineRepository orderLineRepository;
+    private OrderLineJpaRepository orderLineRepository;
 
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
@@ -30,7 +30,7 @@ public class BuilderSupporter {
         return productRepository;
     }
 
-    public OrderLineRepository orderLineRepository() {
+    public OrderLineJpaRepository orderLineRepository() {
         return orderLineRepository;
     }
 

@@ -1,7 +1,6 @@
 package com.example.hanghaeplus.domain.order;
 
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
-import com.example.hanghaeplus.common.error.ErrorCode;
 import com.example.hanghaeplus.common.error.exception.EntityNotFoundException;
 import com.example.hanghaeplus.domain.product.Product;
 import com.example.hanghaeplus.domain.user.User;
@@ -45,6 +44,12 @@ public class Order extends BaseEntity {
 //    private ShippingInfo shippingInfo;
 
     private OrderStatus orderStatus;
+
+    public Order(User user, Long totalPrice, Long discountPrice) {
+        this.user = user;
+        this.totalPrice = totalPrice;
+        this.discountPrice = discountPrice;
+    }
 
     @Builder
     private Order(User user, List<OrderProductCommand> orderProductCommands, List<Product> products) {
@@ -110,16 +115,18 @@ public class Order extends BaseEntity {
                 .sum();
     }
 
-    public static Order create(User user, List<OrderProductCommand> orderProductCommands, List<Product> products) {
+    public static Order of(User user, List<OrderProductCommand> orderProductCommands, List<Product> products) {
         return new Order(user, orderProductCommands, products);
     }
 
-    public static Order create(User user, List<OrderProductCommand> orderProductCommands, List<Product> products, LocalDateTime localDateTime) {
+    public static Order of(User user, List<OrderProductCommand> orderProductCommands, List<Product> products, LocalDateTime localDateTime) {
         return new Order(user, orderProductCommands, products, localDateTime);
     }
 
-    public static Order create(User user, List<OrderProductCommand> orderProductCommands, List<Product> products, Integer rate) {
+    public static Order of(User user, List<OrderProductCommand> orderProductCommands, List<Product> products, Integer rate) {
         return new Order(user, orderProductCommands, products, rate);
     }
+
+
 
 }

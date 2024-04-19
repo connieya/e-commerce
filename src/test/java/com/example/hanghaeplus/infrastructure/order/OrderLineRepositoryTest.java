@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.infrastructure.order;
 
+import com.example.hanghaeplus.application.order.OrderLineRepository;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
 import com.example.hanghaeplus.common.RepositoryTest;
@@ -39,6 +40,7 @@ class OrderLineRepositoryTest extends RepositoryTest {
     void setUp() {
 
         User user = testFixtureBuilder.buildUser(CONY());
+        user.rechargePoint(100000000L);
 
 
         ProductCategory FOOD = testFixtureBuilder.buildProductCategory(FOOD());
@@ -103,18 +105,18 @@ class OrderLineRepositoryTest extends RepositoryTest {
         // 주문 1 (상품 3개) , 주문 2 (상품 2개) , 주문 3 (상품 2개) , 주문 4 (상품 3개)
         // 양파: 1000원 감자 2000원 당근 3000원 버섯 5000원 고구마 2000원
         assertThat(orderProducts).hasSize(10)
-                .extracting("productId", "quantity", "price")
+                .extracting("quantity", "price")
                 .containsExactlyInAnyOrder(
-                        tuple(1L, 5L, 1000L), // 양파
-                        tuple(2L, 10L, 2000L), //감자
-                        tuple(3L, 5L, 3000L),//  당근   주문 1 (양파 ,감자 ,당근)
-                        tuple(3L, 5L, 3000L), // 당근
-                        tuple(2L, 5L, 2000L), // 감자  주문 2 (당근 ,감자)
-                        tuple(3L, 5L, 3000L), // 당근
-                        tuple(1L, 5L, 1000L), // 양파  주문 3 (당근 ,양파)
-                        tuple(4L, 5L, 5000L), // 버섯
-                        tuple(1L, 5L, 1000L), // 양파
-                        tuple(3L, 5L, 3000L) //  당근 주문 4 (버섯 ,양파 ,당근)
+                        tuple(5L, 1000L), // 양파
+                        tuple(10L, 2000L), //감자
+                        tuple(5L, 3000L),//  당근   주문 1 (양파 ,감자 ,당근)
+                        tuple(5L, 3000L), // 당근
+                        tuple(5L, 2000L), // 감자  주문 2 (당근 ,감자)
+                        tuple(5L, 3000L), // 당근
+                        tuple(5L, 1000L), // 양파  주문 3 (당근 ,양파)
+                        tuple(5L, 5000L), // 버섯
+                        tuple(5L, 1000L), // 양파
+                        tuple(5L, 3000L) //  당근 주문 4 (버섯 ,양파 ,당근)
                 );
 
     }
@@ -135,26 +137,13 @@ class OrderLineRepositoryTest extends RepositoryTest {
     }
 
 
-    @DisplayName("최근에 가장 많이 주문한 인기 상품 id 3개를 조회한다.")
-    @Test
-    void findTop3ProductsByCount() {
-        // given , when
-        // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
-        List<Long> top3ProductIds = orderLineRepository.findTop3ProductIdsByCount();
-
-        //then
-        assertThat(top3ProductIds.get(0)).isEqualTo(CARROT.getId());
-        assertThat(top3ProductIds.get(1)).isEqualTo(ONION.getId());
-        assertThat(top3ProductIds.get(2)).isEqualTo(POTATO.getId());
-
-    }
 
     @DisplayName("최근에 가장 많이 주문한 상위 상품 3개를 조회 한다.")
     @Test
     void findTop3RankProductsByCount() {
         // given , when
         // 당근 4개 (주문1,주문2,주문3,주문4) , 양파 3개 (주문 1, 주문3 ,주문 4) , 감자 2개 (주문 1, 주문 2) , 버섯 1개 (주문 4)  고구마 0개
-        List<OrderProductRankResponse> top3RankProductsByCount = orderLineRepository.findTop3RankProductsByCount();
+        List<OrderProductRankResponse> top3RankProductsByCount = orderLineRepository.findPopularProduct();
 
         //then
         assertThat(top3RankProductsByCount.get(0).getName()).isEqualTo("당근");

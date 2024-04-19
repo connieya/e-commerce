@@ -1,8 +1,10 @@
 package com.example.hanghaeplus.application.order;
 
+import com.example.hanghaeplus.application.coupon.CouponService;
 import com.example.hanghaeplus.application.order.command.OrderCommand;
 import com.example.hanghaeplus.application.order.command.OrderProductCommand;
 import com.example.hanghaeplus.application.product.ProductRepository;
+import com.example.hanghaeplus.application.product.ProductService;
 import com.example.hanghaeplus.application.user.UserService;
 import com.example.hanghaeplus.domain.order.Order;
 import com.example.hanghaeplus.domain.product.Product;
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 import static com.example.hanghaeplus.common.fixture.CouponFixture.*;
 import static com.example.hanghaeplus.common.fixture.UserFixture.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +34,7 @@ class OrderServiceTest {
     private OrderService orderService;
 
     @Mock
-    private CouponRepository couponRepository;
+    private CouponService couponService;
 
     @Mock
     private UserService userService;
@@ -38,27 +42,45 @@ class OrderServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private ProductService productService;
+
+    @Mock
+    private OrderRepository orderRepository;
+
     @DisplayName("주문한 상품의 총 가격과 할인 가격을 구한다.")
     @Test
     void createOrder(){
         // given
         given(userService.findUser(1L))
                 .willReturn(CONY);
-        given(couponRepository.findByCode("aaaa-bbbb-cccc"))
-                .willReturn(Optional.of(COUPON_1));
 
         Product product = Product.of(1L, "감자", 5000L, 50L);
         OrderProductCommand orderProductCommand = OrderProductCommand.of(1L, 10L);
         List<OrderProductCommand> orderProducts = List.of(orderProductCommand);
 
-        given(
-                productRepository
-                .findAllByPessimisticLock(orderProducts
-                        .stream()
-                        .map(OrderProductCommand::getProductId)
-                        .collect(Collectors.toList()))
+        given(productService
+                .findAllById(
+                        orderProducts
+                                .stream()
+                                .map(OrderProductCommand::getProductId)
+                                .collect(Collectors.toList())
+                ))
+                .willReturn(List.of(product));
 
-        ).willReturn(List.of(product));
+        given(couponService.use("aaaa-bbbb-cccc", LocalDateTime.now()))
+                .willReturn(10);
+
+        given(orderRepository.save(any()))
+                .willReturn(new Order(CONY,50000L,45000L));
+
+//        given(
+//                productRepository
+//                .findAllByPessimisticLock(orderProducts
+//                        .stream()
+//                        .map(OrderProductCommand::getProductId)
+//                        .collect(Collectors.toList()))
+//        ).willReturn(List.of(product));
         // when
 
         OrderCommand orderCommand = OrderCommand
@@ -71,7 +93,8 @@ class OrderServiceTest {
         Order order = orderService.create(orderCommand);
 
         //then
-        assertThat(order.getTotalPrice()).isEqualTo(45000L);
+        assertThat(order.getTotalPrice()).isEqualTo(50000L);
+        assertThat(order.getDiscountPrice()).isEqualTo(45000L);
 
     }
 

@@ -88,9 +88,10 @@ class ProductServiceTest {
     @Test
     void deduct() {
         // given
-        Product product1 = Product.of(1L, "휴지", 5000L, 100L);
-        Product product2 = Product.of(2L, "스팸", 3000L, 100L);
-        Product product3 = Product.of(3L, "마우스", 14000L, 100L);
+        Product tissue = Product.of(1L, "휴지", 5000L, 100L);
+        Product spam = Product.of(2L, "스팸", 3000L, 100L);
+        Product mouse = Product.of(3L, "마우스", 14000L, 100L);
+
         List<OrderProductCommand> orderProductCommands = List.of(
                 OrderProductCommand.of(1L, 10L)
                 , OrderProductCommand.of(2L, 5L)
@@ -103,20 +104,20 @@ class ProductServiceTest {
                 .orderProducts(orderProductCommands)
                 .build();
 
-        given(productService.findAllByOrderCommand(orderProductCommands))
-                .willReturn(List.of(product1, product2, product3));
+        List<Product> products = List.of(tissue, spam, mouse);
+
         // when
-        productService.deduct(orderCommand);
+        productService.deduct(orderCommand, products);
 
         //then
-        assertThat(product1.getQuantity()).isEqualTo(90L);
-        assertThat(product2.getQuantity()).isEqualTo(95L);
-        assertThat(product3.getQuantity()).isEqualTo(85L);
+        assertThat(tissue.getQuantity()).isEqualTo(90L);
+        assertThat(spam.getQuantity()).isEqualTo(95L);
+        assertThat(mouse.getQuantity()).isEqualTo(85L);
     }
 
     @DisplayName("재고를 추가한다.")
     @Test
-    void addQuantity(){
+    void addQuantity() {
         // given
         Product product = Product.of(100L, "충전기", 1000L, 50L);
         given(productRepository.findById(100L))

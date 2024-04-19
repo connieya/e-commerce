@@ -1,7 +1,6 @@
 package com.example.hanghaeplus.application.order;
 
-import com.example.hanghaeplus.infrastructure.order.OrderLineRepository;
-import com.example.hanghaeplus.application.product.ProductService;
+import com.example.hanghaeplus.infrastructure.order.OrderLineJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,12 +16,11 @@ public class ProductRankCacheServiceTest {
 
 
     @MockBean
-    private OrderLineRepository orderLineRepository;
+    private OrderLineJpaRepository orderLineRepository;
+
 
     @Autowired
-    private OrderService orderService;
-    @Autowired
-    private ProductService productService;
+    private PopularProductService popularProductService;
 
     @Test
     public void testGetRankProductCaching() {
@@ -30,9 +28,9 @@ public class ProductRankCacheServiceTest {
         // getRankProduct 메서드 3번 호출
         LocalDate today = LocalDate.now();
         for (int i = 0; i < 3; i++) {
-            orderService.getRankProduct();
+            popularProductService.getPopularProduct();
         }
 
-        verify(orderLineRepository, times(1)).findTop3RankProductsInLast3Days(today.minusDays(3).atStartOfDay(), today.atStartOfDay());
+        verify(orderLineRepository, times(1)).findPopularProduct(today.minusDays(3).atStartOfDay(), today.atStartOfDay());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.hanghaeplus.presentation.order;
 
+import com.example.hanghaeplus.application.order.PopularProductService;
 import com.example.hanghaeplus.presentation.order.request.OrderPostRequest;
 import com.example.hanghaeplus.common.result.ResultCode;
 import com.example.hanghaeplus.common.result.ResultResponse;
@@ -23,6 +24,7 @@ import java.util.List;
 public class OrderApiController {
 
     private final OrderService orderService;
+    private final PopularProductService popularProductService;
 
     @ApiOperation("주문 API")
     @PostMapping
@@ -35,7 +37,7 @@ public class OrderApiController {
     @ApiOperation("상위 상품 조회 API")
     @GetMapping("/rank")
     public List<OrderProductRankResponse> getTopProduct(){
-        return orderService.getRankProduct();
+        return popularProductService.getPopularProduct();
     }
 
 }

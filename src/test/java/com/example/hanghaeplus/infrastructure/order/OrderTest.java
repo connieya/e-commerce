@@ -37,7 +37,7 @@ public class OrderTest {
         User user = User.create(userCreate);
         OrderProductCommand orderProductCommand1 = OrderProductCommand.of(onion.getId(), 1L);
         OrderProductCommand orderProductCommand2 = OrderProductCommand.of(carrot.getId(), 2L);
-        Order order = Order.create(user, List.of(orderProductCommand1, orderProductCommand2), List.of(onion, carrot));
+        Order order = Order.of(user, List.of(orderProductCommand1, orderProductCommand2), List.of(onion, carrot));
         assertThat(order.getTotalPrice()).isEqualTo(7000L);
     }
 
@@ -59,7 +59,7 @@ public class OrderTest {
 
         OrderProductCommand orderProductCommand1 = OrderProductCommand.of(onion.getId(), 1L);
         OrderProductCommand orderProductCommand2 = OrderProductCommand.of(carrot.getId(), 2L);
-        Order order = Order.create(user, List.of(orderProductCommand1, orderProductCommand2), List.of(onion, carrot), 12);
+        Order order = Order.of(user, List.of(orderProductCommand1, orderProductCommand2), List.of(onion, carrot), 12);
         assertThat(order.getTotalPrice()).isEqualTo(7000L);
         assertThat(order.getDiscountPrice()).isEqualTo(840L);
     }
@@ -85,7 +85,7 @@ public class OrderTest {
         OrderProductCommand orderProductCommand2 = OrderProductCommand.of(carrot.getId(), 2L);
         OrderProductCommand orderProductCommand3 = OrderProductCommand.of(potato.getId(), 2L);
 
-        Order order = Order.create(user, List.of(orderProductCommand1, orderProductCommand2, orderProductCommand3), List.of(onion, carrot, potato));
+        Order order = Order.of(user, List.of(orderProductCommand1, orderProductCommand2, orderProductCommand3), List.of(onion, carrot, potato));
 
         List<OrderLine> orderLines = order.getOrderLines();
 
@@ -113,7 +113,7 @@ public class OrderTest {
                 OrderProductCommand.of(2L, 2L)
         );
         // when
-        Order.create(user, orderProductCommands, List.of(onion, carrot), 10);
+        Order.of(user, orderProductCommands, List.of(onion, carrot), 10);
 
 
         // then
